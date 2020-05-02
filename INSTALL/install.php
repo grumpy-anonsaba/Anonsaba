@@ -5,8 +5,8 @@
 	require realpath(dirname(__DIR__)).'/'.'config/config.php';
 	require realpath(dirname(__DIR__)).'/'.'modules/core.php';
 	
-	// Setting 'start' to 0 so it knows what to display
-	$twig_data['start'] = 0;
+	// Setting 'success' to 0 so it knows what to display
+	$twig_data['success'] = 0;
 	// Lets run some prerequisite checks
 	
 	// Lets make sure this server can even run Anonsaba
@@ -26,8 +26,11 @@
 	if (strlen(hash) <= 23) {
 		Core::Error('Please ensure that Hash is contains at least 24 characters!');
 	}
+	// Now one final check - Did the user simply just copy hash<->salt?
+	if (hash === salt) {
+		Core::Error('Please make Salt/Hash unique from eachother!');
+	}
 	// Now we start the script!
-	$twig_data['start'] = 1;
 	// First lets make sure that .failed doesn't exist in INSTALL (This is to stop brute force attempts!)
 	if (file_exists(svrpath.'INSTALL/.failed')) {
 		Core::Error('Please remove the file .failed from the INSTALL folder to continue');
@@ -38,11 +41,12 @@
 			fopen(svrpath.'INSTALL/.failed', 'w');
 			Core::Error('Install password incorrect please try again!');
 		} else {
+			$twig_data['success'] = 1;
 			// Lets make sure that anonsaba.sql exist and is bigger than 0 bytes
 			if (file_exists('anonsaba.sql') && (filesize('anonsaba.sql') > 0)) {
 				$sqlfile = fopen('anonsaba.sql', 'r');
 				$readdata = fread($sqlfile, filesize('anonsaba.sql'));
-				$readdata = str_replace('PREFIX',prefix,$readdata);
+				$readdata = str_replace('PREFIX',dbprefix,$readdata);
 				fclose($sqlfile);
 			} else {
 				Core::Error('It appears there is a problem with anonsaba.sql <br /> Please ensure the file exists, is bigger than 0 bytes, and you have permissions to the file');
@@ -70,9 +74,24 @@
 		}
 	}
 	if (isset($_POST['submit'])) {
+		// Almost done!
+		// All we need to do is add in the rest of the information the user entered
 		$pass = Core::Encrypt($_POST['password']);
-		$conf_names = array('sitename', 'slogan', 'irc', 'timgh', 'timgw', 'rimgh', 'rimgw', 'bm');
-		$conf_values = array($_POST['sitename'], $_POST['slogan'], $_POST['irc'], $_POST['timgh'], $_POST['timgw'], $_POST['rimgh'], $_POST['rimgw'], $_POST['bm']);
+		$conf_names = array('sitename', 'slogan', 'irc', 'timgh', 'timgw', 'rimgh', 'rimgw', 'bm', 'installtime', 'version');
+		$conf_values = array($_POST['sitename'], $_POST['slogan'], $_POST['irc'], $_POST['timgh'], $_POST['timgw'], $_POST['rimgh'], $_POST['rimgw'], $_POST['bm'], time(), '3.0');
+		// Look I didn't have to run this SQL query twice!
+		// Silly grumpy >.<
+		for ($i = 10; $i >= 0; --$i) {
+			$db->Run('INSERT INTO '.dbprefix.'site_config (config_value, config_name) VALUES ('.$db->quote($conf_values[$i]).', '.$db->quote($conf_names[$i]).')');
+		}
+		$db->Run('INSERT INTO '.dbprefix.'staff (username, password, level, boards) VALUES ('.$db->quote($_POST['username']).', '.$db->quote($pass).', "admin", "all")');
+		// I should honestly just move this into anonsaba.sql
+		$file_id = array('1', '2', '3');
+		$file_type = array('png', 'jpg', 'gif');
+		for ($i = 3; $i >= 0; --$i) {
+			$db->Run('INSERT INTO '.dbprefix.'filetypes (id, name) VALUES ('.$file_id[$i].', '.$db->quote($file_type[$i]).')');
+		}
+		// End silly code
 		fopen(svrpath.'.installed', 'w');
 		$twig_data['success'] = 2;
 	}
