@@ -2,7 +2,11 @@
 
 // Anonsaba 3.0
 // Requirement: PHP 7.4 ^
+//				Twig installed via composer
+//				MySQL
+// Before Attempting to install this file please view the How to Install post <insert post link here>
 // Configuration file
+
 
 	$config = array();
 	
@@ -43,9 +47,9 @@
 		$db = new Database($dsn, $config['dbuser'], $config['dbpass']);
 	}
 	if (!isset($twig)) {
-		require $config['fullpath'].'modules/twig/Autoloader.php';
-		$loader = new Twig_Loader_Filesystem ($config['dir']);
-		$twig = new Twig_Environment($loader, array('cache' => $config['cache'], 'auto_reload' => true));
+		require_once dirname(__DIR__, 3).'/vendor/autoload.php';
+		$loader = new \Twig\Loader\FilesystemLoader($config['dir']);
+		$twig = new \Twig\Environment($loader, ['cache' => $config['cache'],]);
 	}
 	foreach ($config as $key=>$value) {
 		define($key, $value);
