@@ -28,15 +28,15 @@
 	}
 	// Now we start the script!
 	$twig_data['start'] = 1;
+	// First lets make sure that .failed doesn't exist in INSTALL (This is to stop brute force attempts!)
+	if (file_exists(svrpath.'INSTALL/.failed')) {
+		Core::Error('Please remove the file .failed from the INSTALL folder to continue');
+	}
 	if (isset($_POST['checkpass'])) {
-		// First lets make sure that .failed doesn't exist in INSTALL (This is to stop brute force attempts!)
-		if (file_exists(fullpath.'INSTALL/.failed')) {
-			Core::Error('Please remove the file .failed from the INSTALL folder to continue');
-		}
 		// Lets make sure that the install password they entered is what's in config.php
 		if ($_POST['installpass'] != installpass) {
+			fopen(svrpath.'INSTALL/.failed', 'w');
 			Core::Error('Install password incorrect please try again!');
-			fopen(fullpath.'INSTALL/.failed', 'w');
 		} else {
 			// Lets make sure that anonsaba.sql exist and is bigger than 0 bytes
 			if (file_exists('anonsaba.sql') && (filesize('anonsaba.sql') > 0)) {
@@ -48,7 +48,7 @@
 				Core::Error('It appears there is a problem with anonsaba.sql <br /> Please ensure the file exists, is bigger than 0 bytes, and you have permissions to the file');
 			}
 			// Now that we have grabbed all the necessary information and compiled it - Lets insert 
-			$db->Run('ALTER DATABASE `'.database.'` CHARACTER SET utf8 COLLATE utf8_general_ci');
+			$db->Run('ALTER DATABASE '.database.' CHARACTER SET utf8 COLLATE utf8_general_ci');
 			$sqlarray = explode("\n", $readdata);
 			foreach ($sqlarray as $key => $sqldata) {
 				$sqldata = trim($sqldata);
@@ -73,7 +73,7 @@
 		$pass = Core::Encrypt($_POST['password']);
 		$conf_names = array('sitename', 'slogan', 'irc', 'timgh', 'timgw', 'rimgh', 'rimgw', 'bm');
 		$conf_values = array($_POST['sitename'], $_POST['slogan'], $_POST['irc'], $_POST['timgh'], $_POST['timgw'], $_POST['rimgh'], $_POST['rimgw'], $_POST['bm']);
-		fopen(fullpath.'.installed', 'w');
+		fopen(svrpath.'.installed', 'w');
 		$twig_data['success'] = 2;
 	}
 	Core::Output('/install/install.tpl', $twig_data);
