@@ -33,7 +33,6 @@
 	$config['cache'] = $config['fullpath'].'pages_cache';
 	
 	// Security
-	$config['salt'] = ''; // Please enter 24+ LETTERS AND NUMBERS here
 	$config['hash'] = ''; // Please enter 24+ LETTERS AND NUMBERS here
 	
 	// That's all no need to modify anything below this line

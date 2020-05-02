@@ -5,7 +5,7 @@
 
 Class Core {
 	public static function Encrypt($value) {
-		return openssl_encrypt($value, 'aes-128-gcm', salt);
+		return password_hash($value, PASSWORD_ARGON2I);
 	}
 	public static function Error($val) {
 		global $twig_data, $twig;
