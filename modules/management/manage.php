@@ -64,3 +64,4 @@ class Management {
 			Core:Error('This account is currently locked and cannot be logged into');
 		}
 	}
+}
