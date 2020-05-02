@@ -35,6 +35,7 @@ class Database extends PDO {
 				$stmt->execute();
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$stmt->closeCursor();
+				return $result;
 				unset($stmt);
 			}
 			catch (PDOException $e) {

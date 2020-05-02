@@ -19,4 +19,5 @@
 		$entries = $db->GetAll('SELECT FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY date ASC');
 	}
 	$twig_data['entries'] = $entries;
+	$twig_data['view'] = $_GET['view'];
 	Core::Output('/index.tpl', $twig_data);
