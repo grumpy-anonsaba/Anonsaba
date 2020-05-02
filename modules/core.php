@@ -8,7 +8,7 @@ Class Core {
 		return openssl_encrypt($value, 'aes-128-gcm', salt);
 	}
 	public static function Error($val) {
-		global $twig_data, $twig, $db;
+		global $twig_data, $twig;
 		$twig_data['site_name'] = self::GetConfigOption('sitename');
 		$twig_data['version'] = self::GetConfigOption('version');
 		$twig_data['errormsg'] = $val;
