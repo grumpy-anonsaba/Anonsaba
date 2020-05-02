@@ -60,6 +60,7 @@ class Management {
 		if ($db->GetOne('SELECT suspended FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)) === 0) {
 			return true;
 		} else {
+			Core::Log(time(), $user, 'Failed Login attempt to suspended account from IP: '.$ip);
 			Core:Error('This account is currently locked and cannot be logged into');
 		}
 	}
