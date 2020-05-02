@@ -23,4 +23,8 @@ Class Core {
 		global $db;
 		return $db->GetOne('SELECT config_value from '.dbprefix.'site_config WHERE config_name = '.$db->quote($value));
 	}
+	public static function Log($time, $user="Anonsaba", $message) {
+		global $db;
+		$db->Run('INSERT INTO '.dbprefix.'logs SET (time, user, message) VALUES ('.$time.', '.$db->quote($user).', '.$db->quote($message).')');
+	}
 }
