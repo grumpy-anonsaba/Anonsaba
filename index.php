@@ -12,9 +12,6 @@
 	$twig_data['version'] = Core::GetConfigOption('version');
 	$twig_data['irc'] = Core::GetConfigOption('irc');
 	switch($_GET['view']) {
-		case '': 
-			$entires = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC LIMIT 5 OFFSET '.($_GET['page'] * 5));
-			break;
 		case 'faq':
 			$entires = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY date DESC');
 			break;
