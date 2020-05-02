@@ -12,8 +12,8 @@ class Management {
 			Core::Error('Either the username or Password you supplied is incorrect');
 		}
 		// First lets make sure that the user account isn't locked out!
-		if (self::checkLock($user) && self:checkSuspended($user)) {
-			if (password_verify($password, $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($user))) {
+		if (self::checkLock($user) && self::checkSuspended($user)) {
+			if (password_verify($password, $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)))) {
 				// Lets update the hash 
 				// The user will always be able to still login, but if a hacker finds this it will constantly stay changing
 				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($password, PASSWORD_ARGON2I)));
