@@ -15,12 +15,12 @@ Class Core {
 		self::Output('/error.tpl', $twig_data);
 		die();
 	}
-	public static function Output($val1, $val2) {
+	public static function Output($template, $data) {
 		global $twig;
-		echo $twig->display($val1, $val2);
+		echo $twig->display($template, $data);
 	}
 	public static function GetConfigOption($value) {
 		global $db;
-		return $db->Run('SELECT config_value from '.dbprefix.'site_config WHERE config_name = '.$value);
+		return $db->Run('SELECT `config_value` from `'.dbprefix.'site_config` WHERE `config_name` = '.$value);
 	}
 }
