@@ -9,7 +9,7 @@ Class Core {
 	}
 	public static function Error($val) {
 		global $twig_data, $twig, $db;
-		$twig_data['sitename'] = self::GetConfigOption('sitename');
+		$twig_data['site_name'] = self::GetConfigOption('sitename');
 		$twig_data['version'] = self::GetConfigOption('version');
 		$twig_data['errormsg'] = $val;
 		self::Output('/error.tpl', $twig_data);
