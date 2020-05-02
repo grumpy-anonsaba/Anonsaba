@@ -9,7 +9,7 @@ Class Core {
 	}
 	public static function Error($val) {
 		global $twig_data, $twig;
-		$twig_data['site_name'] = self::GetConfigOption('sitename');
+		$twig_data['site_name'] = self::GetConfigOption('site_name');
 		$twig_data['version'] = self::GetConfigOption('version');
 		$twig_data['errormsg'] = $val;
 		self::Output('/error.tpl', $twig_data);
@@ -21,6 +21,6 @@ Class Core {
 	}
 	public static function GetConfigOption($value) {
 		global $db;
-		return $db->Run('SELECT `config_value` from `'.dbprefix.'site_config` WHERE `config_name` = '.$value);
+		return $db->GetOne('SELECT config_value from '.dbprefix.'site_config WHERE config_name = '.$db->quote($value));
 	}
 }
