@@ -19,16 +19,9 @@
 	if (installpass === '') {
 		Core::Error('Install Password cannot be left blank!');
 	}
-	// Now lets check the lengths of salt and hash!
-	if (strlen(salt) <= 23) {
-		Core::Error('Please ensure that Salt is contains at least 24 characters!');
-	}
+	// Now lets check the lengths of hash!
 	if (strlen(hash) <= 23) {
 		Core::Error('Please ensure that Hash is contains at least 24 characters!');
-	}
-	// Now one final check - Did the user simply just copy hash<->salt?
-	if (hash === salt) {
-		Core::Error('Please make Salt/Hash unique from eachother!');
 	}
 	// Now we start the script!
 	// First lets make sure that .failed doesn't exist in INSTALL (This is to stop brute force attempts!)
