@@ -22,6 +22,7 @@
 			$entires = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC LIMIT 5 OFFSET '.($_GET['page'] * 5));
 			break;
 	}
+	$twig_data['pages'] = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
 	$twig_data['entries'] = $entries;
 	$twig_data['view'] = $_GET['view'];
 	Core::Output('/index.tpl', $twig_data);
