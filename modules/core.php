@@ -25,6 +25,18 @@ Class Core {
 	}
 	public static function Log($time, $user="Anonsaba", $message) {
 		global $db;
-		$db->Run('INSERT INTO '.dbprefix.'logs SET (time, user, message) VALUES ('.$time.', '.$db->quote($user).', '.$db->quote($message).')');
+		$db->Run('INSERT INTO '.dbprefix.'logs (time, user, message) VALUES ('.$time.', '.$db->quote($user).', '.$db->quote($message).')');
+	}
+	public static function getIP() {
+		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+			// ip from share internet
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+			// ip pass from proxy
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
 	}
 }
