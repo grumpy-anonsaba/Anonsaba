@@ -20,3 +20,54 @@
 	top: 9%;
 	display: inline-block;
 }
+#info {
+	background-color: #cce6ff;
+	width: 45%;
+	height: 70%;
+	left: 10%;
+	top: 25%;
+	display: inline-block;
+	position: absolute;
+	border-radius: 3%;
+	border-style: solid;
+	border-width: thin;
+}
+.news {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #b3d7ff;
+	border-width: thin;
+	border-style: solid;
+	top: 2%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
+.faq {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #b3d7ff;
+	border-width: thin;
+	border-style: solid;
+	top: 8%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
+.rules {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #b3d7ff;
+	border-width: thin;
+	border-style: solid;
+	top: 14%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
