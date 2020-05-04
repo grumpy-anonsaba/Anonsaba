@@ -22,6 +22,51 @@
 			<div class="rules">
 				Rules
 			</div>
+			<div id="stats">
+				<div class="recentpost">
+					<div class="recentposthead">
+						Recent Posts
+					</div>
+					<div class="recentpostposts">
+						>>>/test/000001 - This is where recent post will be
+					</div>
+					<div class="recentpostposts">
+						>>>/test/000002 - This is where recent post will be
+					</div>
+					<div class="recentpostposts">
+						>>>/test/000003 - This is where recent post will be
+					</div>
+					<div class="recentpostposts">
+						>>>/test/000004 - This is where recent post will be
+					</div>
+					<div class="recentpostposts">
+						>>>/test/000005 - This is where recent post will be
+					</div>
+				</div>
+				<div class="statinfo">
+					<div class="statinfohead">
+						Stats
+					</div>
+					<div class="statinfoleft">
+						Total Posts:
+					</div>
+					<div class="statinfoleft">
+						Unique Users:
+					</div>
+					<div class="statinfoleft">
+						Active Content:
+					</div>
+					<div class="statinforight">
+						0
+					</div>
+					<div class="statinforight">
+						0
+					</div>
+					<div class="statinforight">
+						0 GB
+					</div>
+				</div>
+			</div>
 			<div id="content">
 				<div class="title">
 					<h3>Test News post by grumpy - 05/04/2020 @ 10:43 AM CST</h3>
