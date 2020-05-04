@@ -86,6 +86,32 @@
 				</div>
 			</div>
 		</div>
+		<div id="boardlist">
+			<div class="boardtitle">
+				Boards
+			</div>
+			<div id="boards">
+				<div id="boardwrapper">
+					<div class="boardsectionname">
+						Test Section Name
+					</div>
+					<div class="boardnames">
+						<li>
+							/test/ - Test
+						</li>
+						<li>
+							/test2/ - Test
+						</li>
+						<li>
+							/test3/ - Test
+						</li>
+						<li>
+							/test4/ - Test
+						</li>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	</body>
 </html>
