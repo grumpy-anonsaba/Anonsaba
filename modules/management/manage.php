@@ -56,4 +56,8 @@ class Management {
 			Core::Error('This account is currently locked and cannot be logged into');
 		}
 	}
+	public static function getStaffLevel($user) {
+		global $db;
+		return $db->GetOne('SELECT level FROM '.dbprefix.' WHERE username = '.$db->quote($user));
+	}
 }
