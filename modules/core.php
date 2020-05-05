@@ -9,14 +9,14 @@ Class Core {
 	}
 	public static function Error($val) {
 		global $twig_data, $twig;
-		$twig_data['site_name'] = self::GetConfigOption('site_name');
-		$twig_data['version'] = self::GetConfigOption('version');
 		$twig_data['errormsg'] = $val;
 		self::Output('/error.tpl', $twig_data);
 		die();
 	}
 	public static function Output($template, $data) {
 		global $twig;
+		$data['site_name'] = self::GetConfigOption('site_name');
+		$data['version'] = self::GetConfigOption('version');
 		echo $twig->display($template, $data);
 	}
 	public static function GetConfigOption($value) {
