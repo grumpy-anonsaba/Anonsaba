@@ -28,15 +28,21 @@
 				</div>
 			</div>
 			<div id="info">
-				<div class="news">
-					News
-				</div>
-				<div class="faq">
-					FAQ
-				</div>
-				<div class="rules">
-					Rules
-				</div>
+				<a href="/">
+					<div class="news{% if not view %}selected{% endif %}">
+						News
+					</div>
+				</a>
+				<a href="index.php?view=faq">
+					<div class="faq{% if view == 'faq' %}selected{% endif %}">
+						FAQ
+					</div>
+				</a>
+				<a href="index.php?view=rules">
+					<div class="rules{% if view == 'rules' %}selected{% endif %}">
+						Rules
+					</div>
+				</a>
 				<div id="stats">
 					<div class="recentpost">
 						<div class="recentposthead">
@@ -93,6 +99,17 @@
 							</p>
 						</div>
 					{% endfor %}
+					<div style="text-align:center">
+						{% if not view %}
+							{% if pages -1 > 0 %}
+								{% for i in range(0, pages ) %}
+									[ {% if page != i %}<a href="/index.php?page={{i}}">{% endif %}{{i}}{% if page != i %}</a>{% endif %} ]
+								{% endfor %}
+							{% else %}
+								[ 0 ]
+							{% endif %}
+						{% endif %}
+					</div>
 				</div>
 			</div>
 			<div id="boardlist">
@@ -112,7 +129,7 @@
 								<div class="boardnames">
 									{% for boards in section.boards %}
 										<li>
-											/{{boards.name}}/ - {{boards.desc}}
+											{{boards.desc}}
 										</li>
 									{% else %}
 										No boards
@@ -120,6 +137,8 @@
 								</div>
 							</div>
 						</div>
+					{% else %}
+						<div style="text-align:center">Currently no boards</div>
 					{% endfor %}
 				</div>
 			</div>

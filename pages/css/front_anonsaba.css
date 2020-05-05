@@ -63,6 +63,20 @@
 	display: inline-block;
 	position: absolute;
 }
+.newsselected {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #cce6ff;
+	border-width: 3px;
+	border-style: groove;
+	border-color: #b3d7ff;
+	top: 2%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
 .faq {
 	text-align: center;
 	font-weight: bold;
@@ -76,6 +90,20 @@
 	display: inline-block;
 	position: absolute;
 }
+.faqselected {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #cce6ff;
+	border-width: 3px;
+	border-style: groove;
+	border-color: #b3d7ff;
+	top: 8%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
 .rules {
 	text-align: center;
 	font-weight: bold;
@@ -83,6 +111,20 @@
 	background-color: #b3d7ff;
 	border-width: thin;
 	border-style: solid;
+	top: 14%;
+	left: 1%;
+	width: 20%;
+	display: inline-block;
+	position: absolute;
+}
+.rulesselected {
+	text-align: center;
+	font-weight: bold;
+	font-size: 175%;
+	background-color: #cce6ff;
+	border-width: 3px;
+	border-style: groove;
+	border-color: #b3d7ff;
 	top: 14%;
 	left: 1%;
 	width: 20%;
