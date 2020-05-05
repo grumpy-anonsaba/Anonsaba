@@ -4,6 +4,18 @@
 	height: 10%;
 	top: 5%;
 }
+#footerwrapper {
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	top: 96%;
+}
+.footer {
+	margin: 0 auto;
+	text-align: center;
+	font-weight: bold;
+	position: relative;
+}
 .sitename {
 	font-size: 250%;
 	color: #4da6ff;
@@ -141,11 +153,12 @@
 }
 #content {
 	position: absolute;
-	top: 20%;
+	top: 22%;
 	left: 1%;
 	width: 98%;
-	height: 80%;
+	height: 75%;
 	padding: .25em;
+	overflow-y: auto;
 }
 .title h3 {
 	font-weight: bold;
@@ -181,6 +194,7 @@
 	width: 98%;
 	left: 1%;
 	height: 83%;
+	overflow-y: auto;
 }
 .boardwrapper {
 	padding-bottom:.5em;
