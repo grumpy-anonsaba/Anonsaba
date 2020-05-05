@@ -48,21 +48,11 @@
 						<div class="recentposthead">
 							Recent Posts
 						</div>
-						<div class="recentpostposts">
-							>>>/test/000001 - This is where recent post will be
-						</div>
-						<div class="recentpostposts">
-							>>>/test/000002 - This is where recent post will be
-						</div>
-						<div class="recentpostposts">
-							>>>/test/000003 - This is where recent post will be
-						</div>
-						<div class="recentpostposts">
-							>>>/test/000004 - This is where recent post will be
-						</div>
-						<div class="recentpostposts">
-							>>>/test/000005 - This is where recent post will be
-						</div>
+						{% for recentpost in recentposts %}
+							<div class="recentpostposts">
+								>>>/{{recentpost.boardname}}/{{recentpost.id}} - {{recentpost.message|striptags("")|slice(0, 60)|raw}}{% if recentpost.message|length > 60 %}...{% endif %}
+							</div>
+						{% endfor %}
 					</div>
 					<div class="statinfo">
 						<div class="statinfohead">
@@ -78,10 +68,10 @@
 							Active Content:
 						</div>
 						<div class="statinforight">
-							0
+							{{postcount}}
 						</div>
 						<div class="statinforight">
-							0
+							{{uniqueusers}}
 						</div>
 						<div class="statinforight">
 							0 GB
