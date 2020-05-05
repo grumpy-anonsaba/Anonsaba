@@ -83,75 +83,16 @@
 					</div>
 				</div>
 				<div id="content">
-					<div class="title">
-						<h3>Test News post by grumpy - 05/04/2020 @ 10:43 AM CST</h3>
-					</div>
-					<div class="post">
-						<p>
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-						</p>
-					</div>
-					<div class="title">
-						<h3>Test News 2 post by grumpy - 05/04/2020 @ 10:50 AM CST</h3>
-					</div>
-					<div class="post">
-						<p>
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-						</p>
-					</div>
-					<div class="title">
-						<h3>Test News 3 post by grumpy - 05/04/2020 @ 10:50 AM CST</h3>
-					</div>
-					<div class="post">
-						<p>
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-						</p>
-					</div>
-					<div class="title">
-						<h3>Test News 4 post by grumpy - 05/04/2020 @ 10:50 AM CST</h3>
-					</div>
-					<div class="post">
-						<p>
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-						</p>
-					</div>
-					<div class="title">
-						<h3>Test News 5 post by grumpy - 05/04/2020 @ 10:50 AM CST</h3>
-					</div>
-					<div class="post">
-						<p>
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-							<br />
-							This is where some text would be if the news post function was working!
-						</p>
-					</div>
+					{% for entry in entries %}
+						<div class="title">
+							<h3>{{entry.subject}} by {{entry.by}} - {{entry.date|date('m/d/Y h:m', 'America/Chicago')}} {% if entry.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %} <div style="float:right"><a href="id#{{entry.id}}">#</a></div></h3>
+						</div>
+						<div class="post">
+							<p>
+								{{entry.message|raw}}
+							</p>
+						</div>
+					{% endfor %}
 				</div>
 			</div>
 			<div id="boardlist">
