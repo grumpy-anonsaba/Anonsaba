@@ -52,3 +52,22 @@ if ($manage->validateSession(true)) {
 			break;
 	}
 }
+$action = isset($_GET['action']) ? $_GET['action'] : 'stats';
+$side = isset($_GET['side']) ? $_GET['side'] : 'main';
+switch ($action) {
+	case 'logout':
+		$managem->Logout();
+		break;
+	default:
+		$manage->ValidateSession();
+		page($action);
+		break;
+}
+function page($action) {
+	global $manage, $twig_data;
+	if (is_callable(array($management, $action))) {
+		$manage->$action();
+	} else {
+		Core::Error('That action is not implemented.');
+	}
+}

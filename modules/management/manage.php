@@ -3,6 +3,14 @@
 // Anonsaba 3.0 - Management Console
 
 class Management {
+	public static function validateSession($manage=false) {
+		global $db;
+	}
+	public static function createSession($user) {
+	}
+	public static function loginForm() {
+		Core::Output('/manage/login.tpl');
+	}
 	// Verifying that the supplied password is correct
 	public static function checkLogin($user, $password) {
 		global $db;
