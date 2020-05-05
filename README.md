@@ -20,3 +20,8 @@ I hope you enjoy my creation.
 
 Anonsaba 3.0 will ALWAYS be free and opensource.
 Knowledge is power and Knowledge should ALWAYS be free.
+
+In memory of 
+-xo03 (333chan)
+-goo (314chan)
+-sf20thtn
