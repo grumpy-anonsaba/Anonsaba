@@ -100,72 +100,27 @@
 					Boards
 				</div>
 				<div id="boards">
-					<div class="boardwrapper">
-						<div class="boardsectionname">
-							Test Section Name
-							<span class="section_toggle" onclick="toggle_boards(this, 'test');" title="Click to show/hide">
-								{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
-							</span>
-						</div>
-						<div id="test" name="test">
-							<div class="boardnames">
-								<li>
-									/test/ - Test
-								</li>
-								<li>
-									/test2/ - Test
-								</li>
-								<li>
-									/test3/ - Test
-								</li>
-								<li>
-									/test4/ - Test
-								</li>
-								<li>
-									/test9/ - Test
-								</li>
-								<li>
-									/test10/ - Test
-								</li>
-								<li>
-									/test11/ - Test
-								</li>
-								<li>
-									/test12/ - Test
-								</li>
-								<li>
-									/test13/ - Test
-								</li>
-								<li>
-									/test14/ - Test
-								</li>
+					{% for section in boards %}
+						<div class="boardwrapper">
+							<div class="boardsectionname">
+								{{section.name}}
+								<span class="section_toggle" onclick="toggle_boards(this, '{{section.name}}');" title="Click to show/hide">
+									{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
+								</span>
+							</div>
+							<div id="{{section.name}}" name="{{section.name}}">
+								<div class="boardnames">
+									{% for boards in section.boards %}
+										<li>
+											/{{boards.name}}/ - {{boards.desc}}
+										</li>
+									{% else %}
+										No boards
+									{% endfor %}
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="boardwrapper">
-						<div class="boardsectionname">
-							Test Section Name 2
-							<span class="section_toggle" onclick="toggle_boards(this, 'test2');" title="Click to show/hide">
-								{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
-							</span>
-						</div>
-						<div id="test2" name="test2">
-							<div class="boardnames">
-								<li>
-									/test5/ - Test
-								</li>
-								<li>
-									/test6/ - Test
-								</li>
-								<li>
-									/test7/ - Test
-								</li>
-								<li>
-									/test8/ - Test
-								</li>
-							</div>
-						</div>
-					</div>
+					{% endfor %}
 				</div>
 			</div>
 			<div id="footerwrapper">

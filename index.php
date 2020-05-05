@@ -21,6 +21,20 @@
 			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC LIMIT 5 OFFSET '.($_GET['page'] * 5));
 			break;
 	}
+	/* Old code snippit */
+	$sections = array();
+	$results_boardexist = $db->GetAll('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+	if (count($results_boardsexist) >= 0) {
+		$sections = $db->GetAll('SELECT * FROM  '.dbprefix.'sections ORDER BY `order` ASC');
+		foreach($sections AS $key=>$section) {
+			$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE section = '.$db->quote($section['name']).' ORDER BY name ASC');
+			foreach($results AS $line) {
+				$sections[$key]['boards'][] = $line;
+			}
+		}
+	}
+	/* End old code snippit */
+	$twig_data['boards'] = $sections;
 	$twig_data['pages'] = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
 	$twig_data['entries'] = $entries;
 	$twig_data['view'] = $_GET['view'];
