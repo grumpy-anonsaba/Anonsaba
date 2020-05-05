@@ -182,14 +182,10 @@
 	left: 1%;
 	height: 83%;
 }
-section#boardwrapper {
-	background-color: white;
-	padding-bottom:1em;
-	width: auto;
-	height: auto;
+.boardwrapper {
+	padding-bottom:.5em;
 }
 .section_toggle {
-	right: 2%;
 	float:right;
 	font-weight:bold;
 	cursor:pointer;
@@ -202,7 +198,8 @@ section#boardwrapper {
 .boardnames {
 	font-size: 100%;
 	list-style-position: inside;
-	display: inline;
+	display: inline-table;
+	height: auto;
 }
 .boardnames li {
 	float: left;

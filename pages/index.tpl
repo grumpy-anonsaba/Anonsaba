@@ -111,9 +111,12 @@
 				Boards
 			</div>
 			<div id="boards">
-				<section id="boardwrapper">
+				<div class="boardwrapper">
 					<div class="boardsectionname">
 						Test Section Name
+						<span class="section_toggle" onclick="toggle_boards(this, 'test');" title="Click to show/hide">
+							{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
+						</span>
 					</div>
 					<div id="test" name="test">
 						<div class="boardnames">
@@ -149,10 +152,13 @@
 							</li>
 						</div>
 					</div>
-				</section>
-				<!--<section id="boardwrapper">
+				</div>
+				<div class="boardwrapper">
 					<div class="boardsectionname">
 						Test Section Name 2
+						<span class="section_toggle" onclick="toggle_boards(this, 'test2');" title="Click to show/hide">
+							{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
+						</span>
 					</div>
 					<div id="test2" name="test2">
 						<div class="boardnames">
@@ -170,7 +176,7 @@
 							</li>
 						</div>
 					</div>
-				</section>-->
+				</div>
 			</div>
 		</div>
 	</body>
