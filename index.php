@@ -7,7 +7,6 @@
 		Core::Error('It appears you haven\'t installed Anonsaba 3.0 please click <a href="/INSTALL/install.php">here</a> to install!');
 	}
 	// Great lets configure our values then output them!
-	$twig_data['sitename'] = Core::GetConfigOption('sitename');
 	$twig_data['slogan'] = Core::GetConfigOption('slogan');
 	$twig_data['version'] = Core::GetConfigOption('version');
 	$twig_data['irc'] = Core::GetConfigOption('irc');

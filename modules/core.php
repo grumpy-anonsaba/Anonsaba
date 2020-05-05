@@ -15,7 +15,7 @@ Class Core {
 	}
 	public static function Output($template, $data) {
 		global $twig;
-		$data['site_name'] = self::GetConfigOption('site_name');
+		$data['sitename'] = self::GetConfigOption('sitename');
 		$data['version'] = self::GetConfigOption('version');
 		echo $twig->display($template, $data);
 	}
