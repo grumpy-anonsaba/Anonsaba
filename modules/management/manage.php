@@ -10,7 +10,7 @@ class Management {
 				return true;
 			} else {
 				self::destroySession($_SESSION['manage_username']);
-				Core::Error('Invalid Session<br />Please login again!');
+				self::loginForm(true, 'Invalid Session!');
 			}
 		} else {
 			if(!$manage) {
@@ -53,8 +53,14 @@ class Management {
 			setcookie('mod_cookie', $boards, time() - 3600, '/', cookies);
 		}
 	}
-	public static function loginForm() {
+	public static function loginForm($error=false, $errormsg) {
 		$twig_data['blank'] = '';
+		if ($error) {
+			$twig_data['error'] = true;
+			$twig_data['errormsg'] = $errormsg;
+		} else {
+			$twig_data['errormsg'] = 'Please login continue';
+		}
 		Core::Output('/manage/login.tpl', $twig_data);
 	}
 	// Verifying that the supplied password is correct
@@ -64,7 +70,7 @@ class Management {
 		// If the user doesn't exist throw an error
 		if (!$db->GetOne('SELECT * FROM '.dbprefix.'staff WHERE username = '.$db->quote($user))) {
 			Core::Log(time(), $user, 'Failed Login attempt from: '.$ip);
-			Core::Error('Either the username or Password you supplied is incorrect');
+			self::loginForm(true, 'Either the username or Password you supplied is incorrect');
 		}
 		// First lets make sure that the user account isn't locked out!
 		if (self::checkLock($user) && self::checkSuspended($user)) {
@@ -83,7 +89,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = '.$loginattempts.' WHERE username = '.$db->quote($user));
 				// Lets update the failed time as well
 				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = '.time().' WHERE username = '.$db->quote($user));
-				Core::Error('Either the username or Password you supplied is incorrect');
+				self::loginForm(true, 'Either the username or Password you supplied is incorrect');
 			}
 		}
 	}
@@ -95,7 +101,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($user));
 				return true;
 			} else {
-				Core::Error('This account is currently locked and cannot be logged into');
+				self::loginForm(true, 'Either the username or Password you supplied is incorrect');
 			}
 		} else {
 			return true;
@@ -108,7 +114,7 @@ class Management {
 			return true;
 		} else {
 			Core::Log(time(), $user, 'Failed Login attempt to suspended account from IP: '.$ip);
-			Core::Error('This account is currently locked and cannot be logged into');
+			self::loginForm(true, 'Either the username or Password you supplied is incorrect');
 		}
 	}
 	public static function getStaffLevel($user) {
