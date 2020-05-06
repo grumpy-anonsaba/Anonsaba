@@ -6,12 +6,20 @@
 	</head>
 	<body>
 		<div id="container">
-			<div class="login">
-				<h1>{{sitename}} Login</h1>
+			<div class="header">
+				{{sitename}} Login
+			</div>
+			<div class="loginformarea">
 				<form method="post" action='index.php?acti=login&side={{side}}&action={{action}}'>
-					<p><input type="text" name="username" value="" placeholder="Username"></p>
-					<p><input type="password" name="password" value="" placeholder="Password"></p>
-					<p class="submit"><input type="submit" name="login" value="Login"></p>
+					<div class="username">
+						<input type="text" name="username" placeholder="Username" />
+					</div>
+					<div class="password">
+						<input type="password" name="password" placeholder="Password" />
+					</div>
+					<div class="submit">
+						<input type="submit" name="login" value="Login" />
+					</div>
 				</form>
 			</div>
 		</div>
