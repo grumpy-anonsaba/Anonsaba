@@ -2,6 +2,9 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/pages/css/front_anonsaba.css" />
 		<link rel="stylesheet" type="text/css" href="/pages/css/global.css" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/pages/images/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/pages/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/pages/images/favicon-16x16.png">
 		<title>{{sitename}}</title>
 		<script type="text/javascript">
 			<!--
