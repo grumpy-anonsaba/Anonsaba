@@ -1,0 +1,17 @@
+#container {
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	height: 50%;
+	width: 50%;
+	background-color: white;
+}
+.login {
+	position: relative;
+	margin: 0 auto;
+	text-align: center;
+}
+.login h1 {
+	font-weight: bold;
+	font-size: 250%;
+}

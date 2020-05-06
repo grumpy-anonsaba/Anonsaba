@@ -5,11 +5,57 @@
 class Management {
 	public static function validateSession($manage=false) {
 		global $db;
+		if(isset($_SESSION['manage_username']) && isset($_SESSION['sessionid'])) {
+			if($_SESSION['sessionid'] == $db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username']))) {
+				return true;
+			} else {
+				self::destroySession($_SESSION['manage_username']);
+				Core::Error('Invalid Session<br />Please login again!');
+			}
+		} else {
+			if(!$manage) {
+				die(self::loginForm());
+			} else {
+				return false;
+			}
+		}
 	}
 	public static function createSession($user) {
+		global $db;
+		$chars = hash;
+		$sessionid = '';
+		for ($i = 0; $i < strlen($chars); ++$i) {
+			$sessionid .= $chars[mt_rand(0, strlen($chars) - 1)];
+		}
+		$_SESSION['sessionid'] = $sessionid;
+		$_SESSION['manage_username'] = $user;
+		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
+		$level = self::getStaffLevel($user);
+		if ($boards == 'all' || $level == 1) {
+			setcookie('mod_cookie', 'allboards', time() + 3600, '/', cookies);
+		} else {
+			setcookie('mod_cookie', $boards, time() + 3600, '/', cookies);
+		}
+		$db->Execute('UPDATE '.dbprefix.'staff SET sessionid = '.$db->quote($sessionid).' WHERE username = '.$db->quote($val));
+		$db->Execute('UPDATE `'.dbprefix.'staff` SET `active` = '.time().' WHERE `username` = '.$db->quote($val));
+	}
+	public static function destroySession($user) {
+		global $db;
+		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = "" WHERE username = '.$db->quote($user));
+		
+		unset($_SESSION['manage_username']);
+		unset($_SESSION['sessionid']);
+		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
+		$level = self::getStaffLevel($user);
+		if ($boards == 'all' || $level == 1) {
+			setcookie('mod_cookie', 'allboards', time() - 3600, '/', cookies);
+		} else {
+			setcookie('mod_cookie', $boards, time() - 3600, '/', cookies);
+		}
 	}
 	public static function loginForm() {
-		Core::Output('/manage/login.tpl');
+		$twig_data['blank'] = '';
+		Core::Output('/manage/login.tpl', $twig_data);
 	}
 	// Verifying that the supplied password is correct
 	public static function checkLogin($user, $password) {
@@ -28,6 +74,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($password, PASSWORD_ARGON2I)));
 				// Set the users active time!
 				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+				self::createSession($user);
 				return true;
 			} else {
 				Core::Log(time(), $user, 'Failed Login attempt from: '.$ip);
