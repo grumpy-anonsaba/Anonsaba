@@ -71,7 +71,7 @@ class Management {
 		// If the user doesn't exist throw an error
 		if (!$db->GetOne('SELECT * FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username']))) {
 			Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
-			self::loginForm('1', 'Either the username or Password you supplied is incorrect');
+			self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
 		}
 		// First lets make sure that the user account isn't locked out!
 		if (self::checkLock($_POST['username']) && self::checkSuspended($_POST['username'])) {
@@ -97,7 +97,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = '.$loginattempts.' WHERE username = '.$db->quote($_POST['username']));
 				// Lets update the failed time as well
 				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = '.time().' WHERE username = '.$db->quote($_POST['username']));
-				self::loginForm('1', 'Either the username or Password you supplied is incorrect');
+				self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
 			}
 		}
 	}
@@ -114,7 +114,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($user));
 				return true;
 			} else {
-				self::loginForm('1', 'Either the username or Password you supplied is incorrect');
+				self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
 			}
 		} else {
 			return true;
@@ -127,7 +127,7 @@ class Management {
 			return true;
 		} else {
 			Core::Log(time(), $user, 'Failed Login attempt to suspended account from IP: '.$ip);
-			self::loginForm('1', 'Either the username or Password you supplied is incorrect');
+			self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
 		}
 	}
 	public static function getStaffLevel($user) {
