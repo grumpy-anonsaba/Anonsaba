@@ -89,7 +89,7 @@ class Management {
 				// Log that this user has logged in!
 				Core::Log(time(), $_POST['username'], 'Logged in');
 				// Point them to the main page
-				header("Location: ".weburl.'management/index.php?side='.$side.'&action='.$action.'');
+				header("Location: ".weburl.'manage/index.php?side='.$side.'&action='.$action.'');
 			} else {
 				Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
 				// Lets update failed login attempts and add 1 to the previous number
@@ -100,6 +100,11 @@ class Management {
 				self::loginForm('1', 'Either the username or Password you supplied is incorrect');
 			}
 		}
+	}
+	public static function logOut() {
+		global $db;
+		self::destroySession($_SESSION['manage_username']);
+		header("Location: ".weburl.'manage/');
 	}
 	public static function checkLock($user) {
 		global $db;

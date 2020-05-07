@@ -60,7 +60,7 @@ if ($_GET['acti'] == 'login') {
 }
 switch ($action) {
 	case 'logout':
-		$manage->Logout();
+		$manage->logOut();
 		break;
 	default:
 		$manage->ValidateSession();
