@@ -36,8 +36,8 @@ class Management {
 		} else {
 			setcookie('mod_cookie', $boards, time() + 3600, '/', cookies);
 		}
-		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = '.$db->quote($sessionid).' WHERE username = '.$db->quote($val));
-		$db->Run('UPDATE `'.dbprefix.'staff` SET `active` = '.time().' WHERE `username` = '.$db->quote($val));
+		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = '.$db->quote($sessionid).' WHERE username = '.$db->quote($user));
+		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($user));
 	}
 	public static function destroySession($user) {
 		global $db;
