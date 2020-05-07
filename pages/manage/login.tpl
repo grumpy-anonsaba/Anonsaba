@@ -22,7 +22,7 @@
 				{% endif %}
 				<form method="post" action='index.php?acti=login'>
 					<div class="username{% if errorfound %}error{% endif %}">
-						<input type="text" name="username" placeholder="Username" />
+						<input type="text" name="username" value="{% if errorfound %}{{username}}{% endif %}" placeholder="Username" />
 					</div>
 					<div class="password{% if errorfound %}error{% endif %}">
 						<input type="password" name="password" placeholder="Password" />

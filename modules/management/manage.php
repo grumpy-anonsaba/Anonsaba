@@ -57,6 +57,7 @@ class Management {
 		if ($error == '1') {
 			$twig_data['errorfound'] = true;
 			$twig_data['errormsg'] = $errormsg;
+			$twig_data['username'] = $_POST['username'];
 		} else {
 			$twig_data['errormsg'] = '';
 		}
