@@ -33,10 +33,26 @@
 }
 .username {
 	position: relative;
-	top: 130;
+	top: 100;
 	width: 100%;
 	left: 8%;
 	height: 25%;
+}
+.usernameerror {
+	position: relative;
+	top: 90;
+	width: 100%;
+	left: 8%;
+	height: 25%;
+}
+.usernameerror input[type=text] {
+	border-radius: 5%;
+	width: 80%;
+	height: 40%;
+	margin: 0 auto;
+}
+.usernameerror input[type=text]::placeholder {
+	text-align:center;
 }
 .username input[type=text] {
 	border-radius: 5%;
@@ -49,7 +65,7 @@
 }
 .password {
 	position: relative;
-	top: 100;
+	top: 80;
 	width: 100%;
 	left: 8%;
 	height: 25%;
@@ -63,28 +79,57 @@
 .password input[type=password]::placeholder {
 	text-align:center;
 }
+.passworderror {
+	position: relative;
+	top: 60;
+	width: 100%;
+	left: 8%;
+	height: 25%;
+}
+.passworderror input[type=password] {
+	border-radius: 5%;
+	width: 80%;
+	height: 40%;
+	margin: 0 auto;
+}
+.passworderror input[type=password]::placeholder {
+	text-align:center;
+}
 .submit {
 	position: relative;
-	top: 100;
+	top: 80;
 	left: 70%;
 }
 .submit input[type=submit] {
 	cursor: pointer;
 	width: 20%;
 }
+.submiterror {
+	position: relative;
+	top: 50;
+	left: 70%;
+}
+.submiterror input[type=submit] {
+	cursor: pointer;
+	width: 20%;
+}
 .errormsg {
 	position: relative;
 	top: 25;
-	left: 25%;
-	width: 50%;
-	height: 15%;
+	left: 5%;
+	width: 90%;
+	height: 10%;
 	border-radius: 5%;
 	border-color: #ff3333;
-	border-style: thin;
+	background-color: #ff9999;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
 }
 .errormsgtxt {
-	text-align: center;
-	font-style: bold;
+	font-weight: bold;
 	font-size: 150%;
+	vertical-align: middle;
+	margin: auto;
 }
 	

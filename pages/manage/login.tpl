@@ -14,23 +14,20 @@
 			</div>
 			<div class="loginformarea">
 				<form method="post" action='index.php?acti=login&side={{side}}&action={{action}}'>
-					<!--{% if error %}
+					{% if error %}
 						<div class="errormsg">
-							{{errormsg}}
+							<div class="errormsgtxt">
+								{{errormsg}}
+							</div>
 						</div>
-					{% endif %}-->
-					<div class="errormsg">
-						<div class="errormsgtxt">
-							This is a test error!
-						</div>
-					</div>
-					<div class="username">
+					{% endif %}
+					<div class="username{% if error %}error{% endif %}">
 						<input type="text" name="username" placeholder="Username" />
 					</div>
-					<div class="password">
+					<div class="password{% if error %}error{% endif %}">
 						<input type="password" name="password" placeholder="Password" />
 					</div>
-					<div class="submit">
+					<div class="submit{% if error %}error{% endif %}">
 						<input type="submit" name="login" value="Login" />
 					</div>
 				</form>
