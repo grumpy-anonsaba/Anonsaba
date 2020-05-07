@@ -81,8 +81,14 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)));
 				// Set the users active time!
 				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+				// Delete all failed login attempts!
+				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($_POST['username']));
+				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = 0 WHERE username = '.$db->quote($_POST['username']));
+				// Create the session
 				self::createSession($_POST['username']);
+				// Log that this user has logged in!
 				Core::Log(time(), $_POST['username'], 'Logged in');
+				// Point them to the main page
 				header("Location: ".weburl.'management/index.php?side='.$side.'&action='.$action.'');
 			} else {
 				Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
