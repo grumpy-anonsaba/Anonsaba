@@ -72,3 +72,19 @@
 	cursor: pointer;
 	width: 20%;
 }
+.errormsg {
+	position: relative;
+	top: 25;
+	left: 25%;
+	width: 50%;
+	height: 15%;
+	border-radius: 5%;
+	border-color: #ff3333;
+	border-style: thin;
+}
+.errormsgtxt {
+	text-align: center;
+	font-style: bold;
+	font-size: 150%;
+}
+	

@@ -14,6 +14,16 @@
 			</div>
 			<div class="loginformarea">
 				<form method="post" action='index.php?acti=login&side={{side}}&action={{action}}'>
+					<!--{% if error %}
+						<div class="errormsg">
+							{{errormsg}}
+						</div>
+					{% endif %}-->
+					<div class="errormsg">
+						<div class="errormsgtxt">
+							This is a test error!
+						</div>
+					</div>
 					<div class="username">
 						<input type="text" name="username" placeholder="Username" />
 					</div>
