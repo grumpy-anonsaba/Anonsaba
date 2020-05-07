@@ -29,8 +29,8 @@
 	$config['webcookie'] = ''; // Example: www.4chan.org -> .4chan.org
 	
 	// Twig Paths
-	$config['dir'] = $config['fullpath'].'pages';
-	$config['cache'] = $config['fullpath'].'pages_cache';
+	$config['dir'] = $config['svrpath'].'pages';
+	$config['cache'] = $config['svrpath'].'pages_cache';
 	
 	// Security
 	$config['hash'] = ''; // Please enter 24+ LETTERS AND NUMBERS here

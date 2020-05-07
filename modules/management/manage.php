@@ -10,11 +10,11 @@ class Management {
 				return true;
 			} else {
 				self::destroySession($_SESSION['manage_username']);
-				self::loginForm(true, 'Invalid Session!');
+				self::loginForm('1', 'Invalid Session!');
 			}
 		} else {
 			if(!$manage) {
-				die(self::loginForm());
+				die(self::loginForm('2', ''));
 			} else {
 				return false;
 			}
@@ -53,43 +53,43 @@ class Management {
 			setcookie('mod_cookie', $boards, time() - 3600, '/', cookies);
 		}
 	}
-	public static function loginForm($error=false, $errormsg) {
-		$twig_data['blank'] = '';
-		if ($error) {
-			$twig_data['error'] = true;
+	public static function loginForm($error, $errormsg) {
+		if ($error === '1') {
+			$twig_data['error'] = '1';
 			$twig_data['errormsg'] = $errormsg;
 		} else {
-			$twig_data['errormsg'] = 'Please login continue';
+			$twig_data['errormsg'] = '';
 		}
 		Core::Output('/manage/login.tpl', $twig_data);
 	}
 	// Verifying that the supplied password is correct
-	public static function checkLogin($user, $password) {
+	public static function checkLogin($side, $action) {
 		global $db;
 		$ip = Core::getIP();
 		// If the user doesn't exist throw an error
-		if (!$db->GetOne('SELECT * FROM '.dbprefix.'staff WHERE username = '.$db->quote($user))) {
-			Core::Log(time(), $user, 'Failed Login attempt from: '.$ip);
-			self::loginForm(true, 'Either the username or Password you supplied is incorrect');
+		if (!$db->GetOne('SELECT * FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username']))) {
+			Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
+			self::loginForm('1', 'Either the username or Password you supplied is incorrect');
 		}
 		// First lets make sure that the user account isn't locked out!
-		if (self::checkLock($user) && self::checkSuspended($user)) {
-			if (password_verify($password, $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)))) {
+		if (self::checkLock($_POST['username']) && self::checkSuspended($_POST['username'])) {
+			if (password_verify($_POST['password'], $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username'])))) {
 				// Lets update the hash 
 				// The user will always be able to still login, but if a hacker finds this it will constantly stay changing
-				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($password, PASSWORD_ARGON2I)));
+				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)));
 				// Set the users active time!
 				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
-				self::createSession($user);
-				return true;
+				self::createSession($_POST['username']);
+				Core::Log(time(), $_POST['username'], 'Logged in');
+				header("Location: ".weburl.'management/index.php?side='.$side.'&action='.$action.'');
 			} else {
-				Core::Log(time(), $user, 'Failed Login attempt from: '.$ip);
+				Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
 				// Lets update failed login attempts and add 1 to the previous number
-				$loginattempts = $db->GetOne('SELECT failed FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)) + 1;
-				$db->Run('UPDATE '.dbprefix.'staff SET failed = '.$loginattempts.' WHERE username = '.$db->quote($user));
+				$loginattempts = $db->GetOne('SELECT failed FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username'])) + 1;
+				$db->Run('UPDATE '.dbprefix.'staff SET failed = '.$loginattempts.' WHERE username = '.$db->quote($_POST['username']));
 				// Lets update the failed time as well
-				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = '.time().' WHERE username = '.$db->quote($user));
-				self::loginForm(true, 'Either the username or Password you supplied is incorrect');
+				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = '.time().' WHERE username = '.$db->quote($_POST['username']));
+				self::loginForm('1', 'Either the username or Password you supplied is incorrect');
 			}
 		}
 	}
@@ -101,7 +101,7 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($user));
 				return true;
 			} else {
-				self::loginForm(true, 'Either the username or Password you supplied is incorrect');
+				self::loginForm('1', 'Either the username or Password you supplied is incorrect');
 			}
 		} else {
 			return true;
@@ -114,7 +114,7 @@ class Management {
 			return true;
 		} else {
 			Core::Log(time(), $user, 'Failed Login attempt to suspended account from IP: '.$ip);
-			self::loginForm(true, 'Either the username or Password you supplied is incorrect');
+			self::loginForm('1', 'Either the username or Password you supplied is incorrect');
 		}
 	}
 	public static function getStaffLevel($user) {
