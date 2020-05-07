@@ -32,9 +32,9 @@ class Management {
 		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
 		$level = self::getStaffLevel($user);
 		if ($boards == 'all' || $level == 1) {
-			setcookie('mod_cookie', 'allboards', time() + 3600, '/', cookies);
+			setcookie('mod_cookie', 'allboards', time() + 1800, '/', cookies);
 		} else {
-			setcookie('mod_cookie', $boards, time() + 3600, '/', cookies);
+			setcookie('mod_cookie', $boards, time() + 1800, '/', cookies);
 		}
 		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = '.$db->quote($sessionid).' WHERE username = '.$db->quote($user));
 		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($user));
@@ -48,9 +48,9 @@ class Management {
 		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
 		$level = self::getStaffLevel($user);
 		if ($boards == 'all' || $level == 1) {
-			setcookie('mod_cookie', 'allboards', time() - 3600, '/', cookies);
+			setcookie('mod_cookie', 'allboards', time() - 1800, '/', cookies);
 		} else {
-			setcookie('mod_cookie', $boards, time() - 3600, '/', cookies);
+			setcookie('mod_cookie', $boards, time() - 1800, '/', cookies);
 		}
 	}
 	public static function loginForm($error, $errormsg) {
