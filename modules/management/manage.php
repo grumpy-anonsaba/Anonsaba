@@ -54,13 +54,14 @@ class Management {
 		}
 	}
 	public static function loginForm($error, $errormsg) {
-		if ($error === '1') {
-			$twig_data['error'] = '1';
+		if ($error == '1') {
+			$twig_data['errorfound'] = true;
 			$twig_data['errormsg'] = $errormsg;
 		} else {
 			$twig_data['errormsg'] = '';
 		}
 		Core::Output('/manage/login.tpl', $twig_data);
+		die();
 	}
 	// Verifying that the supplied password is correct
 	public static function checkLogin($side, $action) {

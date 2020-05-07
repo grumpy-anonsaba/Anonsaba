@@ -57,8 +57,6 @@ $side = isset($_GET['side']) ? $_GET['side'] : 'main';
 if ($_GET['acti'] == 'login') {
 	$manage->checkLogin($side, $action);
 	$manage->validateSession();
-} else {
-	$manage->loginForm(1, 'Unknown Error. Please try again');
 }
 switch ($action) {
 	case 'logout':

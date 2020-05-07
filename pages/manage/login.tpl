@@ -13,21 +13,21 @@
 				{{sitename}} Login
 			</div>
 			<div class="loginformarea">
-				{% if error == 1 %}
+				{% if errorfound %}
 					<div class="errormsg">
 						<div class="errormsgtxt">
-							{{errormsg}} - Test
+							{{errormsg}}
 						</div>
 					</div>
 				{% endif %}
-				<form method="post" action='index.php?acti=login&side={{side}}&action={{action}}'>
-					<div class="username{% if error == 1 %}error{% endif %}">
+				<form method="post" action='index.php?acti=login'>
+					<div class="username{% if errorfound %}error{% endif %}">
 						<input type="text" name="username" placeholder="Username" />
 					</div>
-					<div class="password{% if error == 1 %}error{% endif %}">
+					<div class="password{% if errorfound %}error{% endif %}">
 						<input type="password" name="password" placeholder="Password" />
 					</div>
-					<div class="submit{% if error == 1 %}error{% endif %}">
+					<div class="submit{% if errorfound %}error{% endif %}">
 						<input type="submit" name="login" value="Login" />
 					</div>
 				</form>
