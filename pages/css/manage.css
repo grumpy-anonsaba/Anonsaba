@@ -90,6 +90,32 @@
 	left: 44.5%;
 	top: 0%;
 }
+.modboardbutton {
+	position: absolute;
+	font-size: 1.5vw;
+	background-color: #80c1ff;
+	width: 17%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 11.5%;
+	top: 0%;
+}
+.modmodbutton {
+	position: absolute;
+	font-size: 1.5vw;
+	background-color: #80c1ff;
+	width: 12%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 29%;
+	top: 0%;
+}
 .left_side {
 	position: relative;
 	width: 20%;
@@ -185,5 +211,33 @@
 	border-color: #b3d7ff;
 	text-align: center;
 	left: 44.5%;
+	top: 0%;
+}
+.modboardbuttonselected {
+	position: absolute;
+	font-size: 1.5vw;
+	background-color: #99ceff;
+	width: 17%;
+	height: 90%;
+	border-radius: 5%;
+	border-style: groove;
+	border-width: 3px;
+	border-color: #b3d7ff;
+	text-align: center;
+	left: 11.5%;
+	top: 0%;
+}
+.modmodbuttonselected {
+	position: absolute;
+	font-size: 1.5vw;
+	background-color: #99ceff;
+	width: 12%;
+	height: 90%;
+	border-radius: 5%;
+	border-style: groove;
+	border-width: 3px;
+	border-color: #b3d7ff;
+	text-align: center;
+	left: 29%;
 	top: 0%;
 }

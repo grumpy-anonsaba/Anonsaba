@@ -27,18 +27,20 @@
 							Main
 						</div>
 					</a>
-					<a href="index.php?side=site&action={{action}}">
-						<div class="sitebutton{% if current == 'site' %}selected{% endif %}">
-							Site Administration
-						</div>
-					</a>
+					{% if level == 1 %}
+						<a href="index.php?side=site&action={{action}}">
+							<div class="sitebutton{% if current == 'site' %}selected{% endif %}">
+								Site Administration
+							</div>
+						</a>
+					{% endif %}
 					<a href="index.php?side=boards&action={{action}}">
-						<div class="boardbutton{% if current == 'boards' %}selected{% endif %}">
+						<div class="{% if level > 1 %}mod{% endif %}boardbutton{% if current == 'boards' %}selected{% endif %}">
 							Board Administration
 						</div>
 					</a>
 					<a href="index.php?side=mod&action={{action}}">
-						<div class="modbutton{% if current == 'mod' %}selected{% endif %}">
+						<div class="{% if level > 1 %}mod{% endif %}modbutton{% if current == 'mod' %}selected{% endif %}">
 							Moderation
 						</div>
 					</a>
