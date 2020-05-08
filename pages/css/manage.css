@@ -29,13 +29,66 @@
 	font-weight: bold;
 }
 .loginlogout {
+	position: relative;
 	float: right;
-	padding-top: .5em;
+	padding-top: .2em;
 	padding-right: .8em;
 	font-size: .9vw;
+	bottom: 400%
 }
 .loginlogout input[type=submit] {
 	cursor: pointer;
 	font-size: .7vw;
 	border-radius: 2%;
+}
+.mainbutton {
+	position: relative;
+	font-size: 1.5vw;
+	background-color: #339cff;
+	width: 10%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 1%;
+}
+.sitebutton {
+	position: relative;
+	font-size: 1.5vw;
+	background-color: #339cff;
+	width: 15%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 11.5%;
+	bottom: 105%;
+}
+.boardbutton {
+	position: relative;
+	font-size: 1.5vw;
+	background-color: #339cff;
+	width: 17%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 27%;
+	bottom: 208%;
+}
+.modbutton {
+	position: relative;
+	font-size: 1.5vw;
+	background-color: #339cff;
+	width: 12%;
+	height: 99%;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	left: 44.5%;
+	bottom: 312%;
 }

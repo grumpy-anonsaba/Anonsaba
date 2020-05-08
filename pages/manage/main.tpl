@@ -22,7 +22,18 @@
 					{{sitename}} Management
 				</div>
 				<div class="top_bar">
-					Text goes brr
+					<div class="mainbutton">
+						Main
+					</div>
+					<div class="sitebutton">
+						Site Administration
+					</div>
+					<div class="boardbutton">
+						Board Administration
+					</div>
+					<div class="modbutton">
+						Moderation
+					</div>
 					<div class="loginlogout">
 						Logged in as 
 						<strong>
