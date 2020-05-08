@@ -1,0 +1,41 @@
+#content_wrap {
+	position: absolute;
+	width: 99%;
+	height: 99%;
+}
+.main {
+	position: relative;
+	height: 80%;
+	width: 90%;
+	left: 5%;
+	top: 10%;
+	background-color: #cce6ff;
+	border-radius: 3%;
+	border-style: solid;
+	border-width: thin;
+}
+.top_bar {
+	position: relative;
+	background-color: #99ceff;
+	top: 5%;
+	width: 100%;
+	height: 5%;
+}
+.top_header {
+	position: relative;
+	text-align: center;
+	top: 3%;
+	font-size: 2.2vw;
+	font-weight: bold;
+}
+.loginlogout {
+	float: right;
+	padding-top: .5em;
+	padding-right: .8em;
+	font-size: .9vw;
+}
+.loginlogout input[type=submit] {
+	cursor: pointer;
+	font-size: .7vw;
+	border-radius: 2%;
+}
