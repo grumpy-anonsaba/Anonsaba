@@ -93,7 +93,7 @@
 							</p>
 						</div>
 					{% endfor %}
-					<div style="text-align:center">
+					<div style="text-align:center; font-size: .9vw;">
 						{% if not view %}
 							{% if pages -1 > 0 %}
 								{% for i in range(0, pages ) %}
@@ -132,7 +132,7 @@
 							</div>
 						</div>
 					{% else %}
-						<div style="text-align:center">Currently no boards</div>
+						<div style="text-align:center; font-size: .9vw;">Currently no boards</div>
 					{% endfor %}
 				</div>
 			</div>
