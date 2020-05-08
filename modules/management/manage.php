@@ -132,7 +132,7 @@ class Management {
 	}
 	public static function getStaffLevel($user) {
 		global $db;
-		return $db->GetOne('SELECT level FROM '.dbprefix.' WHERE username = '.$db->quote($user));
+		return $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
 	}
 	/* This is the "Main" section function list */
 	public static function stats() {
