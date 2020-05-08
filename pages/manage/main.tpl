@@ -22,18 +22,26 @@
 					{{sitename}} Management
 				</div>
 				<div class="top_bar">
-					<div class="mainbutton">
-						Main
-					</div>
-					<div class="sitebutton">
-						Site Administration
-					</div>
-					<div class="boardbutton">
-						Board Administration
-					</div>
-					<div class="modbutton">
-						Moderation
-					</div>
+					<a href="index.php?side=main&action={{action}}">
+						<div class="mainbutton{% if current == 'main' %}selected{% endif %}">
+							Main
+						</div>
+					</a>
+					<a href="index.php?side=site&action={{action}}">
+						<div class="sitebutton{% if current == 'site' %}selected{% endif %}">
+							Site Administration
+						</div>
+					</a>
+					<a href="index.php?side=boards&action={{action}}">
+						<div class="boardbutton{% if current == 'boards' %}selected{% endif %}">
+							Board Administration
+						</div>
+					</a>
+					<a href="index.php?side=mod&action={{action}}">
+						<div class="modbutton{% if current == 'mod' %}selected{% endif %}">
+							Moderation
+						</div>
+					</a>
 					<div class="loginlogout">
 						Logged in as 
 						<strong>
