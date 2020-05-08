@@ -36,7 +36,7 @@ if ($manage->validateSession(true)) {
 			$twig_data['urls'] = array('&action=news', '&action=rules', '&action=faq', '&action=staff', '&action=logs', '&action=clean', '&action=siteconfig');
 			$twig_data['arraynum'] = count($twig_data['names']);
 			break;
-		case 'board':
+		case 'boards':
 			if($manage->getStaffLevel($_SESSION['manage_username']) == '1') {
 				$twig_data['sectionname'] = 'Boards Administration';
 				$twig_data['names'] = array('Add/Delete boards' , 'Board Options', 'Edit filetypes', 'Edit Sections', 'Word filter', 'Spam filter', 'Manage Ads', 'Move threads', 'Rebuild board', 'Rebuild all boards');
