@@ -135,6 +135,7 @@
 	width: 100%;
 	top: 5%;
 	border-bottom-style: dashed;
+	border-width: thin;
 }
 .actions { 
 	position: relative;
