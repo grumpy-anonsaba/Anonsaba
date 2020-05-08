@@ -139,7 +139,7 @@
 	left: 23%;
 }
 .recentpost {
-	position: relative;
+	position: absolute;
 	width: 50%;
 	height: 100%;
 }
@@ -163,7 +163,7 @@
 	background-color: #fff
 }
 .statinfo {
-	position: relative;
+	position: absolute;
 	bottom: 100%;
 	left: 51%;
 	width: 50%;
@@ -196,7 +196,7 @@
 #content {
 	position: absolute;
 	top: 22%;
-	left: 1%;
+	left: .5%;
 	width: 98%;
 	height: 75%;
 	padding: .25em;

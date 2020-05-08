@@ -15,9 +15,7 @@
 			<div class="loginformarea">
 				{% if errorfound %}
 					<div class="errormsg">
-						<div class="errormsgtxt">
-							{{errormsg}}
-						</div>
+						{{errormsg}}
 					</div>
 				{% endif %}
 				<form method="post" action='index.php?acti=login'>

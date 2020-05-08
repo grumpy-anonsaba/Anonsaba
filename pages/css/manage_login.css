@@ -116,7 +116,6 @@
 .errormsg {
 	position: relative;
 	top: 25;
-	left: 5%;
 	width: 90%;
 	height: 10%;
 	border-radius: 5%;
@@ -125,11 +124,8 @@
 	border-style: solid;
 	border-width: thin;
 	text-align: center;
-}
-.errormsgtxt {
 	font-weight: bold;
 	font-size: 150%;
-	vertical-align: middle;
 	margin: auto;
 }
 	
