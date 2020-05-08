@@ -147,14 +147,13 @@
 	left: 2%;
 	font-size: 1.1vw;
 	width: 96%;
-	font-weight: bold;
 	padding-bottom: .1em;
 }
 .action:hover {
 	background-color: #80c1ff;
 	cursor: pointer;
 }
-.action a, a:visited {
+a, a:visited {
 	color: #000000;
 	text-decoration: none;
 }
