@@ -43,6 +43,11 @@
 						<input type="submit" value="Logout" onclick="return logout()" />
 					</div>
 				</div>
+				<div class="left_side">
+					<div class="title">
+						{{sectionname}}
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
