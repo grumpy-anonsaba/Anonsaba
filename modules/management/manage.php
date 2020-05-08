@@ -134,4 +134,36 @@ class Management {
 		global $db;
 		return $db->GetOne('SELECT level FROM '.dbprefix.' WHERE username = '.$db->quote($user));
 	}
+	/* This is the "Main" section function list */
+	public static function stats() {
+		global $db, $twig_data;
+		//begin memory test with loading boards
+		$db->Run('UPDATE '.prefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manageusername']));
+		$twig_data['memory'] = substr(memory_get_usage() / 1024 / 1024, 0, 4);
+		$twig_data['peakmemory'] = self::memory();
+		$twig_data['version'] = Core::GetConfigOption('version');
+		if (file_get_contents('http://www.anonsaba.org/ver.php') != Core::GetConfigOption('version')) {
+			$update = '1';
+		} else {
+			$update = '0';
+		}
+		$twig_data['update'] = $update;
+		$howlong = time() - Core::GetConfigOption('installtime');
+		if ($howlong < 86400) {
+			$twig_data['installdate'] = 'Today';
+		} else {
+			$twig_data['installdate'] = Core::GetConfigOption('installtime');
+		}
+		switch (dbtype) {
+			case 'mysql':
+				$twig_data['databasetype'] = 'MySQL';
+			break;
+		}
+		$twig_data['boardnum'] = $db->GetOne('SELECT COUNT(*) FROM `'.prefix.'boards`');
+		$twig_data['numpost'] = $db->GetOne('SELECT COUNT(*) FROM `'.prefix.'posts`');
+		Core::Output('/manage/main/welcome.tpl', $twig_data);
+	}
+	public static function memory() {
+		return substr(memory_get_peak_usage() / 1024 / 1024, 0, 4);
+	}
 }

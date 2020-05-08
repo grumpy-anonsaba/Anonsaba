@@ -19,7 +19,7 @@ if ($manage->validateSession(true)) {
 	// Let us begin the WALL OF DECLARES!!!!
 	$twig_data['username'] = $_SESSION['manage_username'];
 	$twig_data['level'] = $manage->getStaffLevel($_SESSION['manage_username']);
-	$twig_data['side'] = $_GET['side'];
+	$twig_data['current'] = $_GET['side'];
 	$twig_data['action'] = $_GET['action'];
 	// Lets decide who gets access to what!
 	switch($_GET['side']) {
@@ -27,28 +27,33 @@ if ($manage->validateSession(true)) {
 			$twig_data['sectionname'] = 'Main';
 			$twig_data['names'] = array('Statistics' , 'Show Posting Password', 'Change Account Password');
 			$twig_data['urls'] = array('&action=stats', '&action=pp', '&action=changepass');
+			$twig_data['arraynum'] = count($twig_data['names']);
 			break;
 		case 'site':
 			$twig_data['sectionname'] = 'Site Administration';
 			$twig_data['names'] = array('News' , 'Rules', 'FAQ', 'Staff', 'Logs', 'Clean up', 'Site configuration');
 			$twig_data['arraynum'] = count($twig_data['names']);
 			$twig_data['urls'] = array('&action=news', '&action=rules', '&action=faq', '&action=staff', '&action=logs', '&action=clean', '&action=siteconfig');
+			$twig_data['arraynum'] = count($twig_data['names']);
 			break;
 		case 'board':
 			if($manage->getStaffLevel($_SESSION['manage_username']) == 1) {
 				$twig_data['sectionname'] = 'Boards Administration';
 				$twig_data['names'] = array('Add/Delete boards' , 'Board Options', 'Edit filetypes', 'Edit Sections', 'Word filter', 'Spam filter', 'Manage Ads', 'Move threads', 'Rebuild board', 'Rebuild all boards');
 				$twig_data['urls'] = array('&action=adddelboard', '&action=boardopt', '&action=filetypes', '&action=sections', '&action=wf', '&action=sf', '&action=ads', '&action=movethread', '&action=rebuildboard', '&action=rebuildall');
+				$twig_data['arraynum'] = count($twig_data['names']);
 			} elseif($manage->getStaffLevel($_SESSION['manage_username']) == 2) {
 				$twig_data['sectionname'] = 'Boards Administration';
 				$twig_data['names'] = array('Board Options', 'Word filter', 'Spam filter', 'Move threads', 'Rebuild board', 'Rebuild all boards');
 				$twig_data['urls'] = array('&action=boardopt', '&action=wf', '&action=sf', '&action=movethread', '&action=rebuildboard', '&action=rebuildall');
+				$twig_data['arraynum'] = count($twig_data['names']);
 			}
 			break;
 		case 'mod':
 			$twig_data['sectionname'] = 'Moderation';
 			$twig_data['names'] = array('View/Add/Delete Bans', 'View Reports', 'View Appeals', 'View Recent Posts');
 			$twig_data['urls'] = array('&action=bans', '&action=reports', '&action=appeal', '&action=recentpost');
+			$twig_data['arraynum'] = count($twig_data['names']);
 			break;
 	}
 }
@@ -68,10 +73,6 @@ switch ($action) {
 		break;
 }
 function page($action) {
-	global $manage, $twig_data;
-	if (is_callable(array($management, $action))) {
-		$manage->$action();
-	} else {
-		Core::Error('That action is not implemented.');
-	}
+	global $manage;
+	$manage->$action();
 }
