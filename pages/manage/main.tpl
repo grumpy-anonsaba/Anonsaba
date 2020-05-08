@@ -47,6 +47,15 @@
 					<div class="title">
 						{{sectionname}}
 					</div>
+					<div class="actions">
+						{% for i in 0..arraynum %}
+							<a href="index.php?side={{current}}{{urls[i]}}">
+								<div class="action">
+									{{names[i]}}
+								</div>
+							</a>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
