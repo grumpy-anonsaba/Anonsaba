@@ -30,11 +30,11 @@
 }
 .loginlogout {
 	position: relative;
+	bottom: 100%;
 	float: right;
-	padding-top: .2em;
+	padding-top: .4em;
 	padding-right: .8em;
 	font-size: .9vw;
-	bottom: 400%
 }
 .loginlogout input[type=submit] {
 	cursor: pointer;
@@ -54,7 +54,7 @@
 	left: 1%;
 }
 .sitebutton {
-	position: relative;
+	position: absolute;
 	font-size: 1.5vw;
 	background-color: #339cff;
 	width: 15%;
@@ -64,10 +64,10 @@
 	border-width: thin;
 	text-align: center;
 	left: 11.5%;
-	bottom: 105%;
+	top: 0%;
 }
 .boardbutton {
-	position: relative;
+	position: absolute;
 	font-size: 1.5vw;
 	background-color: #339cff;
 	width: 17%;
@@ -77,10 +77,10 @@
 	border-width: thin;
 	text-align: center;
 	left: 27%;
-	bottom: 208%;
+	top: 0%;
 }
 .modbutton {
-	position: relative;
+	position: absolute;
 	font-size: 1.5vw;
 	background-color: #339cff;
 	width: 12%;
@@ -90,5 +90,5 @@
 	border-width: thin;
 	text-align: center;
 	left: 44.5%;
-	bottom: 312%;
+	top: 0%;
 }
