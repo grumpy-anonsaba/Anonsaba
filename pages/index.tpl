@@ -10,13 +10,13 @@
 		<script type="text/javascript">
 			<!--
 				function toggle_boards(button, area) {
-				var tog=document.getElementById(area);
-				if(tog.style.display)    {
-					tog.style.display='';
-				}    else {
-					tog.style.display='none';
-				}
-				button.innerHTML=(tog.style.display)?'&plus;':'&minus;';
+					var tog=document.getElementById(area);
+					if(tog.style.display)    {
+						tog.style.display='';
+					}    else {
+						tog.style.display='none';
+					}
+					button.innerHTML=(tog.style.display)?'&plus;':'&minus;';
 				}
 			//-->
 		</script>

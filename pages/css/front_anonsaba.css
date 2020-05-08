@@ -15,9 +15,10 @@
 	text-align: center;
 	font-weight: bold;
 	position: relative;
+	font-size: 1vw;
 }
 .sitename {
-	font-size: 250%;
+	font-size: 2.2vw;
 	color: #4da6ff;
 	font-weight: bold;
 	text-align: center;
@@ -28,7 +29,7 @@
 	display: inline-block;
 }
 .slogan {
-	font-size: 150%;
+	font-size: 1.2vw;
 	color: #80bfff;
 	font-style: italic;
 	text-align: center;
@@ -53,7 +54,7 @@
 .news {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #b3d7ff;
 	border-width: thin;
 	border-style: solid;
@@ -66,7 +67,7 @@
 .newsselected {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #cce6ff;
 	border-width: 3px;
 	border-style: groove;
@@ -80,7 +81,7 @@
 .faq {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #b3d7ff;
 	border-width: thin;
 	border-style: solid;
@@ -93,7 +94,7 @@
 .faqselected {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #cce6ff;
 	border-width: 3px;
 	border-style: groove;
@@ -107,7 +108,7 @@
 .rules {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #b3d7ff;
 	border-width: thin;
 	border-style: solid;
@@ -120,7 +121,7 @@
 .rulesselected {
 	text-align: center;
 	font-weight: bold;
-	font-size: 175%;
+	font-size: 1.4vw;
 	background-color: #cce6ff;
 	border-width: 3px;
 	border-style: groove;
@@ -145,7 +146,7 @@
 }
 .recentposthead {
 	font-weight: bold;
-	font-size: 150%;
+	font-size: 1.2vw;
 	width: 100%;
 	text-align: center;
 	border-bottom-style: dashed;
@@ -155,23 +156,22 @@
 	position: relative;
 	top: 2%;
 	background-color: #b3d7ff;
-	font-size: 90%;
+	font-size: .8vw;
 	border-bottom: 1px solid #e6ebfa;
 	padding-bottom: .25em;
 }
 .recentpostposts:nth-of-type(odd) {
-	background-color: #fff
+	background-color: #fff;
 }
 .statinfo {
 	position: absolute;
-	bottom: 100%;
 	left: 51%;
 	width: 50%;
 	height: 100%;
 }	
 .statinfohead {
 	font-weight: bold;
-	font-size: 150%;
+	font-size: 1.2vw;
 	width: 100%;
 	text-align: center;
 	border-bottom-style: dashed;
@@ -181,16 +181,16 @@
 	position: relative;
 	top: 2%;
 	font-weight: bold;
-	font-size: 90%;
+	font-size: .8vw;
 	width: 35%;
 	padding-bottom: 1em;
 }
 .statinforight {
 	position: relative;
-	bottom: 67%;
+	bottom: 71%;
 	width: 30%;
-	left: 33%;
-	font-size: 90%;
+	left: 35%;
+	font-size: .8vw;
 	padding-bottom: 1em;
 }
 #content {
@@ -223,7 +223,7 @@
 }
 .boardtitle {
 	position: relative;
-	font-size: 150%;
+	font-size: 1.2vw;
 	font-weight: bold;
 	text-align: center;
 	top: 10%;
