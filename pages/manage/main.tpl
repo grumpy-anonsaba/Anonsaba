@@ -12,13 +12,6 @@
 				function logout() {
 					window.location.replace("index.php?action=logout");
 				}
-				/*function spp() {
-					new Ajax.Request('index.php?action=spp', {
-									 method: 'get',
-									 onSuccess: function() { document.getElementById("spp").innerHTML = this.responseText; },
-									 onFailure: function() { alert('No work');}
-					});
-				}*/
 				function spp() {
 				  var xhttp = new XMLHttpRequest();
 				  xhttp.onreadystatechange = function() {
