@@ -68,12 +68,8 @@
 					</div>
 				</div>
 				<div class="modulearea">
-					<div class="moduleheader">
-						Test
-					</div>
-					<div class="modules">
-						tost
-					</div>
+					{% block managecontent %}
+					{% endblock %}
 				</div>
 			</div>
 		</div>
