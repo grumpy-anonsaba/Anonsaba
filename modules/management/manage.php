@@ -161,11 +161,14 @@ class Management {
 		// This is where we grab our post for the last 30 days :| this is going to be rather massive
 		$twig_data['postlast1'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.(time() - 86400).' AND '.time());
 		$time1 = time() - 86400;
+		$twig_data['postdate1'] = date('m/d', time());
 		for ($x = 2; $x <= 30; $x++)  {
 			if ($x >= 3) {
 				$time[$x] = ($time[$x-1] - 86400);
+				$twig_data['postdate'.$x] = date('m/d', $time[$x]);
 			} elseif ($x == 2) {
 				$time[$x] = ($time1 - 86400);
+				$twig_data['postdate'.$x] = date('m/d', $time1);
 			}
 			$twig_data['postlast'.$x] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time[$x] - 86400).' AND '.$time[$x]);
 		}

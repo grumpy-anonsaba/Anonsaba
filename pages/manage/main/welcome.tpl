@@ -37,17 +37,17 @@
 				<td>{{numpost}}</td>
 			</tr>
 		</table>
-		<canvas id="postper24"></canvas>
+		<canvas id="postper30"></canvas>
 		<script type="text/javascript">
 			<!--
-				var ctx = document.getElementById('postper24').getContext('2d');
+				var ctx = document.getElementById('postper30').getContext('2d');
 				var chart = new Chart(ctx, {
 					// The type of chart we want to create
 					type: 'bar',
 
 					// The data for our dataset
 					data: {
-						labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+						labels: ['{{postdate1}}', '{{postdate2}}', '{{postdate3}}', '{{postdate4}}', '{{postdate5}}', '{{postdate6}}', '{{postdate7}}', '{{postdate8}}', '{{postdate9}}', '{{postdate10}}', '{{postdate11}}', '{{postdate12}}', '{{postdate13}}', '{{postdate14}}', '{{postdate15}}', '{{postdate16}}', '{{postdate17}}', '{{postdate18}}', '{{postdate19}}', '{{postdate20}}', '{{postdate21}}', '{{postdate22}}', '{{postdate23}}', '{{postdate24}}', '{{postdate25}}', '{{postdate26}}', '{{postdate27}}', '{{postdate28}}', '{{postdate29}}', '{{postdate30}}'],
 						datasets: [{
 							label: 'Posts',
 							backgroundColor: 'rgb(255, 99, 132)',
@@ -57,7 +57,12 @@
 					},
 
 					// Configuration options go here
-					options: {}
+					options: {
+						title: {
+							display: true,
+							text: 'Last 30 days'
+						}
+					}
 				});
 			//-->
 		</script>
