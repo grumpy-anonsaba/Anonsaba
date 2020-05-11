@@ -241,3 +241,32 @@ a, a:visited {
 	left: 29%;
 	top: 0%;
 }
+.modulearea {
+	position: absolute;
+	top: 21.4%;
+	width: 70%;
+	height: 70%;
+	left: 25%;
+	background-color: #99ceff;
+	border-radius: 5%;
+	border-style: solid;
+	border-width: thin;
+}
+.moduleheader {
+	position: relative;
+	text-align: center;
+	font-weight: bold;
+	font-size: 2.2vw;
+	width: 100%;
+	top: 5%;
+	border-bottom-style: dashed;
+	border-width: thin;
+}
+.modules {
+	position: relative;
+	top: 5%;
+	height: 80%;
+	width: 98%;
+	left: 1%;
+	overflow: auto;
+}
