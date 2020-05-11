@@ -1,5 +1,6 @@
 {% extends "/manage/main.tpl" %}
 {% block managecontent %}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<div class="moduleheader">
 		Statistics
 	</div>
@@ -36,5 +37,29 @@
 				<td>{{numpost}}</td>
 			</tr>
 		</table>
+		<canvas id="postper24"></canvas>
+		<script type="text/javascript">
+			<!--
+				var ctx = document.getElementById('postper24').getContext('2d');
+				var chart = new Chart(ctx, {
+					// The type of chart we want to create
+					type: 'bar',
+
+					// The data for our dataset
+					data: {
+						labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+						datasets: [{
+							label: 'Posts',
+							backgroundColor: 'rgb(255, 99, 132)',
+							borderColor: 'rgb(255, 99, 132)',
+							data: ['{{postlast1}}', '{{postlast2}}', '{{postlast3}}', '{{postlast4}}', '{{postlast5}}', '{{postlast6}}', '{{postlast7}}', '{{postlast8}}', '{{postlast9}}', '{{postlast10}}', '{{postlast11}}', '{{postlast12}}', '{{postlast13}}', '{{postlast14}}', '{{postlast15}}', '{{postlast16}}', '{{postlast17}}', '{{postlast18}}', '{{postlast19}}', '{{postlast20}}', '{{postlast21}}', '{{postlast22}}', '{{postlast23}}', '{{postlast24}}', '{{postlast25}}', '{{postlast26}}', '{{postlast27}}', '{{postlast28}}', '{{postlast29}}', '{{postlast30}}']
+						}]
+					},
+
+					// Configuration options go here
+					options: {}
+				});
+			//-->
+		</script>
 	</div>
 {% endblock %}
