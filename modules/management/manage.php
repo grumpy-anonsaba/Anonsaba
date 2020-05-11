@@ -179,7 +179,7 @@ class Management {
 		global $db;
 		die('
 			<div class="action">
-				<input type="text" value="'.$db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])).'" size="39%" />
+				<input type="text" value="'.$db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])).'" />
 			</div>
 			');
 	}

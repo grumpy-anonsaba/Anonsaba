@@ -25,7 +25,7 @@
 				<th>Database Type</th>
 			</tr>
 			<tr>
-				<td>{{constant('Twig_Environment::VERSION')}}</td>
+				<td>{{constant('Twig\\Environment::VERSION')}}</td>
 				<td>{{databasetype}}</td>
 			</tr>
 			<tr>
