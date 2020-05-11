@@ -37,7 +37,9 @@
 				<td>{{numpost}}</td>
 			</tr>
 		</table>
-		<canvas id="postper30"></canvas>
+		<canvas id="postper30" height="70%">
+			It appears your browser doesn't support canvas ;-;!
+		</canvas>
 		<script type="text/javascript">
 			<!--
 				var ctx = document.getElementById('postper30').getContext('2d');
@@ -50,9 +52,14 @@
 						labels: ['{{postdate1}}', '{{postdate2}}', '{{postdate3}}', '{{postdate4}}', '{{postdate5}}', '{{postdate6}}', '{{postdate7}}', '{{postdate8}}', '{{postdate9}}', '{{postdate10}}', '{{postdate11}}', '{{postdate12}}', '{{postdate13}}', '{{postdate14}}', '{{postdate15}}', '{{postdate16}}', '{{postdate17}}', '{{postdate18}}', '{{postdate19}}', '{{postdate20}}', '{{postdate21}}', '{{postdate22}}', '{{postdate23}}', '{{postdate24}}', '{{postdate25}}', '{{postdate26}}', '{{postdate27}}', '{{postdate28}}', '{{postdate29}}', '{{postdate30}}'],
 						datasets: [{
 							label: 'Posts',
-							backgroundColor: 'rgb(255, 99, 132)',
-							borderColor: 'rgb(255, 99, 132)',
+							backgroundColor: 'rgb(204, 255, 204)',
+							borderColor: 'rgb(204, 255, 204)',
 							data: ['{{postlast1}}', '{{postlast2}}', '{{postlast3}}', '{{postlast4}}', '{{postlast5}}', '{{postlast6}}', '{{postlast7}}', '{{postlast8}}', '{{postlast9}}', '{{postlast10}}', '{{postlast11}}', '{{postlast12}}', '{{postlast13}}', '{{postlast14}}', '{{postlast15}}', '{{postlast16}}', '{{postlast17}}', '{{postlast18}}', '{{postlast19}}', '{{postlast20}}', '{{postlast21}}', '{{postlast22}}', '{{postlast23}}', '{{postlast24}}', '{{postlast25}}', '{{postlast26}}', '{{postlast27}}', '{{postlast28}}', '{{postlast29}}', '{{postlast30}}']
+						}, {
+							label: 'Bans',
+							backgroundColor: 'rgb(255, 204, 204)',
+							borderColor: 'rgb(255, 204, 204)',
+							data: ['{{banlast1}}', '{{banlast2}}', '{{banlast3}}', '{{banlast4}}', '{{banlast5}}', '{{banlast6}}', '{{banlast7}}', '{{banlast8}}', '{{banlast9}}', '{{banlast10}}', '{{banlast11}}', '{{banlast12}}', '{{banlast13}}', '{{banlast14}}', '{{banlast15}}', '{{banlast16}}', '{{banlast17}}', '{{banlast18}}', '{{banlast19}}', '{{banlast20}}', '{{banlast21}}', '{{banlast22}}', '{{banlast23}}', '{{banlast24}}', '{{banlast25}}', '{{banlast26}}', '{{banlast27}}', '{{banlast28}}', '{{banlast29}}', '{{banlast30}}']
 						}]
 					},
 

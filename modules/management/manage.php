@@ -158,8 +158,8 @@ class Management {
 		}
 		$twig_data['boardnum'] = $db->GetOne('SELECT COUNT(*) FROM `'.dbprefix.'boards`');
 		$twig_data['numpost'] = $db->GetOne('SELECT COUNT(*) FROM `'.dbprefix.'posts`');
-		// This is where we grab our post for the last 30 days :| this is going to be rather massive
 		$twig_data['postlast1'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.(time() - 86400).' AND '.time());
+		$twig_data['banlast1'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'bans WHERE time BETWEEN '.(time() - 86400).' AND '.time());
 		$time1 = time() - 86400;
 		$twig_data['postdate1'] = date('m/d', time());
 		for ($x = 2; $x <= 30; $x++)  {
@@ -171,8 +171,17 @@ class Management {
 				$twig_data['postdate'.$x] = date('m/d', $time1);
 			}
 			$twig_data['postlast'.$x] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time[$x] - 86400).' AND '.$time[$x]);
+			$twig_data['banlast'.$x] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'bans WHERE time BETWEEN '.($time[$x] - 86400).' AND '.$time[$x]);
 		}
 		Core::Output('/manage/main/welcome.tpl', $twig_data);
+	}
+	public static function spp() {
+		global $db;
+		die('
+			<div class="action">
+				<input type="text" value="'.$db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])).'" size="39%" />
+			</div>
+			');
 	}
 	public static function memory() {
 		return substr(memory_get_peak_usage() / 1024 / 1024, 0, 4);

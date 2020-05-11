@@ -12,6 +12,21 @@
 				function logout() {
 					window.location.replace("index.php?action=logout");
 				}
+				/*function spp() {
+					new Ajax.Request('index.php?action=spp', {
+									 method: 'get',
+									 onSuccess: function() { document.getElementById("spp").innerHTML = this.responseText; },
+									 onFailure: function() { alert('No work');}
+					});
+				}*/
+				function spp() {
+				  var xhttp = new XMLHttpRequest();
+				  xhttp.onreadystatechange = function() {
+					document.getElementById("spp").innerHTML = this.responseText;
+				  };
+				  xhttp.open("GET", "index.php?action=spp", true);
+				  xhttp.send();
+				}
 			//-->
 		</script>
 	</head>
@@ -59,11 +74,21 @@
 					</div>
 					<div class="actions">
 						{% for i in 0..arraynum %}
-							<a href="index.php?side={{current}}{{urls[i]}}">
-								<div class="action">
-									{{names[i]}}
+							{% if names[i] == 'Show Posting Password' %}
+								<div id="spp">
+									<a onclick="return spp()">
+										<div class="action">
+											Show Posting Password
+										</div>
+									</a>
 								</div>
-							</a>
+							{% else %}
+								<a href="index.php?side={{current}}{{urls[i]}}">
+									<div class="action">
+										{{names[i]}}
+									</div>
+								</a>
+							{% endif %}
 						{% endfor %}
 					</div>
 				</div>

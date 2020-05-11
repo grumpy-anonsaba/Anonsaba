@@ -26,7 +26,7 @@ if ($manage->validateSession(true)) {
 		case 'main':
 			$twig_data['sectionname'] = 'Main';
 			$twig_data['names'] = array('Statistics' , 'Show Posting Password', 'Change Account Password');
-			$twig_data['urls'] = array('&action=stats', '&action=pp', '&action=changepass');
+			$twig_data['urls'] = array('&action=stats', '', '&action=changepass');
 			$twig_data['arraynum'] = count($twig_data['names']);
 			break;
 		case 'site':
