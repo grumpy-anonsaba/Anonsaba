@@ -270,3 +270,7 @@ a, a:visited {
 	left: 1%;
 	overflow: auto;
 }
+td, th {
+	text-align: center;
+	font-size: .9vw;
+}

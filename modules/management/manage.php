@@ -159,8 +159,8 @@ class Management {
 				$twig_data['databasetype'] = 'MySQL';
 			break;
 		}
-		$twig_data['boardnum'] = $db->GetOne('SELECT COUNT(*) FROM `'.prefix.'boards`');
-		$twig_data['numpost'] = $db->GetOne('SELECT COUNT(*) FROM `'.prefix.'posts`');
+		$twig_data['boardnum'] = $db->GetOne('SELECT COUNT(*) FROM `'.dbprefix.'boards`');
+		$twig_data['numpost'] = $db->GetOne('SELECT COUNT(*) FROM `'.dbprefix.'posts`');
 		Core::Output('/manage/main/welcome.tpl', $twig_data);
 	}
 	public static function memory() {
