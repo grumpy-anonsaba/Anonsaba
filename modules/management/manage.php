@@ -160,64 +160,15 @@ class Management {
 		$twig_data['numpost'] = $db->GetOne('SELECT COUNT(*) FROM `'.dbprefix.'posts`');
 		// This is where we grab our post for the last 30 days :| this is going to be rather massive
 		$twig_data['postlast1'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.(time() - 86400).' AND '.time());
-		$time1 = time() - (time() - 86400);
-		$twig_data['postlast2'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time1 - 86400).' AND '.$time1);
-		$time2 = $time1 - ($time1 - 86400);
-		$twig_data['postlast3'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time2 - 86400).' AND '.$time2);
-		$time3 = $time2 - (time() - 86400);
-		$twig_data['postlast4'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time3 - 86400).' AND '.$time3);
-		$time4 = $time3 - (time() - 86400);
-		$twig_data['postlast5'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time4 - 86400).' AND '.$time4);
-		$time5 = $time4 - (time() - 86400);
-		$twig_data['postlast6'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time5 - 86400).' AND '.$time5);
-		$time6 = $time5 - (time() - 86400);
-		$twig_data['postlast7'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time6 - 86400).' AND '.$time6);
-		$time7 = $time6 - (time() - 86400);
-		$twig_data['postlast8'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time7 - 86400).' AND '.$time7);
-		$time8 = $time7 - (time() - 86400);
-		$twig_data['postlast9'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time8 - 86400).' AND '.$time8);
-		$time9 = $time8 - (time() - 86400);
-		$twig_data['postlast10'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time9 - 86400).' AND '.$time9);
-		$time10 = $time9 - (time() - 86400);
-		$twig_data['postlast11'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time10 - 86400).' AND '.$time10);
-		$time11 = $time10 - (time() - 86400);
-		$twig_data['postlast12'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time11 - 86400).' AND '.$time11);
-		$time12 = $time11 - (time() - 86400);
-		$twig_data['postlast13'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time12 - 86400).' AND '.$time12);
-		$time13 = $time12 - (time() - 86400);
-		$twig_data['postlast14'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time13 - 86400).' AND '.$time13);
-		$time14 = $time13 - (time() - 86400);
-		$twig_data['postlast15'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time14 - 86400).' AND '.$time14);
-		$time15 = $time14 - (time() - 86400);
-		$twig_data['postlast16'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time15 - 86400).' AND '.$time15);
-		$time16 = $time15 - (time() - 86400);
-		$twig_data['postlast17'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time16 - 86400).' AND '.$time16);
-		$time17 = $time16 - (time() - 86400);
-		$twig_data['postlast18'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time17 - 86400).' AND '.$time17);
-		$time18 = $time17 - (time() - 86400);
-		$twig_data['postlast19'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time18 - 86400).' AND '.$time18);
-		$time19 = $time18 - (time() - 86400);
-		$twig_data['postlast20'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time19 - 86400).' AND '.$time19);
-		$time20 = $time19 - (time() - 86400);
-		$twig_data['postlast21'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time20 - 86400).' AND '.$time20);
-		$time21 = $time20 - (time() - 86400);
-		$twig_data['postlast22'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time21 - 86400).' AND '.$time21);
-		$time22 = $time21 - (time() - 86400);
-		$twig_data['postlast23'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time22 - 86400).' AND '.$time22);
-		$time23 = $time22 - (time() - 86400);
-		$twig_data['postlast24'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time23 - 86400).' AND '.$time23);
-		$time24 = $time23 - (time() - 86400);
-		$twig_data['postlast25'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time24 - 86400).' AND '.$time24);
-		$time25 = $time24 - (time() - 86400);
-		$twig_data['postlast26'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time25 - 86400).' AND '.$time25);
-		$time26 = $time25 - (time() - 86400);
-		$twig_data['postlast27'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time26 - 86400).' AND '.$time26);
-		$time27 = $time26 - (time() - 86400);
-		$twig_data['postlast28'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time27 - 86400).' AND '.$time27);
-		$time28 = $time27 - (time() - 86400);
-		$twig_data['postlast29'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time28 - 86400).' AND '.$time28);
-		$time29 = $time28 - (time() - 86400);
-		$twig_data['postlast30'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time29 - 86400).' AND '.$time29);
+		$time1 = time() - 86400;
+		for ($x = 2; $x <= 30; $x++)  {
+			if ($x >= 3) {
+				$time[$x] = ($time[$x-1] - 86400);
+			} elseif ($x == 2) {
+				$time[$x] = ($time1 - 86400);
+			}
+			$twig_data['postlast'.$x] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE time BETWEEN '.($time[$x] - 86400).' AND '.$time[$x]);
+		}
 		Core::Output('/manage/main/welcome.tpl', $twig_data);
 	}
 	public static function memory() {
