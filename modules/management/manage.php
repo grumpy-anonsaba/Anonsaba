@@ -183,7 +183,11 @@ class Management {
 			</div>
 			');
 	}
-	public static function memory() {
-		return substr(memory_get_peak_usage() / 1024 / 1024, 0, 4);
+	public static function changePass() {
+		global $db, $twig_data;
+		
+		Core::Output('/manage/main/changepass.tpl', $twig_data);
 	}
+	/* This ends the "Main" section function list
+	   Begin "Site Administration" function list */
 }
