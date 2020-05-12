@@ -289,7 +289,33 @@ td, th {
 	font-size: 1.3vw;
 	margin: auto;
 }
+.confirm {
+	position: relative;
+	top: 5%;
+	width: 90%;
+	height: 10%;
+	border-radius: 5%;
+	border-color: #99ff33;
+	background-color: #66ff33;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.3vw;
+	margin: auto;
+}
 .changepass {
 	position: relative;
-	top: 30%
+	top: 20%;
+	list-style-type: none;
+	width: 30%;
+	height: 50%;
+	margin: 0 auto;
+}
+.changepass li {
+	display: block;
+	font-size: 1vw;
+}
+.fr {
+	float: right;
 }

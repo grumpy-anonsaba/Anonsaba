@@ -6,14 +6,29 @@
 	<div class="modules">
 		<table class="changepass">
 			<form method="POST">
-				<div class="error">
-					This is a test error message!
-				</div>
+				{% if error %}
+					<div class="error">
+						{{message}}
+					</div>
+				{% elseif confirm %}
+					<div class="confirm">
+						{{message}}
+					</div>
+				{% endif %}
 				<div class="changepass">
-					Old password: <input type="text" name="oldpass" />
-					New Password: <input type="text" name="newpass" />
-								  <input type="text" name="newpass2" />
-					<input type="submit" name="submit" value="Submit" />
+					<li>
+						Old password: <div class="fr"><input type="password" name="oldpass" placeholder="Old Password" /></div>
+					</li>
+					<li>
+						New Password: <div class="fr"><input type="password" name="newpass" placeholder="New Password" /></div>
+					</li>
+					<li>
+						<div class="fr"><input type="password" name="newpass2" placeholder="Confirm Password" /></div>
+					</li>
+					<li>
+						<br />
+						<div class="fr"><input type="submit" name="submit" value="Submit" /></div>
+					</li>
 				</div>
 			</form>
 		</table>

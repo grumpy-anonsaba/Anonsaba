@@ -137,7 +137,7 @@ class Management {
 	/* This is the "Main" section function list */
 	public static function stats() {
 		global $db, $twig_data;
-		$db->Run('UPDATE '.prefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manageusername']));
+		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
 		$twig_data['version'] = Core::GetConfigOption('version');
 		if (file_get_contents('http://www.anonsaba.org/ver.php') != Core::GetConfigOption('version')) {
 			$update = '1';
@@ -185,7 +185,24 @@ class Management {
 	}
 	public static function changePass() {
 		global $db, $twig_data;
-		
+		if (isset($_POST['submit'])) {
+			$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
+			// First lets make sure the old password matches what they currently have
+			if (!password_verify($_POST['oldpass'], $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])))) {
+				$twig_data['error'] = true;
+				$twig_data['message'] = 'Incorrect old Password entered';
+			} elseif ($_POST['newpass'] != $_POST['newpass2']) {
+				$twig_data['error'] = true;
+				$twig_data['message'] = 'New passwords do not match!';
+			} elseif ($_POST['oldpass'] == $_POST['newpass']) {
+				$twig_data['error'] = true;
+				$twig_data['message'] = 'Old password cannot match New password!';
+			} else {
+				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($_POST['newpass'], PASSWORD_ARGON2I)));
+				$twig_data['confirm'] = true;
+				$twig_data['message'] = 'Password successfully changed!';
+			}
+		}
 		Core::Output('/manage/main/changepass.tpl', $twig_data);
 	}
 	/* This ends the "Main" section function list
