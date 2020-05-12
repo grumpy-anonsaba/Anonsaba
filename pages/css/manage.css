@@ -274,3 +274,22 @@ td, th {
 	text-align: center;
 	font-size: .9vw;
 }
+.error {
+	position: relative;
+	top: 5%;
+	width: 90%;
+	height: 10%;
+	border-radius: 5%;
+	border-color: #ff3333;
+	background-color: #ff9999;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.3vw;
+	margin: auto;
+}
+.changepass {
+	position: relative;
+	top: 30%
+}
