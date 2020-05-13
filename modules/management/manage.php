@@ -207,4 +207,9 @@ class Management {
 	}
 	/* This ends the "Main" section function list
 	   Begin "Site Administration" function list */
+	public static function news() {
+		global $db, $twig_data;
+		
+		Core::Output('/manage/site/news.tpl', $twig_data);
+	}
 }
