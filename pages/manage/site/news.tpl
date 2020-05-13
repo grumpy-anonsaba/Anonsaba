@@ -14,12 +14,14 @@
 		</div>
 			<div id="editor-container">
 				<div id="editor-menu">
-					<button id="bold-button" title="Bold">Bold</button>
-					<button id="underline-button" title="Underline">Underline</button>
-					<button id="list-button" title="Bullet List">List</button>
-					<button id="image-button" title="Picture">Picture</button>
+					<button id="bold-button" title="Bold"><img src="/pages/images/text-bold-icon.png" /></button>
+					<button id="underline-button" title="Underline"><img src="/pages/images/text-underlined-icon.png" /></button>
+					<button id="list-button" title="Bullet List"><img src="/pages/images/text-bulletedlist-icon.png" /></button>
+					<button id="image-button" title="Picture"><img src="/pages/images/upload-image-icon.png" /></button>
 				</div>
-				<div id="editor-text" contenteditable="true" spellcheck="true"></div>
+				<div id="editor-text" contenteditable="true" spellcheck="true">
+					<!-- come back -->
+				</div>
 			</div>
 	</div>
 		<script>

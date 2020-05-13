@@ -333,8 +333,7 @@ td, th {
 }
 #editor-container {
 	position: relative;
-	width: 97%;
-	height: 50%;
+	width: 90%;
 	left: 1%;
 	top: 35%;
     border: 1px solid #cccccc;
@@ -365,8 +364,8 @@ td, th {
 }
 
 #editor-text {
-    width: 90%;
-    height: 100%;
+	width: 100%;
+	padding: .25em;
     border-top: 1px solid #cccccc;
     outline: none;
     overflow: auto;

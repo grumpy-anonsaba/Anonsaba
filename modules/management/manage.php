@@ -209,7 +209,7 @@ class Management {
 	   Begin "Site Administration" function list */
 	public static function news() {
 		global $db, $twig_data;
-		
+		$twig_data['message'] = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE id = 1');
 		Core::Output('/manage/site/news.tpl', $twig_data);
 	}
 }
