@@ -319,3 +319,60 @@ td, th {
 .fr {
 	float: right;
 }
+.newsfaqrules {
+	position: relative;
+	top: 20%;
+	list-style-type: none;
+	width: 30%;
+	height: 35%;
+	margin: 0 auto;
+}
+.newsfaqrules li {
+	display: block;
+	font-size: 1vw;
+}
+#editor-container {
+	position: relative;
+	width: 97%;
+	height: 50%;
+	left: 1%;
+	top: 35%;
+    border: 1px solid #cccccc;
+    display: inline-block;
+}
+
+#editor-menu {
+	position: relative;
+	padding: .26em;
+	background-color: #f2f2f2;
+	width: 100%;
+	border-radius: 5px;
+}
+
+#editor-menu button {
+    font-size: 12px;
+    font-family: inherit;
+    border: 1px solid #777777;
+    background-color: white;
+    padding: 5px;
+    margin: 0 10px 0 0;
+	cursor: pointer;
+}
+
+.highight-menu {
+    background-color: #777777 !important;
+    color: white !important;
+}
+
+#editor-text {
+    width: 90%;
+    height: 100%;
+    border-top: 1px solid #cccccc;
+    outline: none;
+    overflow: auto;
+	background-color: white;
+}
+
+#editor-text img {
+    max-width: 250px;
+}
