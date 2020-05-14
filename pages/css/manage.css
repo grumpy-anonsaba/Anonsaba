@@ -351,13 +351,22 @@ td, th {
 }
 
 #editor-menu button {
-    font-size: 12px;
-    font-family: inherit;
     border: 1px solid #777777;
     background-color: white;
-    padding: 5px;
-    margin: 0 10px 0 0;
+	border-radius: 10px;
+    padding: .25em;
+    margin: 0 .1em 0 0;
 	cursor: pointer;
+}
+
+.line {
+	position: relative;
+	display: inline-table;
+	border-left-color: black;
+	border-left-style: ridge;
+	border-left-width: thin;
+	padding-left: .5em;
+	padding-right: .5em;
 }
 
 .highight-menu {
