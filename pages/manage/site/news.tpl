@@ -29,19 +29,37 @@
 		</div>
 			<div id="editor-container">
 				<div id="editor-menu">
+					<button id="color-button" title="Font Color"><img src="/pages/images/text-color-icon.png" /></button>
+					<button id="font-bigger-button" title="Font Bigger"><img src="/pages/images/font-bigger-icon.png" /></button>
+					<button id="font-smaller-button" title="Font Smaller"><img src="/pages/images/font-smaller-icon.png" /></button>
 					<button id="bold-button" title="Bold"><img src="/pages/images/text-bold-icon.png" /></button>
 					<button id="underline-button" title="Underline"><img src="/pages/images/text-underlined-icon.png" /></button>
+					<button id="italic-button" title="Italic"><img src="/pages/images/italic-text-icon.png" /></button>
 					<button id="list-button" title="Bullet List"><img src="/pages/images/text-bulletedlist-icon.png" /></button>
+					<button id="number-list-button" title="Number List"><img src="/pages/images/text-numberlist-icon.png" /></button>
+					<button id="indent-right-button" title="Indent Right"><img src="/pages/images/indent-right-icon.png" /></button>
+					<button id="indent-left-button" title="Indent Left"><img src="/pages/images/indent-left-icon.png" /></button>
 					<button id="image-button" title="Picture"><img src="/pages/images/upload-image-icon.png" /></button>
 					<button id="gif-button" title="GIF"><img src="/pages/images/gif-icon.png" /></button>
+					<button id="hyperlink-button" title="Hyperlink"><img src="/pages/images/hyperlink-icon.png" /></button>
+					<button id="youtube-button" title="YouTube"><img src="/pages/images/youtube-icon.png" /></button>
 					<div class="fr"><button id="save" title="Save"><img src="/pages/images/save-icon.png" /></button></div>
 				</div>
 				<div id="editor-text" contenteditable="true" spellcheck="true">
-					<!-- come back -->
 				</div>
 			</div>
 	</div>
 		<script>
+			// Font bigger menu
+			document.querySelector('#font-bigger-button').addEventListener('click', function() {
+				document.execCommand("fontSize", false, "20px");
+			});
+			
+			// Font smaller menu
+			document.querySelector('#font-smaller-button').addEventListener('click', function() {
+				document.execCommand('decreaseFontSize');
+			});
+			
 			// Bold menu
 			document.querySelector('#bold-button').addEventListener('click', function() {
 				document.execCommand('bold');
@@ -52,14 +70,30 @@
 				document.execCommand('underline');
 			});
 
-			// List menu
+			// Italic menu
+			document.querySelector('#italic-button').addEventListener('click', function() {
+				document.execCommand('italic');
+			});
+
+			// Bulleted List menu
 			document.querySelector('#list-button').addEventListener('click', function() {
 				document.execCommand('insertUnorderedList');
+			});
+			
+			// Bulleted List menu
+			document.querySelector('#number-list-button').addEventListener('click', function() {
+				document.execCommand('insertOrderedList');
 			});
 
 			// Picture menu
 			document.querySelector('#image-button').addEventListener('click', function() {
 				$('#file-input').trigger('click');
+			});
+			
+			// Hyperlink
+			document.querySelector('#hyperlink-button').addEventListener('click', function() {
+				var linkURL = prompt('Enter a URL:', 'http://');
+				//document.execCommand('createLink');
 			});
 			
 			// GIF menu
