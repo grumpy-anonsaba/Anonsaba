@@ -393,6 +393,9 @@ td, th {
 	border-color: #e6e6e6;
 	display: none;
 }
+.giphy a {
+	cursor: pointer;
+}
 .giphy input {
 	position: relative;
 	width: 100%;

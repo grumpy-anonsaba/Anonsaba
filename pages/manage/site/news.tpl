@@ -70,7 +70,12 @@
 					document.getElementById("giphy").style.display = "block";
 				}
 			});
-
+			function insertGif(url) {
+				var editor = document.getElementById("editor-text");
+				editor.focus();
+				document.execCommand('insertImage', false, url);
+				document.getElementById("giphy").style.display = "none";
+			}
 			// Check menu options to be highlighted on keyup and click event 
 			document.querySelector('#editor-text').addEventListener('keyup', FindCurrentTags);
 			document.querySelector('#editor-text').addEventListener('click', FindCurrentTags);
@@ -203,7 +208,9 @@
 			  dataArray.forEach((imgData) => {
 				output += `
 				<li>
-					<img src="${imgData.images.fixed_width.url}" width="100" height="100"/>
+					<a onclick="insertGif('${imgData.images.fixed_width.url}')">
+						<img src="${imgData.images.fixed_width.url}" width="100" height="100" />
+					</a>
 				</li>
 			`;
 			  });
