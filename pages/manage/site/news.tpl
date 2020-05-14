@@ -74,7 +74,10 @@
 				var editor = document.getElementById("editor-text");
 				editor.focus();
 				document.execCommand('insertImage', false, url);
+				document.getElementById("giphy").scrollTop = 0;
 				document.getElementById("giphy").style.display = "none";
+				document.querySelector(".search").value = '';
+				fetchGiphstop50();
 			}
 			// Check menu options to be highlighted on keyup and click event 
 			document.querySelector('#editor-text').addEventListener('keyup', FindCurrentTags);
