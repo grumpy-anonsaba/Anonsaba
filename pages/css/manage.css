@@ -322,23 +322,24 @@ td, th {
 .newsfaqrules {
 	position: relative;
 	top: 20%;
-	list-style-type: none;
-	width: 30%;
+	width: 70%;
 	height: 35%;
 	margin: 0 auto;
 }
-.newsfaqrules li {
-	display: block;
-	font-size: 1vw;
+.newsfaqrules input {
+	border-radius: 5px;
+	width:100%;
+}
+.newsfaqrules input[type=text]::placeholder {
+	text-align:center;
 }
 #editor-container {
 	position: relative;
 	width: 90%;
 	height: 100%;
-	left: 1%;
-	top: 35%;
+	left: 5%;
+	top: 15%;
     border: 1px solid #cccccc;
-    display: inline-block;
 }
 
 #editor-menu {
@@ -379,7 +380,7 @@ td, th {
 }
 .giphy {
 	position: absolute;
-	top: 49%;
+	top: 61%;
 	left: 15%;
 	width: 20%;
 	height: 45%;

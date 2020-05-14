@@ -6,12 +6,20 @@
 	</div>
 	<div class="modules">
 		<div class="newsfaqrules">
-			<li>
-				Email: <div class="fr"><input type="text" name="email" placeholder="Can be left blank" /></div>
-			</li>
-			<li>
-				Subject: <div class="fr"><input type="text" name="subject" placeholder="Cannot be left blank" /></div>
-			</li>
+			<table style="width:95%">
+				<tr>
+					<th>Email</th>
+				</tr>
+				<tr>
+					<td><input type="text" name="email" placeholder="Can be left blank" /></td>
+				</tr>
+				<tr>
+					<th>Subject</th>
+				</tr>
+				<tr>
+					<td><input type="text" name="subject" placeholder="Cannot be left blank" /></td>
+				</tr>
+			</table>
 		</div>
 		<div class="giphy" id="giphy">
 			<form id="gif-form">
@@ -56,7 +64,11 @@
 			
 			// GIF menu
 			document.querySelector('#gif-button').addEventListener('click', function() {
-				document.getElementById("giphy").style.display = "block";
+				if (document.getElementById("giphy").style.display == "block") {
+					document.getElementById("giphy").style.display = "none";
+				} else {
+					document.getElementById("giphy").style.display = "block";
+				}
 			});
 
 			// Check menu options to be highlighted on keyup and click event 
