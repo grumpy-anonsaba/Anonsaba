@@ -388,6 +388,7 @@ td, th {
 	border-style: solid;
 	border-width: thin;
 	border-color: #e6e6e6;
+	display: none;
 }
 .giphy input {
 	position: relative;

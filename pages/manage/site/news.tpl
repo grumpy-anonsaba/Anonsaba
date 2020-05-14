@@ -13,7 +13,7 @@
 				Subject: <div class="fr"><input type="text" name="subject" placeholder="Cannot be left blank" /></div>
 			</li>
 		</div>
-		<div class="giphy">
+		<div class="giphy" id="giphy">
 			<form id="gif-form">
 				<input type="text" class="search" placeholder="Search for GIFS">
 			</form>
@@ -56,7 +56,7 @@
 			
 			// GIF menu
 			document.querySelector('#gif-button').addEventListener('click', function() {
-				alert('Yay!');
+				document.getElementById("giphy").style.display = "block";
 			});
 
 			// Check menu options to be highlighted on keyup and click event 
