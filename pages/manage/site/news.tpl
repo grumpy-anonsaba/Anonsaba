@@ -1,6 +1,5 @@
 {% extends "/manage/main.tpl" %}
 {% block managecontent %}
-	<script src="http://code.jquery.com/jquery-1.8.3.js" type="text/javascript"></script>
 	<div class="moduleheader">
 		News
 	</div>
@@ -29,6 +28,7 @@
 			<div class="results"></div>
 		</div>
 		<div id="editor-container">
+			<input type="file" id="myfile" name="file"/>
 			<div id="editor-menu">
 				<button id="color-button" title="Font Color"><img src="/pages/images/text-color-icon.png" /></button>
 				<button id="font-size-button" title="Font Size"><img src="/pages/images/font-size-icon.png" /></button>
@@ -57,5 +57,6 @@
 			</div>
 		</div>
 	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
 	<script src="/pages/javascript/wysiwyg.js" type="text/javascript"></script>
 {% endblock %}

@@ -210,6 +210,10 @@ class Management {
 	public static function news() {
 		global $db, $twig_data;
 		$twig_data['message'] = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE id = 1');
+		if ($_GET['do'] == 'filesubmit') {
+			$upload = new Upload();
+			$upload->HandleUploadManage();
+		}
 		Core::Output('/manage/site/news.tpl', $twig_data);
 	}
 }

@@ -45,7 +45,26 @@ document.querySelector('#align-left-button').addEventListener('click', function(
 
 // Picture menu
 document.querySelector('#image-button').addEventListener('click', function() {
-	$('#file-input').trigger('click');
+	$("#myfile").trigger("click");
+	$('#myfile').change(function() {
+		var form = $(this).parent(),
+		fileInput = $(this),
+		selectedFile = fileInput.val();
+		if(selectedFile != '') {
+			let photo = document.getElementById("myfile").files[0];
+			let req = new XMLHttpRequest();
+			let formData = new FormData();
+			formData.append("photo", photo);                                
+			req.open("POST", 'index.php?action=news&do=filesubmit');
+			req.send(formData);
+			req.onreadystatechange = function() {
+				var editor = document.getElementById("editor-text");
+				editor.focus();
+				doRestore();
+				document.execCommand('insertImage', true , '/manage/images/'+this.responseText);
+			};
+		}
+	});
 });
 
 // Hyperlink
