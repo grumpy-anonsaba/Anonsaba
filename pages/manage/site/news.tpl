@@ -24,6 +24,7 @@
 		<div class="giphy" id="giphy">
 			<form id="gif-form">
 				<input type="text" class="search" placeholder="Search for GIFS">
+				Powered by GIPHY!
 			</form>
 			<div class="results"></div>
 		</div>
@@ -32,15 +33,17 @@
 					<button id="color-button" title="Font Color"><img src="/pages/images/text-color-icon.png" /></button>
 					<button id="font-size-button" title="Font Size"><img src="/pages/images/font-size-icon.png" /></button>
 					<div class="line">
-						<button id="bold-button" title="Bold"><img src="/pages/images/text-bold-icon.png" /></button>
-						<button id="underline-button" title="Underline"><img src="/pages/images/text-underlined-icon.png" /></button>
-						<button id="italic-button" title="Italic"><img src="/pages/images/italic-text-icon.png" /></button>
+						<button id="bold-button" title="Bold - CTRL+B"><img src="/pages/images/text-bold-icon.png" /></button>
+						<button id="underline-button" title="Underline - CTRL+U"><img src="/pages/images/text-underlined-icon.png" /></button>
+						<button id="italic-button" title="Italic - CTRL+I"><img src="/pages/images/italic-text-icon.png" /></button>
 					</div>
 					<div class="line">
 						<button id="list-button" title="Bullet List"><img src="/pages/images/text-bulletedlist-icon.png" /></button>
 						<button id="number-list-button" title="Number List"><img src="/pages/images/text-numberlist-icon.png" /></button>
 						<button id="indent-right-button" title="Indent Right"><img src="/pages/images/indent-right-icon.png" /></button>
 						<button id="indent-left-button" title="Indent Left"><img src="/pages/images/indent-left-icon.png" /></button>
+						<button id="align-left-button" title="Align Left"><img src="/pages/images/text-alignleft-icon.png" /></button>
+						<button id="align-center-button" title="Align Center"><img src="/pages/images/text-aligncenter-icon.png" /></button>
 					</div>
 					<div class="line">
 						<button id="image-button" title="Picture"><img src="/pages/images/upload-image-icon.png" /></button>
@@ -76,9 +79,29 @@
 				document.execCommand('insertUnorderedList');
 			});
 			
-			// Bulleted List menu
+			// Number List menu
 			document.querySelector('#number-list-button').addEventListener('click', function() {
 				document.execCommand('insertOrderedList');
+			});
+			
+			// Indent
+			document.querySelector('#indent-right-button').addEventListener('click', function() {
+				document.execCommand('indent');
+			});
+			
+			// Outdent
+			document.querySelector('#indent-left-button').addEventListener('click', function() {
+				document.execCommand('outdent');
+			});
+			
+			// Align Center
+			document.querySelector('#align-center-button').addEventListener('click', function() {
+				document.execCommand('justifyCenter');
+			});
+			
+			// Align Left
+			document.querySelector('#align-left-button').addEventListener('click', function() {
+				document.execCommand('justifyLeft');
 			});
 
 			// Picture menu
@@ -103,15 +126,17 @@
 			function insertGif(url) {
 				var editor = document.getElementById("editor-text");
 				editor.focus();
+				doRestore();
 				document.execCommand('insertImage', false, url);
 				document.getElementById("giphy").scrollTop = 0;
 				document.getElementById("giphy").style.display = "none";
 				document.querySelector(".search").value = '';
 				fetchGiphstop50();
 			}
-			// Check menu options to be highlighted on keyup and click event 
 			document.querySelector('#editor-text').addEventListener('keyup', FindCurrentTags);
 			document.querySelector('#editor-text').addEventListener('click', FindCurrentTags);
+			document.querySelector('#editor-text').addEventListener('keyup', doSave);
+			document.querySelector('#editor-text').addEventListener('click', doSave);
 
 			function FindCurrentTags() {
 				// Editor container 
@@ -127,7 +152,7 @@
 				var all_ranges_parent_tags = [];
 					
 				// Current menu tags
-				var menu_tags = [ 'B', 'UL', 'U' ];
+				var menu_tags = [ 'B', 'UL', 'U', 'I', 'LI' ];
 					
 				// Will hold common tags from all ranges
 				var menu_tags_common = [];
@@ -197,6 +222,95 @@
 					document.querySelector("#list-button").classList.add("highight-menu");
 				else
 					document.querySelector("#list-button").classList.remove("highight-menu");
+				if(menu_tags_common.indexOf('I') != -1)
+					document.querySelector("#italic-button").classList.add("highight-menu");
+				else
+					document.querySelector("#italic-button").classList.remove("highight-menu");
+				if(menu_tags_common.indexOf('LI') != -1)
+					document.querySelector("#number-list-button").classList.add("highight-menu");
+				else
+					document.querySelector("#number-list-button").classList.remove("highight-menu");
+			}
+			var saveSelection, restoreSelection;
+
+			if (window.getSelection && document.createRange) {
+				saveSelection = function(containerEl) {
+					var range = window.getSelection().getRangeAt(0);
+					var preSelectionRange = range.cloneRange();
+					preSelectionRange.selectNodeContents(containerEl);
+					preSelectionRange.setEnd(range.startContainer, range.startOffset);
+					var start = preSelectionRange.toString().length;
+
+					return {
+						start: start,
+						end: start + range.toString().length
+					}
+				};
+
+				restoreSelection = function(containerEl, savedSel) {
+					var charIndex = 0, range = document.createRange();
+					range.setStart(containerEl, 0);
+					range.collapse(true);
+					var nodeStack = [containerEl], node, foundStart = false, stop = false;
+					
+					while (!stop && (node = nodeStack.pop())) {
+						if (node.nodeType == 3) {
+							var nextCharIndex = charIndex + node.length;
+							if (!foundStart && savedSel.start >= charIndex && savedSel.start <= nextCharIndex) {
+								range.setStart(node, savedSel.start - charIndex);
+								foundStart = true;
+							}
+							if (foundStart && savedSel.end >= charIndex && savedSel.end <= nextCharIndex) {
+								range.setEnd(node, savedSel.end - charIndex);
+								stop = true;
+							}
+							charIndex = nextCharIndex;
+						} else {
+							var i = node.childNodes.length;
+							while (i--) {
+								nodeStack.push(node.childNodes[i]);
+							}
+						}
+					}
+
+					var sel = window.getSelection();
+					sel.removeAllRanges();
+					sel.addRange(range);
+				}
+			} else if (document.selection && document.body.createTextRange) {
+				saveSelection = function(containerEl) {
+					var selectedTextRange = document.selection.createRange();
+					var preSelectionTextRange = document.body.createTextRange();
+					preSelectionTextRange.moveToElementText(containerEl);
+					preSelectionTextRange.setEndPoint("EndToStart", selectedTextRange);
+					var start = preSelectionTextRange.text.length;
+
+					return {
+						start: start,
+						end: start + selectedTextRange.text.length
+					}
+				};
+
+				restoreSelection = function(containerEl, savedSel) {
+					var textRange = document.body.createTextRange();
+					textRange.moveToElementText(containerEl);
+					textRange.collapse(true);
+					textRange.moveEnd("character", savedSel.end);
+					textRange.moveStart("character", savedSel.start);
+					textRange.select();
+				};
+			}
+
+			var savedSelection;
+
+			function doSave() {
+				savedSelection = saveSelection( document.getElementById("editor-text") );
+			}
+
+			function doRestore() {
+				if (savedSelection) {
+					restoreSelection(document.getElementById("editor-text"), savedSelection);
+				}
 			}
 			const gifForm = document.querySelector("#gif-form");
 			gifForm.addEventListener("keyup", fetchGiphs);
@@ -238,15 +352,19 @@
 			function showGiphs(dataArray) {
 			  const results = document.querySelector(".results");
 			  let output = '<div class="container">';
-			  dataArray.forEach((imgData) => {
-				output += `
-				<li>
-					<a onclick="insertGif('${imgData.images.fixed_width.url}')">
-						<img src="${imgData.images.fixed_width.url}" width="100" height="100" />
-					</a>
-				</li>
-			`;
-			  });
+			  if (dataArray.length < 1) {
+				output += 'No results found!';
+			  } else {
+				  dataArray.forEach((imgData) => {
+					output += `
+					<li>
+						<a onclick="insertGif('${imgData.images.fixed_width.url}')">
+							<img src="${imgData.images.fixed_width.url}" width="100" height="100" />
+						</a>
+					</li>
+					`;
+				  });
+			 }
 			  document.querySelector('.results').innerHTML = output;
 			}
 		</script>
