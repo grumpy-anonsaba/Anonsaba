@@ -213,6 +213,7 @@ class Management {
 		if ($_GET['do'] == 'filesubmit') {
 			$upload = new Upload();
 			$upload->HandleUploadManage();
+			unset($upload);
 		}
 		Core::Output('/manage/site/news.tpl', $twig_data);
 	}

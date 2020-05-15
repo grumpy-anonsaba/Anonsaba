@@ -50,6 +50,7 @@ document.querySelector('#image-button').addEventListener('click', function() {
 		var form = $(this).parent(),
 		fileInput = $(this),
 		selectedFile = fileInput.val();
+		var filefield = document.getElementById("myfile");
 		if(selectedFile != '') {
 			let photo = document.getElementById("myfile").files[0];
 			let req = new XMLHttpRequest();
@@ -58,14 +59,32 @@ document.querySelector('#image-button').addEventListener('click', function() {
 			req.open("POST", 'index.php?action=news&do=filesubmit');
 			req.send(formData);
 			req.onreadystatechange = function() {
-				var editor = document.getElementById("editor-text");
-				editor.focus();
-				doRestore();
-				document.execCommand('insertImage', true , '/manage/images/'+this.responseText);
-			};
+				if (req.readyState === 4) {
+					var editor = document.getElementById("editor-text");
+					editor.focus();
+					doRestore();
+					document.execCommand('insertImage', false , '/manage/images/'+this.responseText);
+				}
+			}
+			clearInputFile(filefield);
 		}
 	});
 });
+
+function clearInputFile(f){
+	if(f.value){
+		try{
+			f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+		}catch(err){
+		}
+		if(f.value){ //for IE5 ~ IE10
+			var form = document.createElement('form'), ref = f.nextSibling;
+			form.appendChild(f);
+			form.reset();
+			ref.parentNode.insertBefore(f,ref);
+		}
+	}
+}
 
 // Hyperlink
 document.querySelector('#hyperlink-button').addEventListener('click', function() {
