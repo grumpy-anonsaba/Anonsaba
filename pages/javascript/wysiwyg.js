@@ -45,9 +45,9 @@ document.querySelector('#align-left-button').addEventListener('click', function(
 
 // Save
 document.querySelector('#save').addEventListener('click', function() {
-	var sub = document.getElementById("subject");
-	var ema = document.getElementById("email");
-	var pos = document.getElementById("editor-text");
+	var sub = document.getElementById("subject").value;
+	var ema = document.getElementById("email").value;
+	var pos = $('#editor-text').html();
 	let req = new XMLHttpRequest();
 	let formData = new FormData();
 	formData.append("subject", sub);
