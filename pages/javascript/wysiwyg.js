@@ -43,8 +43,19 @@ document.querySelector('#align-left-button').addEventListener('click', function(
 	document.execCommand('justifyLeft');
 });
 
+function getQueryVariable(variable) {
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	for (var i=0;i<vars.length;i++) {
+		var pair = vars[i].split("=");
+		if (pair[0] == variable) {
+			return pair[1];
+		}
+	} 
+}
 // Save
 document.querySelector('#save').addEventListener('click', function() {
+	var action = getQueryVariable("action");
 	var sub = document.getElementById("subject").value;
 	var ema = document.getElementById("email").value;
 	var pos = $('#editor-text').html();
@@ -53,7 +64,7 @@ document.querySelector('#save').addEventListener('click', function() {
 	formData.append("subject", sub);
 	formData.append("email", ema);
 	formData.append("post", pos);
-	req.open("POST", 'index.php?action=news&do=post');
+	req.open("POST", 'index.php?action='+action+'&do=post');
 	req.send(formData);
 	req.onreadystatechange = function () {
 		document.getElementById("editor-text").innerHTML = this.responseText;
