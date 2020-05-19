@@ -54,6 +54,8 @@ class Management {
 		}
 	}
 	public static function loginForm($error, $errormsg) {
+		$twig_data['current'] = $_GET['side'];
+		$twig_data['action'] = $_GET['action'];
 		if ($error == '1') {
 			$twig_data['errorfound'] = true;
 			$twig_data['errormsg'] = $errormsg;
@@ -209,18 +211,22 @@ class Management {
 	   Begin "Site Administration" function list */
 	public static function news() {
 		global $db, $twig_data;
-		if ($_GET['do'] == 'filesubmit') {
-			$upload = new Upload();
-			$upload->HandleUploadManage();
-			unset($upload);
-		} elseif ($_GET['do'] == 'post') {
-			// Update active time
-			$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
-			// Post the news post
-			$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
-			Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
-			die("Check the front");
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			if ($_GET['do'] == 'filesubmit') {
+				$upload = new Upload();
+				$upload->HandleUploadManage();
+				unset($upload);
+			} elseif ($_GET['do'] == 'post') {
+				// Update active time
+				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+				// Post the news post
+				$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+				Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
+				die("Check the front");
+			}
+			Core::Output('/manage/site/news.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permission for this!');
 		}
-		Core::Output('/manage/site/news.tpl', $twig_data);
 	}
 }

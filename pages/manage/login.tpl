@@ -18,7 +18,7 @@
 						{{errormsg}}
 					</div>
 				{% endif %}
-				<form method="post" action='index.php?acti=login'>
+				<form method="post" action='index.php?side={{current}}&action={{action}}&acti=login'>
 					<div class="username{% if errorfound %}error{% endif %}">
 						<input type="text" name="username" value="{% if errorfound %}{{username}}{% endif %}" placeholder="Username" />
 					</div>
