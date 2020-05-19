@@ -89,7 +89,7 @@ function clearInputFile(f){
 // Hyperlink
 document.querySelector('#hyperlink-button').addEventListener('click', function() {
 	var linkURL = prompt('Enter a URL:', 'http://');
-	//document.execCommand('createLink');
+	document.execCommand('createLink', true, linkURL);
 });
 
 // GIF menu
