@@ -220,7 +220,6 @@ class Management {
 			// Post the news post
 			$db->Run('INSERT INTO '.dbprefix.'front (by, message, date, type, subject, email) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 			Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
-			$query = $db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 			die("Check the front");
 		}
 		Core::Output('/manage/site/news.tpl', $twig_data);
