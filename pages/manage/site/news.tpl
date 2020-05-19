@@ -10,13 +10,13 @@
 					<th>Email</th>
 				</tr>
 				<tr>
-					<td><input type="text" name="email" placeholder="Can be left blank" /></td>
+					<td><input type="text" name="email" id="email" placeholder="Can be left blank" /></td>
 				</tr>
 				<tr>
 					<th>Subject</th>
 				</tr>
 				<tr>
-					<td><input type="text" name="subject" placeholder="Cannot be left blank" /></td>
+					<td><input type="text" name="subject" id="subject" placeholder="Cannot be left blank" /></td>
 				</tr>
 			</table>
 		</div>
@@ -28,7 +28,6 @@
 			<div class="results"></div>
 		</div>
 		<div id="editor-container">
-			<input type="file" id="myfile" name="file"/>
 			<div id="editor-menu">
 				<button id="color-button" title="Font Color"><img src="/pages/images/text-color-icon.png" /></button>
 				<button id="font-size-button" title="Font Size"><img src="/pages/images/font-size-icon.png" /></button>
@@ -56,6 +55,7 @@
 			<div id="editor-text" contenteditable="true" spellcheck="true">
 			</div>
 		</div>
+		<input type="file" id="myfile" name="file"/>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
 	<script src="/pages/javascript/wysiwyg.js" type="text/javascript"></script>

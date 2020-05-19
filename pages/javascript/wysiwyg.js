@@ -43,6 +43,23 @@ document.querySelector('#align-left-button').addEventListener('click', function(
 	document.execCommand('justifyLeft');
 });
 
+// Save
+document.querySelector('#save').addEventListener('click', function() {
+	var sub = document.getElementById("subject");
+	var ema = document.getElementById("email");
+	var pos = document.getElementById("editor-text");
+	let req = new XMLHttpRequest();
+	let formData = new FormData();
+	formData.append("subject", sub);
+	formData.append("email", ema);
+	formData.append("post", pos);
+	req.open("POST", 'index.php?action=news&do=post');
+	req.send(formData);
+	req.onreadystatechange = function () {
+		document.getElementById("editor-text").innerHTML = this.responseText;
+	}
+});
+
 // Picture menu
 document.querySelector('#image-button').addEventListener('click', function() {
 	$("#myfile").trigger("click");

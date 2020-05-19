@@ -214,6 +214,8 @@ class Management {
 			$upload = new Upload();
 			$upload->HandleUploadManage();
 			unset($upload);
+		} elseif ($_GET['do'] == 'post') {
+			die(print_r($_POST));
 		}
 		Core::Output('/manage/site/news.tpl', $twig_data);
 	}
