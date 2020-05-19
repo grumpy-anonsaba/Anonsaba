@@ -34,11 +34,12 @@
 		}
 	}
 	/* End old code snippit */
+	$pages = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
 	$twig_data['recentposts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 ORDER BY time DESC LIMIT 5');
 	$twig_data['postcount'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE deleted = 0');
 	$twig_data['uniqueusers'] = $db->GetOne('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE deleted = 0');
 	$twig_data['boards'] = $sections;
-	$twig_data['pages'] = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
+	$twig_data['pages'] = ($pages/5);
 	$twig_data['entries'] = $entries;
 	$twig_data['view'] = $_GET['view'];
 	Core::Output('/index.tpl', $twig_data);
