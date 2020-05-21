@@ -1,10 +1,17 @@
 {% extends "/manage/main.tpl" %}
 {% block managecontent %}
+	<script>
+		function newpostclick() {
+			document.getElementById("editor-container").style.display = "block";
+			document.getElementById("newsfaqrules").style.display = "block";
+			document.getElementById("newsfaqrulesmain").style.display = "none";
+		}
+	</script>
 	<div class="moduleheader">
 		News
 	</div>
 	<div class="modules">
-		<div class="newsfaqrules">
+		<div class="newsfaqrules" id="newsfaqrules">
 			<table style="width:95%">
 				<input type="hidden" name="id" id="id" />
 				<tr>
@@ -57,10 +64,34 @@
 			</div>
 		</div>
 		<input type="file" id="myfile" name="file"/>
-		<div class="newsfaqrulesmain">
+		<div class="newsfaqrulesmain" id="newsfaqrulesmain">
 			<div class="fc">
-				<input type="submit" value="New post" />
+				<input type="submit" value="New post" onclick="newpostclick();" />
 			</div>
+			<br />
+			<br />
+			<table class="users" cellspacing="1px">
+				<col class="col1" /> <col class="col2" />
+				<col class="col1" /> <col class="col2" />
+				<thead>
+					<tr>
+						<th>Date Added</th>
+						<th>Subject</th>
+						<th>Message</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+				 {% for news in newspost %}
+						<tr>
+						<td>{{news.date|date('m/d/Y h:m', 'America/Chicago')}} {% if news.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
+						<td>{{ news.subject|raw }}</td>
+						<td>{{news.message|striptags("")|slice(0, 60)|raw}}{% if news.message|length > 60 %}...{% endif %}</td>
+						<td><input type="submit" value="Edit" />&nbsp;<input type="submit" value="Delete" /></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>

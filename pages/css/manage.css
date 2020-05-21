@@ -321,7 +321,7 @@ td, th {
 }
 .newsfaqrules {
 	position: relative;
-	top: 20%;
+	top: 5%;
 	width: 70%;
 	height: 35%;
 	margin: 0 auto;
@@ -339,7 +339,6 @@ td, th {
 	width: 90%;
 	height: 100%;
 	left: 5%;
-	top: 15%;
     border: 1px solid #cccccc;
 	display: none;
 }
@@ -440,7 +439,6 @@ input#myfile {
 	height: auto;
 	left: 1%;
 	top: 2%;
-    background-color: white;
 	display: block;
 }
 .fc {
@@ -451,4 +449,18 @@ input#myfile {
 	width: 25%;
 	border-radius: 5px;
 	font-size: 1vw;
+}
+.newsfaqrulesmain table {
+  border-spacing: 1px;
+  text-indent: 5px;
+  background-color: #80c1ff;
+  border: 1px solid #99ceff;
+  border-radius: 0.25em;
+  width: 100%;
+}
+.newsfaqrulesmain table td {
+  background:#FFF !important;
+}
+.newsfaqrulesmain table td.strong {
+  background:#FFF !important;
 }
