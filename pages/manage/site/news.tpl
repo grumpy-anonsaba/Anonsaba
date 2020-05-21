@@ -6,6 +6,7 @@
 	<div class="modules">
 		<div class="newsfaqrules">
 			<table style="width:95%">
+				<input type="hidden" name="id" id="id" />
 				<tr>
 					<th>Email</th>
 				</tr>
@@ -56,6 +57,11 @@
 			</div>
 		</div>
 		<input type="file" id="myfile" name="file"/>
+		<div class="newsfaqrulesmain">
+			<div class="fc">
+				<input type="submit" value="New post" />
+			</div>
+		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
 	<script src="/pages/javascript/wysiwyg.js" type="text/javascript"></script>

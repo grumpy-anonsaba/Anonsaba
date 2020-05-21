@@ -212,6 +212,7 @@ class Management {
 	public static function news() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			$twig_data['newspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news'));
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
 				$upload->HandleUploadManage();
@@ -223,6 +224,8 @@ class Management {
 				$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 				Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
 				die("Check the front");
+			} elseif ($_GET['do'] == 'editpost') {
+				
 			}
 			Core::Output('/manage/site/news.tpl', $twig_data);
 		} else {
