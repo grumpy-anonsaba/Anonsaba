@@ -226,6 +226,10 @@ class Management {
 				die("Check the front");
 			} elseif ($_GET['do'] == 'editpost') {
 				
+			} elseif ($_GET['do'] == 'getmsg') {
+				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "news" AND id = '.$_GET['id']);
+				echo $msg;
+				die();
 			}
 			Core::Output('/manage/site/news.tpl', $twig_data);
 		} else {

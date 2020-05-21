@@ -1,12 +1,5 @@
 {% extends "/manage/main.tpl" %}
 {% block managecontent %}
-	<script>
-		function newpostclick() {
-			document.getElementById("editor-container").style.display = "block";
-			document.getElementById("newsfaqrules").style.display = "block";
-			document.getElementById("newsfaqrulesmain").style.display = "none";
-		}
-	</script>
 	<div class="moduleheader">
 		News
 	</div>
@@ -87,7 +80,7 @@
 						<td>{{news.date|date('m/d/Y h:m', 'America/Chicago')}} {% if news.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
 						<td>{{ news.subject|raw }}</td>
 						<td>{{news.message|striptags("")|slice(0, 60)|raw}}{% if news.message|length > 60 %}...{% endif %}</td>
-						<td><input type="submit" value="Edit" />&nbsp;<input type="submit" value="Delete" /></td>
+						<td><input type="submit" value="Edit" onclick="editpost('{{news.email}}', '{{news.subject}}', '{{news.id}}');" />&nbsp;<input type="submit" value="Delete" /></td>
 					</tr>
 				{% endfor %}
 				</tbody>
@@ -96,4 +89,28 @@
 	</div>
 	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
 	<script src="/pages/javascript/wysiwyg.js" type="text/javascript"></script>
+	<script>
+		function newpostclick() {
+			document.getElementById("editor-container").style.display = "block";
+			document.getElementById("newsfaqrules").style.display = "block";
+			document.getElementById("newsfaqrulesmain").style.display = "none";
+		}
+		function editpost (em, sub, id, msg) {
+			var action = getQueryVariable("action");
+			document.getElementById("editor-container").style.display = "block";
+			document.getElementById("newsfaqrules").style.display = "block";
+			document.getElementById("newsfaqrulesmain").style.display = "none";
+			document.getElementById("email").value = em;
+			document.getElementById("subject").value = sub;
+			document.getElementById("id").value = id;
+			let req = new XMLHttpRequest();
+			req.open("POST", 'index.php?action='+action+'&do=getmsg&id='+id);
+			req.send();
+			req.onreadystatechange = function () {
+				if (req.readyState === 4) {
+					document.getElementById("editor-text").innerHTML += this.responseText;
+				}
+			}
+		}
+	</script>
 {% endblock %}
