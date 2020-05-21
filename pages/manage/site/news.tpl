@@ -113,15 +113,16 @@
 			}
 		}
 		function delpost (id) {
+			var side = getQueryVariable("side");
 			var action = getQueryVariable("action");
 			let req = new XMLHttpRequest();
 			req.open("POST", 'index.php?action='+action+'&do=delpost&id='+id);
 			req.send();
-			/*req.onreadystatechange = function () {
+			req.onreadystatechange = function () {
 				if (req.readyState === 4) {
-					document.getElementById("editor-text").innerHTML += this.responseText;
+					window.location.replace("index.php?side="+side+"&action="+action);
 				}
-			}*/
+			}
 		}
 	</script>
 {% endblock %}

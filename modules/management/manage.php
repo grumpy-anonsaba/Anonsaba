@@ -218,12 +218,17 @@ class Management {
 				$upload->HandleUploadManage();
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
-				// Update active time
-				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
-				// Post the news post
-				$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
-				Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
-				die("Check the front");
+				if($_POST['id'] != '') {
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('news'));
+					Core::Log(time(), $_SESSION['manage_username'], 'Edited a news post');
+				} else {
+					// Update active time
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					// Post the news post
+					$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+					Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
+				}
 			} elseif ($_GET['do'] == 'delpost') {
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "news" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {

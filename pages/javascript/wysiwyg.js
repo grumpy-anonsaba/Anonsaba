@@ -55,19 +55,22 @@ function getQueryVariable(variable) {
 }
 // Save
 document.querySelector('#save').addEventListener('click', function() {
+	var side = getQueryVariable("side");
 	var action = getQueryVariable("action");
 	var sub = document.getElementById("subject").value;
 	var ema = document.getElementById("email").value;
+	var id = document.getElementById("id").value;
 	var pos = $('#editor-text').html();
 	let req = new XMLHttpRequest();
 	let formData = new FormData();
 	formData.append("subject", sub);
 	formData.append("email", ema);
 	formData.append("post", pos);
+	formData.append("id", id);
 	req.open("POST", 'index.php?action='+action+'&do=post');
 	req.send(formData);
 	req.onreadystatechange = function () {
-		document.getElementById("editor-text").innerHTML = this.responseText;
+		window.location.replace("index.php?side="+side+"&action="+action);
 	}
 });
 
