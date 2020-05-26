@@ -390,7 +390,7 @@ td, th {
 }
 .giphy {
 	position: absolute;
-	top: 61%;
+	top: 46%;
 	left: 40%;
 	width: 20%;
 	height: 45%;
@@ -409,6 +409,10 @@ td, th {
 .giphy input {
 	position: relative;
 	width: 100%;
+}
+.glogo img {
+	position: relative;
+	margin-top: 5%;
 }
 .results {
 	list-style-position: inside;

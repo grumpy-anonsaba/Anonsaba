@@ -24,7 +24,9 @@
 		<div class="giphy" id="giphy">
 			<form id="gif-form">
 				<input type="text" class="search" placeholder="Search for GIFS">
-				Powered by GIPHY!
+				<div class="glogo">
+					<img src="/pages/images/giphy-logo.png" />
+				</div>
 			</form>
 			<div class="results"></div>
 		</div>
