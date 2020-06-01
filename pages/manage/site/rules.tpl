@@ -6,7 +6,13 @@
 	<div class="modules">
 		<div class="newsfaqrules" id="newsfaqrules">
 			<table style="width:95%">
-				<input type="hidden" name="id" id="id" />
+				<input type="hidden" name="email" id="email" />
+				<tr>
+					<th>Order</th>
+				</tr>
+				<tr>
+					<td><input type="text" name="id" id="id" placeholder="Cannot be left blank" /></td>
+				</tr>
 				<tr>
 					<th>Subject</th>
 				</tr>
@@ -71,12 +77,12 @@
 					</tr>
 				</thead>
 				<tbody>
-				 {% for rules in rulesspost %}
+				 {% for rules in rulespost %}
 						<tr>
 						<td>{{rules.date|date('m/d/Y h:m', 'America/Chicago')}} {% if rules.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
 						<td>{{ rules.subject|raw }}</td>
 						<td>{{rules.message|striptags("")|slice(0, 60)|raw}}{% if rules.message|length > 60 %}...{% endif %}</td>
-						<td><input type="submit" value="Edit" onclick="editpost('{{rules.subject}}', '{{rules.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{rules.id}}');" /></td>
+						<td><input type="submit" value="Edit" onclick="editpost('{{rules.email}}', '{{rules.subject}}', '{{rules.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{rules.id}}');" /></td>
 					</tr>
 				{% endfor %}
 				</tbody>

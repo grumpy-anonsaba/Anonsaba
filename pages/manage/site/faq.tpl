@@ -6,7 +6,13 @@
 	<div class="modules">
 		<div class="newsfaqrules" id="newsfaqrules">
 			<table style="width:95%">
-				<input type="hidden" name="id" id="id" />
+				<input type="hidden" name="email" id="email" />
+				<tr>
+					<th>Order</th>
+				</tr>
+				<tr>
+					<td><input type="text" name="id" id="id" placeholder="Cannot be left blank" /></td>
+				</tr>
 				<tr>
 					<th>Subject</th>
 				</tr>
