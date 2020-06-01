@@ -241,4 +241,68 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
+	public static function faq() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			$twig_data['faqpost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id ASC');
+			if ($_GET['do'] == 'filesubmit') {
+				$upload = new Upload();
+				$upload->HandleUploadManage();
+				unset($upload);
+			} elseif ($_GET['do'] == 'post') {
+				if($_POST['id'] != '') {
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('news'));
+					Core::Log(time(), $_SESSION['manage_username'], 'Edited a FAQ post');
+				} else {
+					// Update active time
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					// Post the faq post
+					$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('faq').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+					Core::Log(time(), $_SESSION['manage_username'], 'Created a FAQ post');
+				}
+			} elseif ($_GET['do'] == 'delpost') {
+				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "faq" and id = '.$_GET['id']);
+			} elseif ($_GET['do'] == 'getmsg') {
+				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "faq" AND id = '.$_GET['id']);
+				echo $msg;
+				die();
+			}
+			Core::Output('/manage/site/faq.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permission for this!');
+		}
+	}
+	public static function rules() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			$twig_data['rulespost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY id ASC');
+			if ($_GET['do'] == 'filesubmit') {
+				$upload = new Upload();
+				$upload->HandleUploadManage();
+				unset($upload);
+			} elseif ($_GET['do'] == 'post') {
+				if($_POST['id'] != '') {
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('news'));
+					Core::Log(time(), $_SESSION['manage_username'], 'Edited a rules post');
+				} else {
+					// Update active time
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					// Post the rules post
+					$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('rules').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+					Core::Log(time(), $_SESSION['manage_username'], 'Created a rules post');
+				}
+			} elseif ($_GET['do'] == 'delpost') {
+				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "rules" and id = '.$_GET['id']);
+			} elseif ($_GET['do'] == 'getmsg') {
+				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "rules" AND id = '.$_GET['id']);
+				echo $msg;
+				die();
+			}
+			Core::Output('/manage/site/rules.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permission for this!');
+		}
+	}
 }
