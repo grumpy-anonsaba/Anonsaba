@@ -244,7 +244,7 @@ class Management {
 	public static function faq() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
-			$twig_data['rulespost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id');
+			$twig_data['faqspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id');
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
 				$upload->HandleUploadManage();
