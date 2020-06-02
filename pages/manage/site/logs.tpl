@@ -19,7 +19,7 @@
 				<tbody>
 				 {% for log in entry %}
 						<tr>
-						<td>{{log.time|date('m/d/Y h:m', 'America/Chicago')}} {% if log.time|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
+						<td>{{log.time|date('m/d/Y h:i', 'America/Chicago')}} {% if log.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</td>
 						<td>{{log.user}}</td>
 						<td>{{log.message}}</td>
 						<td><input type="submit" value="Edit" onclick="editpost('{{rules.email}}', '{{rules.subject}}', '{{rules.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{rules.id}}');" /></td>

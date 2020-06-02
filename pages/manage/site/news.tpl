@@ -79,7 +79,7 @@
 				<tbody>
 				 {% for news in newspost %}
 						<tr>
-						<td>{{news.date|date('m/d/Y h:m', 'America/Chicago')}} {% if news.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
+						<td>{{news.date|date('m/d/Y h:i', 'America/Chicago')}} {% if news.date|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</td>
 						<td>{{ news.subject|raw }}</td>
 						<td>{{news.message|striptags("")|slice(0, 60)|raw}}{% if news.message|length > 60 %}...{% endif %}</td>
 						<td><input type="submit" value="Edit" onclick="editpost('{{news.email}}', '{{news.subject}}', '{{news.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{news.id}}');" /></td>

@@ -85,7 +85,7 @@
 				<div id="content">
 					{% for entry in entries %}
 						<div class="title">
-							<h3>{{entry.subject}}{% if entry.type == 'news' %} by {{entry.by}} - {{entry.date|date('m/d/Y h:m', 'America/Chicago')}} {% if entry.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}{% endif %} <div style="float:right"><a href="id#{{entry.id}}">#</a></div></h3>
+							<h3>{{entry.subject}}{% if entry.type == 'news' %} by {{entry.by}} - {{entry.date|date('m/d/Y h:i', 'America/Chicago')}} {% if entry.date|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %} <div style="float:right"><a href="id#{{entry.id}}">#</a></div></h3>
 						</div>
 						<div class="post">
 							<p>

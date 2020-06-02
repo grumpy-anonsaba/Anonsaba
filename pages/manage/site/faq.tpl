@@ -79,7 +79,7 @@
 				<tbody>
 				 {% for faq in faqspost %}
 						<tr>
-						<td>{{faq.date|date('m/d/Y h:m', 'America/Chicago')}} {% if faq.date|date('H', 'America/Chicago') > 13 %}PM{% else %}AM{% endif %}</td>
+						<td>{{faq.date|date('m/d/Y h:i', 'America/Chicago')}} {% if faq.date|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</td>
 						<td>{{ faq.subject|raw }}</td>
 						<td>{{faq.message|striptags("")|slice(0, 60)|raw}}{% if faq.message|length > 60 %}...{% endif %}</td>
 						<td><input type="submit" value="Edit" onclick="editpost('{{faq.subject}}', '{{faq.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{faq.id}}');" /></td>
