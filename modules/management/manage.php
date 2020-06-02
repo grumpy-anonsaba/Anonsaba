@@ -305,4 +305,14 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
+	public static function logs() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			$twig_data['entry'] = $db->GetAll('SELECT * FROM '.dbprefix.'logs ORDER BY time DESC LIMIT 25 OFFSET '.($_GET['page'] * 25));
+			$pages = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'logs');
+			$twig_data['page'] = $_GET['page'];
+			$twig_data['pages'] = ($pages/25);
+		}
+		Core::Output('/manage/site/logs.tpl', $twig_data);
+	}
 }

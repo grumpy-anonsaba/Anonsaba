@@ -468,3 +468,25 @@ input#myfile {
 .newsfaqrulesmain table td.strong {
   background:#FFF !important;
 }
+.logs {
+	position: relative;
+	width: 98%;
+	height: auto;
+	left: 1%;
+	top: 2%;
+	display: block;
+}
+.logs table {
+  border-spacing: 1px;
+  text-indent: 5px;
+  background-color: #80c1ff;
+  border: 1px solid #99ceff;
+  border-radius: 0.25em;
+  width: 100%;
+}
+.logs table td {
+  background:#FFF !important;
+}
+.logs table td.strong {
+  background:#FFF !important;
+}
