@@ -312,6 +312,11 @@ class Management {
 			$pages = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'logs');
 			$twig_data['page'] = $_GET['page'];
 			$twig_data['pages'] = ($pages/25);
+			if ($_GET['do'] == 'clearlog') {
+				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
+				$db->Run('DELETE FROM '.dbprefix.'logs');
+				Core::Log(time(), $_SESSION['manage_username'], 'Deleted all Log items');
+			}
 		}
 		Core::Output('/manage/site/logs.tpl', $twig_data);
 	}
