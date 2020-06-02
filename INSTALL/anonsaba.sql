@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `PREFIXfiletypes` (
 
 CREATE TABLE IF NOT EXISTS `PREFIXfront` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ordr` int(11) NOT NULL,
   `type` varchar(999) NOT NULL,
   `by` varchar(999) NOT NULL,
   `subject` varchar(999) NOT NULL,
