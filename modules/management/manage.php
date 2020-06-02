@@ -244,16 +244,23 @@ class Management {
 	public static function faq() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
-			$twig_data['faqpost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id ASC');
+			$twig_data['rulespost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id');
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
 				$upload->HandleUploadManage();
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
+				if($db->GetOne('SELECT * FROM'.dbprefix.'front WHERE type = "faq" and id = '.$_POST['id'])) {
 					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
-					// Post the faq post
-					$db->Run('INSERT INTO '.dbprefix.'front (`order`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('faq').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('faq'));
+					Core::Log(time(), $_SESSION['manage_username'], 'Edited a FAQ post');
+				} else {
+					// Update active time
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					// Post the FAQ post
+					$db->Run('INSERT INTO '.dbprefix.'front (`id`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('faq').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a FAQ post');
+				}
 			} elseif ($_GET['do'] == 'delpost') {
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "faq" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
@@ -275,11 +282,17 @@ class Management {
 				$upload->HandleUploadManage();
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
+				if($db->GetOne('SELECT * FROM'.dbprefix.'front WHERE type = "rules" and id = '.$_POST['id'])) {
+					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('rules'));
+					Core::Log(time(), $_SESSION['manage_username'], 'Edited a Rules post');
+				} else {
 					// Update active time
 					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
-					// Post the rules post
-					$db->Run('INSERT INTO '.dbprefix.'front (`order`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('rules').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
-					Core::Log(time(), $_SESSION['manage_username'], 'Created a rules post');
+					// Post the Rules post
+					$db->Run('INSERT INTO '.dbprefix.'front (`id`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('rules').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
+					Core::Log(time(), $_SESSION['manage_username'], 'Created a Rules post');
+				}
 			} elseif ($_GET['do'] == 'delpost') {
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "rules" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
