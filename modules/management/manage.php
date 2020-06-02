@@ -57,8 +57,8 @@ class Management {
 		}
 	}
 	public static function loginForm($error, $errormsg) {
-		$twig_data['current'] = $_GET['side'];
-		$twig_data['action'] = $_GET['action'];
+		$twig_data['action'] = isset($_GET['action']) ? $_GET['action'] : 'stats';
+		$twig_data['current'] = isset($_GET['side']) ? $_GET['side'] : 'main';
 		if ($error == '1') {
 			$twig_data['errorfound'] = true;
 			$twig_data['errormsg'] = $errormsg;
