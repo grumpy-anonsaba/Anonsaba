@@ -7,11 +7,12 @@
 		<div class="newsfaqrules" id="newsfaqrules">
 			<table style="width:95%">
 				<input type="hidden" name="email" id="email" />
+				<input type="hidden" name="id" id="id" />
 				<tr>
 					<th>Order</th>
 				</tr>
 				<tr>
-					<td><input type="text" name="id" id="id" placeholder="Cannot be left blank" /></td>
+					<td><input type="text" name="order" id="order" placeholder="Cannot be left blank" /></td>
 				</tr>
 				<tr>
 					<th>Subject</th>
@@ -82,7 +83,7 @@
 						<td>{{faq.date|date('m/d/Y h:i', 'America/Chicago')}} {% if faq.date|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</td>
 						<td>{{ faq.subject|raw }}</td>
 						<td>{{faq.message|striptags("")|slice(0, 60)|raw}}{% if faq.message|length > 60 %}...{% endif %}</td>
-						<td><input type="submit" value="Edit" onclick="editpost('{{faq.subject}}', '{{faq.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{faq.id}}');" /></td>
+						<td><input type="submit" value="Edit" onclick="editpost('{{faq.subject}}', '{{faq.id}}', '{{faq.ordr}}');" />&nbsp;<input type="submit" value="Delete" onclick="delpost('{{faq.id}}');" /></td>
 					</tr>
 				{% endfor %}
 				</tbody>
@@ -97,13 +98,14 @@
 			document.getElementById("newsfaqrules").style.display = "block";
 			document.getElementById("newsfaqrulesmain").style.display = "none";
 		}
-		function editpost (sub, id) {
+		function editpost (sub, id, order) {
 			var action = getQueryVariable("action");
 			document.getElementById("editor-container").style.display = "block";
 			document.getElementById("newsfaqrules").style.display = "block";
 			document.getElementById("newsfaqrulesmain").style.display = "none";
 			document.getElementById("subject").value = sub;
 			document.getElementById("id").value = id;
+			document.getElementById("order").value = order;
 			let req = new XMLHttpRequest();
 			req.open("POST", 'index.php?action='+action+'&do=getmsg&id='+id);
 			req.send();

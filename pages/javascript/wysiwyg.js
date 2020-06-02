@@ -60,6 +60,7 @@ document.querySelector('#save').addEventListener('click', function() {
 	var sub = document.getElementById("subject").value;
 	var ema = document.getElementById("email").value;
 	var id = document.getElementById("id").value;
+	var order = document.getElementById("order").value;
 	var pos = $('#editor-text').html();
 	let req = new XMLHttpRequest();
 	let formData = new FormData();
@@ -67,6 +68,7 @@ document.querySelector('#save').addEventListener('click', function() {
 	formData.append("email", ema);
 	formData.append("post", pos);
 	formData.append("id", id);
+	formData.append("order", order);
 	req.open("POST", 'index.php?action='+action+'&do=post');
 	req.send(formData);
 	req.onreadystatechange = function () {

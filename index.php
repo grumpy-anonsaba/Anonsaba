@@ -12,10 +12,10 @@
 	$twig_data['irc'] = Core::GetConfigOption('irc');
 	switch($_GET['view']) {
 		case 'faq':
-			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id');
+			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY ordr');
 			break;
 		case 'rules':
-			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY id');
+			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY ordr');
 			break;
 		default:
 			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC LIMIT 5 OFFSET '.($_GET['page'] * 5));

@@ -7,6 +7,7 @@
 		<div class="newsfaqrules" id="newsfaqrules">
 			<table style="width:95%">
 				<input type="hidden" name="id" id="id" />
+				<input type="hidden" name="order" id="order" />
 				<tr>
 					<th>Email</th>
 				</tr>
@@ -97,7 +98,7 @@
 			document.getElementById("newsfaqrules").style.display = "block";
 			document.getElementById("newsfaqrulesmain").style.display = "none";
 		}
-		function editpost (em, sub, id, msg) {
+		function editpost (em, sub, id) {
 			var action = getQueryVariable("action");
 			document.getElementById("editor-container").style.display = "block";
 			document.getElementById("newsfaqrules").style.display = "block";
