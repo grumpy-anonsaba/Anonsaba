@@ -97,7 +97,7 @@
 			document.getElementById("newsfaqrules").style.display = "block";
 			document.getElementById("newsfaqrulesmain").style.display = "none";
 		}
-		function editpost (em, sub, id, msg) {
+		function editpost (sub, id) {
 			var action = getQueryVariable("action");
 			document.getElementById("editor-container").style.display = "block";
 			document.getElementById("newsfaqrules").style.display = "block";

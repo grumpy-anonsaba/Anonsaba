@@ -20,6 +20,10 @@ class Management {
 			}
 		}
 	}
+	public static function updateActive($user) {
+		global $db;
+		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($user));
+	}
 	public static function createSession($user) {
 		global $db;
 		$chars = hash;
@@ -42,7 +46,6 @@ class Management {
 	public static function destroySession($user) {
 		global $db;
 		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = "" WHERE username = '.$db->quote($user));
-		
 		unset($_SESSION['manage_username']);
 		unset($_SESSION['sessionid']);
 		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
@@ -82,7 +85,7 @@ class Management {
 				// The user will always be able to still login, but if a hacker finds this it will constantly stay changing
 				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)));
 				// Set the users active time!
-				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+				self::updateActive($_POST['username']);
 				// Delete all failed login attempts!
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($_POST['username']));
 				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = 0 WHERE username = '.$db->quote($_POST['username']));
@@ -179,6 +182,7 @@ class Management {
 	}
 	public static function spp() {
 		global $db;
+		self::updateActive($_SESSION['manage_username']);
 		die('
 			<div class="action">
 				<input type="text" value="'.$db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])).'" />
@@ -188,7 +192,7 @@ class Management {
 	public static function changePass() {
 		global $db, $twig_data;
 		if (isset($_POST['submit'])) {
-			$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
+			self::updateActive($_SESSION['manage_username']);
 			// First lets make sure the old password matches what they currently have
 			if (!password_verify($_POST['oldpass'], $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])))) {
 				$twig_data['error'] = true;
@@ -211,6 +215,7 @@ class Management {
 	   Begin "Site Administration" function list */
 	public static function news() {
 		global $db, $twig_data;
+		self::updateActive($_SESSION['manage_username']);
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['newspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC');
 			if ($_GET['do'] == 'filesubmit') {
@@ -219,19 +224,21 @@ class Management {
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
 				if($_POST['id'] != '') {
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					self::updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('news'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a news post');
 				} else {
 					// Update active time
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					self::updateActive($_SESSION['manage_username']);
 					// Post the news post
 					$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
+				self::updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "news" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
+				self::updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "news" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -243,6 +250,7 @@ class Management {
 	}
 	public static function faq() {
 		global $db, $twig_data;
+		self::updateActive($_SESSION['manage_username']);
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['faqspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY id');
 			if ($_GET['do'] == 'filesubmit') {
@@ -250,20 +258,22 @@ class Management {
 				$upload->HandleUploadManage();
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
-				if($db->GetOne('SELECT * FROM'.dbprefix.'front WHERE type = "faq" and id = '.$_POST['id'])) {
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+				if($db->GetOne('SELECT COUNT(*) FROM'.dbprefix.'front WHERE type = "faq" and id = '.$_POST['id']) > 0) {
+					self::updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('faq'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a FAQ post');
 				} else {
 					// Update active time
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					self::updateActive($_SESSION['manage_username']);
 					// Post the FAQ post
 					$db->Run('INSERT INTO '.dbprefix.'front (`id`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('faq').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a FAQ post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
+				self::updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "faq" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
+				self::updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "faq" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -275,6 +285,7 @@ class Management {
 	}
 	public static function rules() {
 		global $db, $twig_data;
+		self::updateActive($_SESSION['manage_username']);
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['rulespost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY id');
 			if ($_GET['do'] == 'filesubmit') {
@@ -283,19 +294,21 @@ class Management {
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
 				if($db->GetOne('SELECT * FROM'.dbprefix.'front WHERE type = "rules" and id = '.$_POST['id'])) {
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					self::updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('rules'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a Rules post');
 				} else {
 					// Update active time
-					$db->Run('UPDATE '.dbprefix.'staff SET active = '.time());
+					self::updateActive($_SESSION['manage_username']);
 					// Post the Rules post
 					$db->Run('INSERT INTO '.dbprefix.'front (`id`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['id'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('rules').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a Rules post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
+				self::updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "rules" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
+				self::updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "rules" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -308,12 +321,13 @@ class Management {
 	public static function logs() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			self::updateActive($_SESSION['manage_username']);
 			$twig_data['entry'] = $db->GetAll('SELECT * FROM '.dbprefix.'logs ORDER BY time DESC LIMIT 25 OFFSET '.($_GET['page'] * 25));
 			$pages = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'logs');
 			$twig_data['page'] = $_GET['page'];
 			$twig_data['pages'] = ($pages/25);
 			if ($_GET['do'] == 'clearlog') {
-				$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
+				self::updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'logs');
 				Core::Log(time(), $_SESSION['manage_username'], 'Deleted all Log items');
 			}
