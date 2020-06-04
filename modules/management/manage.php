@@ -318,6 +318,15 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
+	public static function staff() {
+		global $db, $twig_data;
+		self::updateActive($_SESSION['manage_username']);
+		if (self::getStaffLevel($_SESSION['manager_username']) == 1) {
+			
+		} else {
+			Core::Error('You don\'t have permissions for this!');
+		}
+	}
 	public static function logs() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
