@@ -490,3 +490,22 @@ input#myfile {
 .logs table td.strong {
   background:#FFF !important;
 }
+.staff {
+	position: relative;
+	top: 5%;
+	width: 70%;
+	height: 35%;
+	margin: 0 auto;
+	padding-bottom: 0.25em;
+	display: none;
+}
+.staff input {
+	border-radius: 5px;
+	width:100%;
+}
+.staff input[type=text]::placeholder {
+	text-align:center;
+}
+.staff input[type=password]::placeholder {
+	text-align:center;
+}

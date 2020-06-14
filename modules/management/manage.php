@@ -321,8 +321,43 @@ class Management {
 	public static function staff() {
 		global $db, $twig_data;
 		self::updateActive($_SESSION['manage_username']);
-		if (self::getStaffLevel($_SESSION['manager_username']) == 1) {
-			
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			$twig_data['entry'] = $db->GetAll('SELECT * FROM '.dbprefix.'staff ORDER BY username');
+			$twig_data['boards'] = $db->Getall('SELECT * FROM '.dbprefix.'boards ORDER BY name');
+			switch ($_GET['do']) {
+				case 'suspend':
+					self::updateActive($_SESSION['manage_username']);
+					$db->Run('UPDATE '.dbprefix.'staff SET suspended = 1 WHERE id = '.$_GET['id']);
+					Core::Log(time(), $_SESSION['manage_username'], 'Suspended '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
+				break;
+				case 'del':
+					self::updateActive($_SESSION['manage_username']);
+					Core::Log(time(), $_SESSION['manage_username'], 'Deleted '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
+					$db->Run('DELETE FROM '.dbprefix.'staff WHERE id = '.$_GET['id']);
+				break;
+				case 'unsuspend':
+					self::updateActive($_SESSION['manage_username']);
+					$db->Run('UPDATE '.dbprefix.'staff SET suspended = 0 WHERE id = '.$_GET['id']);
+					Core::Log(time(), $_SESSION['manage_username'], 'Unsuspended '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
+				break;
+				case 'create':
+					self::updateActive($_SESSION['manage_username']);
+					$db->Run('INSERT INTO '.dbprefix.'staff (username, password, level, suspended, boards) VALUES ('.$db->quote($_POST['username']).', '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)).', '.$db->quote($_POST['level']).', 0, '.$db->quote($_POST['boards']).')');
+					switch($_POST['level']) {
+						case '1':
+							$level = 'Administrator';
+						break;
+						case '2':
+							$level = 'Super Moderator';
+						break;
+						case '3':
+							$level = 'Moderator';
+						break;
+					}
+					Core::Log(time(), $_SESSION['manage_username'], 'Created '.$_POST['username'].' with '.$level.' privledges');
+				break;
+			}
+			Core::Output('/manage/site/staff.tpl', $twig_data);
 		} else {
 			Core::Error('You don\'t have permissions for this!');
 		}

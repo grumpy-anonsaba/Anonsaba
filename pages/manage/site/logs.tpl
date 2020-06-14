@@ -17,7 +17,7 @@
 				</thead>
 				<tbody>
 				 {% for log in entry %}
-						<tr>
+					<tr>
 						<td>{{log.time|date('m/d/Y h:i', 'America/Chicago')}} {% if log.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</td>
 						<td>{{log.user}}</td>
 						<td>{{log.message}}</td>
@@ -39,7 +39,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+	<script src="/pages/javascript/jquery-3.5.1.js" type="text/javascript"></script>
 	<script>
 		function getQueryVariable(variable) {
 			var query = window.location.search.substring(1);

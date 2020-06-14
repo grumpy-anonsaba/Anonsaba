@@ -90,7 +90,7 @@
 			</table>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
+	<script src="/pages/javascript/jquery-3.5.1.js" type="text/javascript"></script>
 	<script src="/pages/javascript/wysiwyg.js" type="text/javascript"></script>
 	<script>
 		function newpostclick() {
