@@ -31,7 +31,7 @@
 								<td>{{staff.username}}</td>
 								<td>All Boards</td>
 								<td>{% if staff.active == '0' %}Never{% else %}{{staff.active|date('m/d/Y h:i', 'America/Chicago')}} {% if staff.active|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %}</td>
-								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
+								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}', '{{staff.username}}', '{{staff.level}}', '{{staff.boards}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
 							</tr>
 						{% endif %}
 					{% endfor %}
@@ -44,7 +44,7 @@
 								<td>{{staff.username}}</td>
 								<td>{% if staff.boards == '' %}None{% elseif staff.boards == 'all' %}All boards{% else %}/{{staff.boards|replace({'|':'/, /'})}}/{% endif %}</td>
 								<td>{% if staff.active == '0' %}Never{% else %}{{staff.active|date('m/d/Y h:i', 'America/Chicago')}} {% if staff.active|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %}</td>
-								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
+								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}', '{{staff.username}}', '{{staff.level}}', '{{staff.boards}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
 							</tr>
 						{% endif %}
 					{% endfor %}
@@ -57,7 +57,7 @@
 								<td>{{staff.username}}</td>
 								<td>{% if staff.boards == '' %}None{% elseif staff.boards == 'all' %}All boards{% else %}/{{staff.boards|replace({'|':'/, /'})}}/{% endif %}</td>
 								<td>{% if staff.active == '0' %}Never{% else %}{{staff.active|date('m/d/Y h:i', 'America/Chicago')}} {% if staff.active|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %}</td>
-								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
+								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}', '{{staff.username}}', '{{staff.level}}', '{{staff.boards}}');" />&nbsp;<input type="submit" value="Suspend" onclick="suspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
 							</tr>
 						{% endif %}
 					{% endfor %}
@@ -70,7 +70,7 @@
 								<td>{{staff.username}}</td>
 								<td>{% if staff.boards == '' %}None{% elseif staff.boards == 'all' %}All boards{% else %}/{{staff.boards|replace({'|':'/, /'})}}/{% endif %}</td>
 								<td>{% if staff.active == '0' %}Never{% else %}{{staff.active|date('m/d/Y h:i', 'America/Chicago')}} {% if staff.active|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %}</td>
-								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}');" />&nbsp;<input type="submit" value="Unsuspend" onclick="unsuspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
+								<td><input type="submit" value="Edit" onclick="edit('{{staff.id}}', '{{staff.username}}', '{{staff.level}}', '{{staff.boards}}');" />&nbsp;<input type="submit" value="Unsuspend" onclick="unsuspend('{{staff.id}}');" />&nbsp;<input type="submit" value="Delete" onclick="del('{{staff.id}}');" /></td>
 							</tr>
 						{% endif %}
 					{% endfor %}
@@ -161,7 +161,7 @@
 					window.location.replace("index.php?side="+side+"&action="+action);
 				}
 			}
-		}
+		} 
 		function del(id) {
 			var side = getQueryVariable("side");
 			var action = getQueryVariable("action");
@@ -186,8 +186,23 @@
 				}
 			}
 		}
-		function edit(id) {
-		
+		function edit(id, username, level, boards) {
+			document.getElementById("staff").style.display = "block";
+			document.getElementById("logs").style.display = "none";
+			document.getElementById("id").value = id;
+			document.getElementById('username').readOnly = true;
+			document.getElementById("username").value = username;
+			document.getElementById("level").value = level;
+			update();
+			if (boards == "all") {
+				document.getElementById("all").checked = true;
+			} else {
+				var newboards = boards.split("|");
+				newboards.forEach(updateBoards);
+			}
+		}
+		function updateBoards (item) {
+			document.getElementById("mods"+item).checked = true;
 		}
 		function create() {
 			var side = getQueryVariable("side");
@@ -212,6 +227,7 @@
 					var boards = (arr.join(""));
 				}
 			}
+			console.log("Boards are: "+boards);
 			let req = new XMLHttpRequest();
 			let formData = new FormData();
 			formData.append("username", username);

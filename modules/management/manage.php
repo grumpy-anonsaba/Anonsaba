@@ -342,7 +342,6 @@ class Management {
 				break;
 				case 'create':
 					self::updateActive($_SESSION['manage_username']);
-					$db->Run('INSERT INTO '.dbprefix.'staff (username, password, level, suspended, boards) VALUES ('.$db->quote($_POST['username']).', '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)).', '.$db->quote($_POST['level']).', 0, '.$db->quote($_POST['boards']).')');
 					switch($_POST['level']) {
 						case '1':
 							$level = 'Administrator';
@@ -354,7 +353,38 @@ class Management {
 							$level = 'Moderator';
 						break;
 					}
-					Core::Log(time(), $_SESSION['manage_username'], 'Created '.$_POST['username'].' with '.$level.' privledges');
+					if ($_POST['id'] == '') {
+						$db->Run('INSERT INTO '.dbprefix.'staff (username, password, level, suspended, boards) VALUES ('.$db->quote($_POST['username']).', '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)).', '.$db->quote($_POST['level']).', 0, '.$db->quote($_POST['boards']).')');
+						Core::Log(time(), $_SESSION['manage_username'], 'Created '.$_POST['username'].' with '.$level.' privledges');
+					} elseif ($_POST['id'] != '' && $_POST['password'] == '') {
+						$oldlevel = $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$oldboards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$db->Run('UPDATE '.dbprefix.'staff SET level = '.$db->quote($_POST['level']).', boards = '.$db->quote($_POST['boards']).' WHERE id = '.$_POST['id']);
+						$newlevel = $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$newboards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						if ($oldlevel != $newlevel && $oldboards == $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' level to '.$level);
+						} elseif ($oldlevel == $newlevel && $oldboards != $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' boards');
+						} elseif ($oldlevel != $newlevel && $oldboards != $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' level to '.$level.' and boards');
+						}
+					} elseif ($_POST['id'] != '' && $_POST['password'] != '') {
+						$oldlevel = $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$oldboards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$db->Run('UPDATE '.dbprefix.'staff SET level = '.$db->quote($_POST['level']).', boards = '.$db->quote($_POST['boards']).', password = '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)).' WHERE id = '.$_POST['id']);
+						$newlevel = $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						$newboards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE id = '.$_POST['id']);
+						if ($oldlevel != $newlevel && $oldboards == $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' level to '.$level);
+						} elseif ($oldlevel == $newlevel && $oldboards != $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' boards');
+						} elseif ($oldlevel != $newlevel && $oldboards != $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' level to '.$level.' and boards');
+						} elseif ($oldlevel == $newlevel && $oldboards == $newboards) {
+							Core::Log(time(), $_SESSION['manage_username'], 'Updated '.$_POST['username'].' password');
+						}
+					}
 				break;
 			}
 			Core::Output('/manage/site/staff.tpl', $twig_data);
