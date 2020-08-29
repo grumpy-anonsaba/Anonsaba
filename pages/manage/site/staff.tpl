@@ -227,7 +227,6 @@
 					var boards = (arr.join(""));
 				}
 			}
-			console.log("Boards are: "+boards);
 			let req = new XMLHttpRequest();
 			let formData = new FormData();
 			formData.append("username", username);
