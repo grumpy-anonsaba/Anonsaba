@@ -408,4 +408,15 @@ class Management {
 		}
 		Core::Output('/manage/site/logs.tpl', $twig_data);
 	}
+	/* This ends the "Site Administration" section function list
+	   Begin "Board Administration" function list */
+	public static function adddelboard() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
+			self::updateActive($_SESSION['manage_username']);
+			Core::Output('/manage/board/adddelboard.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permissions for this!');
+		}
+	}
 }
