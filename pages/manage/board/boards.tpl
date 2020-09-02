@@ -31,7 +31,7 @@
 																			edit(
 																					'{{board.id}}', '{{board.name}}', '{{board.desc}}', '{{board.class}}', '{{board.section}}', '{{board.imagesize}}', '{{board.postperpage}}', '{{board.boardpages}}',
 																					'{{board.threadhours}}', '{{board.markpage}}', '{{board.threadreply}}', '{{board.postername}}', '{{board.locked}}', '{{board.email}}',
-																					'{{board.ads}}', '{{board.showid}}', '{{board.report}}', '{{board.captcha}}', '{{board.forcedanon}}', '{{board.trail}}', '{{board.popular}}',
+																					'{{board.ads}}', '{{board.showid}}', '{{board.report}}', '{{board.captcha}}', '{{board.forcedanon}}', '{{board.trial}}', '{{board.popular}}',
 																					'{{board.recentpost}}'
 																				);" 
 																			
@@ -65,8 +65,8 @@
 						<td>
 							<select name="section" id="section">
 								<option value="">Select a section</option>
-								{% for section in entry %}
-									<option value="{{section.name}}" {% if item.section == section.name %}selected="selected"{% endif %} />{{section.name}}</option>
+								{% for section in sections %}
+									<option value="{{section.name}}" />{{section.name}}</option>
 								{% endfor %}
 							</select>
 						</td>
@@ -269,9 +269,17 @@
 			document.getElementById("maximagesize").value = maximagesize;
 			document.getElementById("maxpostperpage").value = maxpostperpage;
 			document.getElementById("maxboardpages").value = maxboardpages;
-			document.getElementById("maxthreadhours").value = maxthreadhours;
+			if (maxthreadhours == 0) {
+			 document.getElementById("maxthreadhours").value = "";
+			} else {
+				document.getElementById("maxthreadhours").value = maxthreadhours;
+			}
 			document.getElementById("markpage").value = markpage;
-			document.getElementById("maxthreadreply").value = maxthreadreply;
+			if (maxthreadreply == 0) {
+				document.getElementById("maxthreadreply").value = "";
+			} else {
+				document.getElementById("maxthreadreply").value = maxthreadreply;
+			}
 			document.getElementById("defaultpostername").value = defaultpostername;
 			if (locked == 1) {
 				document.getElementById("locked").checked == true;

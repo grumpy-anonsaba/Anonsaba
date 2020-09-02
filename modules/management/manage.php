@@ -414,13 +414,14 @@ class Management {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
+			$twig_data['sections'] = $db->GetAll('SELECT * FROM '.dbprefix.'sections');
 			self::updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
 					self::updateActive($_SESSION['manage_username']);
 					if ($_POST['id'] != '') {
 						$db->Run('INSERT INTO '.dbprefix.'boards 
-									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trail, popular, recentpost) 
+									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trial, popular, recentpost) 
 								VALUES 
 									('.$db->quote($_POST['boarddirectory']).', '.$db->quote($_POST['boarddescription']).', '.$db->quote($_POST['type']).', '.$db->quote($_POST['section']).', '.$db->quote($_POST['maximagesize']).', 
 									 '.$db->quote($_POST['maxpostperpage']).', '.$db->quote($_POST['maxboardpages']).', '.$db->quote($_POST['maxthreadhours']).', '.$db->quote($_POST['markpage']).', '.$db->quote($_POST['maxthreadreply']).', 
