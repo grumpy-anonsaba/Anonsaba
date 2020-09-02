@@ -282,54 +282,66 @@
 			}
 			document.getElementById("defaultpostername").value = defaultpostername;
 			if (locked == 1) {
-				document.getElementById("locked").checked == true;
+				document.getElementById("locked").checked = true;
 			} else {
-				document.getElementById("locked").checked == false;
+				document.getElementById("locked").checked = false;
 			}
 			if (enableemail == 1) {
-				document.getElementById("enableemail").checked == true;
+				document.getElementById("enableemail").checked = true;
 			} else {
-				document.getElementById("enableemail").checked == false;
+				document.getElementById("enableemail").checked = false;
 			}
 			if (enableads == 1) {
-				document.getElementById("enableads").checked == false;
+				document.getElementById("enableads").checked = true;
 			} else {
-				document.getElementById("enableads").checked == true;
+				document.getElementById("enableads").checked = false;
 			}
 			if (enableids == 1) {
-				document.getElementById("enableids").checked == true;
+				document.getElementById("enableids").checked = true;
 			} else {
-				document.getElementById("enableids").checked == false;
+				document.getElementById("enableids").checked = false;
 			}
 			if (enablereporting == 1) {
-				document.getElementById("enablereporting").checked == true;
+				document.getElementById("enablereporting").checked = true;
 			} else {
-				document.getElementById("enablereporting").checked == false;
+				document.getElementById("enablereporting").checked = false;
 			}
 			if (enablecaptcha == 1) {
-				document.getElementById("enablecaptcha").checked == true;
+				document.getElementById("enablecaptcha").checked = true;
 			} else {
-				document.getElementById("enablecaptcha").checked == false;
+				document.getElementById("enablecaptcha").checked = false;
 			}
 			if (forcedanon == 1) {
-				document.getElementById("forcedanon").checked == true;
+				document.getElementById("forcedanon").checked = true;
 			} else {
-				document.getElementById("forcedanon").checked == false;
+				document.getElementById("forcedanon").checked = false;
 			}
 			if (trialboard == 1) {
-				document.getElementById("trialboard").checked == true;
+				document.getElementById("trialboard").checked = true;
 			} else {
-				document.getElementById("trialboard").checked == false;
+				document.getElementById("trialboard").checked = false;
 			}
 			if (popularboard == 1) {
-				document.getElementById("popularboard").checked == true;
+				document.getElementById("popularboard").checked = true;
 			} else {
-				document.getElementById("popularboard").checked == false;
+				document.getElementById("popularboard").checked = false;
 			}
 			if (enablerecentpost == 1) {
-				document.getElementById("enablerecentpost").checked == true;
+				document.getElementById("enablerecentpost").checked = true;
 			} else {
-				document.getElementById("enablerecentpost").checked == false;
+				document.getElementById("enablerecentpost").checked = false;
+			}
+		}
+		function del(id) {
+			var side = getQueryVariable("side");
+			var action = getQueryVariable("action");
+			let req = new XMLHttpRequest();
+			req.open("POST", 'index.php?action='+action+'&do=del&id='+id);
+			req.send();
+			req.onreadystatechange = function () {
+				if (req.readyState === 4) {
+					window.location.replace("index.php?side="+side+"&action="+action);
+				}
 			}
 		}
 	</script>

@@ -419,7 +419,7 @@ class Management {
 			switch ($_GET['do']) {
 				case 'create':
 					self::updateActive($_SESSION['manage_username']);
-					if ($_POST['id'] != '') {
+					if ($_POST['id'] == '') {
 						$db->Run('INSERT INTO '.dbprefix.'boards 
 									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trial, popular, recentpost) 
 								VALUES 
@@ -429,10 +429,37 @@ class Management {
 									 '.$db->quote($_POST['enablereporting']).', '.$db->quote($_POST['enablecaptcha']).', '.$db->quote($_POST['forcedanon']).', '.$db->quote($_POST['trialboard']).', '.$db->quote($_POST['popularboard']).',
 									 '.$db->quote($_POST['enablerecentpost']).')');
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
+					} else {
+						$db->Run('UPDATE '.dbprefix.'boards SET
+									`desc` = '.$db->quote($_POST['boarddescription']).',
+									class =  '.$db->quote($_POST['type']).',
+									section = '.$db->quote($_POST['section']).',
+									imagesize = '.$db->quote($_POST['maximagesize']).',
+									postperpage = '.$db->quote($_POST['maxpostperpage']).', 
+									boardpages = '.$db->quote($_POST['maxboardpages']).', 
+									threadhours = '.$db->quote($_POST['maxthreadhours']).', 
+									markpage = '.$db->quote($_POST['markpage']).', 
+									threadreply = '.$db->quote($_POST['maxthreadreply']).', 
+									postername = '.$db->quote($_POST['defaultpostername']).', 
+									locked = '.$db->quote($_POST['locked']).', 
+									email = '.$db->quote($_POST['enableemail']).', 
+									ads = '.$db->quote($_POST['enableads']).', 
+									showid = '.$db->quote($_POST['enableids']).', 
+									report = '.$db->quote($_POST['enablereporting']).', 
+									captcha = '.$db->quote($_POST['enablecaptcha']).', 
+									forcedanon = '.$db->quote($_POST['forcedanon']).', 
+									trial = '.$db->quote($_POST['trialboard']).', 
+									popular = '.$db->quote($_POST['popularboard']).', 
+									recentpost = '.$db->quote($_POST['enablerecentpost']).'
+								WHERE id = '.$db->quote($_POST['id']));
+						Core::Log(time(), $_SESSION['manage_username'], 'Updated Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					}
 				break;
 				case 'del':
 					self::updateActive($_SESSION['manage_username']);
+					$oldboard = $db->GetOne('SELECT name FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
+					$db->Run('DELETE FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
+					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Board: /'.$oldboard.'/');
 				break;
 			}
 			Core::Output('/manage/board/boards.tpl', $twig_data);
