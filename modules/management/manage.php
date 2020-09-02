@@ -410,11 +410,19 @@ class Management {
 	}
 	/* This ends the "Site Administration" section function list
 	   Begin "Board Administration" function list */
-	public static function adddelboard() {
+	public static function boards() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
 			self::updateActive($_SESSION['manage_username']);
-			Core::Output('/manage/board/adddelboard.tpl', $twig_data);
+			switch ($_GET['do']) {
+				case 'create':
+					self::updateActive($_SESSION['manage_username']);
+				break;
+				case 'del':
+					self::updateActive($_SESSION['manage_username']);
+				break;
+			}
+			Core::Output('/manage/board/boards.tpl', $twig_data);
 		} else {
 			Core::Error('You don\'t have permissions for this!');
 		}

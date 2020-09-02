@@ -509,3 +509,18 @@ input#myfile {
 .staff input[type=password]::placeholder {
 	text-align:center;
 }
+.boardopt {
+	position: relative;
+	top: 5%;
+	width: 70%;
+	height: 35%;
+	margin: 0 auto;
+	padding-bottom: 0.25em;
+	display: none;
+}
+.boardopt th {
+	text-align:left;
+}
+.boardopt td {
+	padding-left: 5em;
+}
