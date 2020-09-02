@@ -26,7 +26,13 @@
 						<tr>
 							<td>/{{board.name}}/</td>
 							<td>{{board.desc}}</td>
-							<td></td>
+							<td>
+								{% for pc in postcount %}
+									{% if pc.boardname == board.name %}
+										{{pc.count}}
+									{% endif %}
+								{% endfor %}
+							</td>
 							<td><input type="submit" value="Edit" onclick="
 																			edit(
 																					'{{board.id}}', '{{board.name}}', '{{board.desc}}', '{{board.class}}', '{{board.section}}', '{{board.imagesize}}', '{{board.postperpage}}', '{{board.boardpages}}',

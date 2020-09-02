@@ -414,7 +414,7 @@ class Management {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
-			$twig_data['sections'] = $db->GetAll('SELECT * FROM '.dbprefix.'sections');
+			$twig_data['postcount'] = $db->GetAll('SELECT boardname, COUNT(*) as count FROM '.dbprefix.'posts WHERE deleted <> 1 GROUP BY boardname');
 			self::updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
