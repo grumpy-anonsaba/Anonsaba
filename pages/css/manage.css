@@ -512,9 +512,9 @@ input#myfile {
 .boardopt {
 	position: relative;
 	top: 5%;
-	width: 70%;
-	height: 35%;
-	margin: 0 auto;
+	width: 50%;
+	height: auto;
+	margin: auto;
 	padding-bottom: 0.25em;
 	display: none;
 }
@@ -523,4 +523,7 @@ input#myfile {
 }
 .boardopt td {
 	padding-left: 5em;
+}
+.boardopt select {
+	width:100%;
 }

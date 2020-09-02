@@ -31,9 +31,17 @@
 						<td><input type="text" name="boarddirectory" id="boarddirectory" /></td>
 					</tr>
 					<tr>
-						<th>Description</th>
+						<th>Board Name</th>
 						<td><input type="text" name="boarddescription" id="boarddescription" /></td>
 					</tr>
+					<tr>
+						<th>Board Type</th>
+						<td>
+							<select name="type">
+								<option value="sfw">Safe for Work</option>
+								<option value="nsfw">Not Safe for Work</option>
+							</select>
+						</td>
 					<tr>
 						<th>Board Section</th>
 						<td>
@@ -47,31 +55,31 @@
 					</tr>
 					<tr>
 						<th>Max Image Size</th>
-						<td><input type="text" name="maximagesize" id="maximagesize" /></td>
+						<td><input type="text" name="maximagesize" id="maximagesize" value="1024000" /></td>
 					</tr>
 					<tr>
 						<th>Max Posts per Page</th>
-						<td><input type="text" name="maxpostperpage" id="maxpostperpage" /></td>
+						<td><input type="text" name="maxpostperpage" id="maxpostperpage" value="8" /></td>
 					</tr>
 					<tr>
 						<th>Max Board Pages</th>
-						<td><input type="text" name="maxboardpages" id="maxboardpages" /></td>
+						<td><input type="text" name="maxboardpages" id="maxboardpages" value="11" /></td>
 					</tr>
 					<tr>
 						<th>Max Thread Hours</th>
-						<td><input type="text" name="maxthreadhours" id="maxthreadhours" /></td>
+						<td><input type="text" name="maxthreadhours" id="maxthreadhours" value="" /></td>
 					</tr>
 					<tr>
 						<th>Mark Page</th>
-						<td><input type="text" name="markpage" id="markpage" /></td>
+						<td><input type="text" name="markpage" id="markpage" value="9" /></td>
 					</tr>
 					<tr>
 						<th>Max Thread Replies</th>
-						<td><input type="text" name="maxthreadreply" id="maxthreadreply" /></td>
+						<td><input type="text" name="maxthreadreply" id="maxthreadreply" value="" /></td>
 					</tr>
 					<tr>
 						<th>Default Poster Name</th>
-						<td><input type="text" name="defaultpostername" id="defaultpostername" /></td>
+						<td><input type="text" name="defaultpostername" id="defaultpostername" value="Anonymous" /></td>
 					</tr>
 					<tr>
 						<th>Locked</th>
@@ -91,7 +99,7 @@
 					</tr>
 					<tr>
 						<th>Enable Reporting</th>
-						<td><input type="checkbox" name="enablereporting" id="enablereporting" /></td>
+						<td><input type="checkbox" name="enablereporting" id="enablereporting" checked="checked" /></td>
 					</tr>
 					<tr>
 						<th>Enable Captcha</th>
