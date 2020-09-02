@@ -190,7 +190,7 @@
 			document.getElementById("staff").style.display = "block";
 			document.getElementById("logs").style.display = "none";
 			document.getElementById("id").value = id;
-			document.getElementById('username').readOnly = true;
+			document.getElementById('username').disabled = true;
 			document.getElementById("username").value = username;
 			document.getElementById("level").value = level;
 			update();

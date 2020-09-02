@@ -413,10 +413,22 @@ class Management {
 	public static function boards() {
 		global $db, $twig_data;
 		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
+			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
 			self::updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
 					self::updateActive($_SESSION['manage_username']);
+					if ($_POST['id'] != '') {
+						$db->Run('INSERT INTO '.dbprefix.'boards 
+									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trail, popular, recentpost) 
+								VALUES 
+									('.$db->quote($_POST['boarddirectory']).', '.$db->quote($_POST['boarddescription']).', '.$db->quote($_POST['type']).', '.$db->quote($_POST['section']).', '.$db->quote($_POST['maximagesize']).', 
+									 '.$db->quote($_POST['maxpostperpage']).', '.$db->quote($_POST['maxboardpages']).', '.$db->quote($_POST['maxthreadhours']).', '.$db->quote($_POST['markpage']).', '.$db->quote($_POST['maxthreadreply']).', 
+									 '.$db->quote($_POST['defaultpostername']).', '.$db->quote($_POST['locked']).', '.$db->quote($_POST['enableemail']).', '.$db->quote($_POST['enableads']).', '.$db->quote($_POST['enableids']).', 
+									 '.$db->quote($_POST['enablereporting']).', '.$db->quote($_POST['enablecaptcha']).', '.$db->quote($_POST['forcedanon']).', '.$db->quote($_POST['trialboard']).', '.$db->quote($_POST['popularboard']).',
+									 '.$db->quote($_POST['enablerecentpost']).')');
+						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
+					}
 				break;
 				case 'del':
 					self::updateActive($_SESSION['manage_username']);
