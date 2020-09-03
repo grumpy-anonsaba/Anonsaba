@@ -38,7 +38,7 @@
 																					'{{board.id}}', '{{board.name}}', '{{board.desc}}', '{{board.class}}', '{{board.section}}', '{{board.imagesize}}', '{{board.postperpage}}', '{{board.boardpages}}',
 																					'{{board.threadhours}}', '{{board.markpage}}', '{{board.threadreply}}', '{{board.postername}}', '{{board.locked}}', '{{board.email}}',
 																					'{{board.ads}}', '{{board.showid}}', '{{board.report}}', '{{board.captcha}}', '{{board.forcedanon}}', '{{board.trial}}', '{{board.popular}}',
-																					'{{board.recentpost}}'
+																					'{{board.recentpost}}', '{{board.filetypes}}'
 																				);" 
 																			
 																			/>&nbsp;<input type="submit" value="Delete" onclick="del('{{board.id}}');" /></td>
@@ -75,6 +75,22 @@
 									<option value="{{section.name}}" />{{section.name}}</option>
 								{% endfor %}
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>File Types</th>
+						<td>
+							{% for type in filetypes %}
+								<label for="file{{type.name}}">{{type.name}}</label>
+								<input type="checkbox" name="file{{type.name}}" id="file{{type.name}}"
+									{% if type.name in ['jpg', 'gif', 'png'] %}
+										checked="checked"
+									{% endif %}
+								/>
+								{% if loop.index % 3 == 0 %}
+									<br />
+								{% endif %}
+							{% endfor %}
 						</td>
 					</tr>
 					<tr>
@@ -168,6 +184,9 @@
 			document.getElementById("boardopt").style.display = "block";
 			document.getElementById("logs").style.display = "none";
 		}
+		function updateFiletypes (item) {
+			document.getElementById("file"+item).checked = true;
+		}
 		//This is a whole bunch of variables lol
 		function create() {
 			var side = getQueryVariable("side");
@@ -234,6 +253,18 @@
 				var enablerecentpost = 0;
 			}
 			var id = document.getElementById("id").value;
+			var n = $('input:checkbox[id^="file"]:checked').length;
+			if (n > 1) {
+				var arr = $('input:checkbox[id^="file"]:checked').map(function(){
+					return $(this).attr("id").substr(4);
+				}).get();
+				var filetype = (arr.join("|"));
+			} else {
+				var arr = $('input:checkbox[id^="file"]:checked').map(function(){
+					return $(this).attr("id").substr(4);
+				}).get();
+				var filetype = (arr.join(""));
+			}
 			let req = new XMLHttpRequest();
 			let formData = new FormData();
 			formData.append("boarddirectory", boarddirectory);
@@ -258,13 +289,14 @@
 			formData.append("popularboard", popularboard);
 			formData.append("enablerecentpost", enablerecentpost);
 			formData.append("id", id);
+			formData.append("filetype", filetype);
 			req.open("POST", 'index.php?action='+action+'&do=create');
 			req.send(formData);
 			req.onreadystatechange = function () {
 				window.location.replace("index.php?side="+side+"&action="+action);
 			}
 		}
-		function edit(id, boarddirectory, boarddescription, type, section, maximagesize, maxpostperpage, maxboardpages, maxthreadhours, markpage, maxthreadreply, defaultpostername, locked, enableemail, enableads, enableids, enablereporting, enablecaptcha, forcedanon, trialboard, popularboard, enablerecentpost) {
+		function edit(id, boarddirectory, boarddescription, type, section, maximagesize, maxpostperpage, maxboardpages, maxthreadhours, markpage, maxthreadreply, defaultpostername, locked, enableemail, enableads, enableids, enablereporting, enablecaptcha, forcedanon, trialboard, popularboard, enablerecentpost, filetypes) {
 			newboardclick();
 			document.getElementById("id").value = id;
 			document.getElementById('boarddirectory').disabled = true;
@@ -337,6 +369,8 @@
 			} else {
 				document.getElementById("enablerecentpost").checked = false;
 			}
+			var filetype = filetypes.split("|");
+			filetype.forEach(updateFiletypes);
 		}
 		function del(id) {
 			var side = getQueryVariable("side");

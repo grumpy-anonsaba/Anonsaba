@@ -60,19 +60,7 @@ CREATE TABLE IF NOT EXISTS `PREFIXboards` (
   `trial` int(11) NOT NULL DEFAULT '0',
   `popular` int(11) NOT NULL DEFAULT '0',
   `recentpost` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `board_filetypes`
---
-
-CREATE TABLE IF NOT EXISTS `PREFIXboard_filetypes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `boardid` int(11) NOT NULL,
-  `fileid` int(11) NOT NULL,
+  `filetypes` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 

@@ -415,19 +415,20 @@ class Management {
 		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
 			$twig_data['postcount'] = $db->GetAll('SELECT boardname, COUNT(*) as count FROM '.dbprefix.'posts WHERE deleted <> 1 GROUP BY boardname');
+			$twig_data['filetypes'] = $db->GetAll('SELECT name FROM '.dbprefix.'filetypes');
 			self::updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
 					self::updateActive($_SESSION['manage_username']);
 					if ($_POST['id'] == '') {
 						$db->Run('INSERT INTO '.dbprefix.'boards 
-									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trial, popular, recentpost) 
+									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trial, popular, recentpost, filetypes) 
 								VALUES 
 									('.$db->quote($_POST['boarddirectory']).', '.$db->quote($_POST['boarddescription']).', '.$db->quote($_POST['type']).', '.$db->quote($_POST['section']).', '.$db->quote($_POST['maximagesize']).', 
 									 '.$db->quote($_POST['maxpostperpage']).', '.$db->quote($_POST['maxboardpages']).', '.$db->quote($_POST['maxthreadhours']).', '.$db->quote($_POST['markpage']).', '.$db->quote($_POST['maxthreadreply']).', 
 									 '.$db->quote($_POST['defaultpostername']).', '.$db->quote($_POST['locked']).', '.$db->quote($_POST['enableemail']).', '.$db->quote($_POST['enableads']).', '.$db->quote($_POST['enableids']).', 
 									 '.$db->quote($_POST['enablereporting']).', '.$db->quote($_POST['enablecaptcha']).', '.$db->quote($_POST['forcedanon']).', '.$db->quote($_POST['trialboard']).', '.$db->quote($_POST['popularboard']).',
-									 '.$db->quote($_POST['enablerecentpost']).')');
+									 '.$db->quote($_POST['enablerecentpost']).', '.$db->quote($_POST['filetype']).')');
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
 						$db->Run('UPDATE '.dbprefix.'boards SET
@@ -450,7 +451,8 @@ class Management {
 									forcedanon = '.$db->quote($_POST['forcedanon']).', 
 									trial = '.$db->quote($_POST['trialboard']).', 
 									popular = '.$db->quote($_POST['popularboard']).', 
-									recentpost = '.$db->quote($_POST['enablerecentpost']).'
+									recentpost = '.$db->quote($_POST['enablerecentpost']).',
+									filetypes = '.$db->quote($_POST['filetype']).'
 								WHERE id = '.$db->quote($_POST['id']));
 						Core::Log(time(), $_SESSION['manage_username'], 'Updated Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					}
