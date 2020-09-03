@@ -466,6 +466,11 @@ class Management {
 					self::updateActive($_SESSION['manage_username']);
 					$oldboard = $db->GetOne('SELECT name FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
 					$db->Run('DELETE FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
+					$dir = svrpath.$oldboard;
+					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
+					}
+					rmdir($dir);
 					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Board: /'.$oldboard.'/');
 				break;
 			}
