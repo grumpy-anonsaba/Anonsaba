@@ -18,13 +18,16 @@ class BoardCore {
 			$this->board['uniqueposts'] = $db->GetOne('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE boardname = '.$db->quote($this->board['name']).' AND deleted = 0');
 		}
 	}
-	public static function refreshPages() {
-		global $db, $twig_data;
-			$twig_data['filetypes'] = $this->board['filetypes'];
-			
-	}
-	public static function refreshAll() {
-		self::refreshPages();
-		self::refreshThreads();
+	public static function printPage($filename, $contents, $board) {
+		global $db;
+		$tempfile = tempnam(fullpath . $board . '/res', 'tmp'); /* Create the temporary file */
+		$fp = fopen($tempfile, 'w');
+		fwrite($fp, $contents);
+		fclose($fp);
+		if (!@rename($tempfile, $filename)) {
+			copy($tempfile, $filename);
+			unlink($tempfile);
+		}
+		chmod($filename, 0664); /* it was created 0600 */
 	}
 }

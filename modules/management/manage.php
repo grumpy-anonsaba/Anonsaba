@@ -430,6 +430,10 @@ class Management {
 									 '.$db->quote($_POST['defaultpostername']).', '.$db->quote($_POST['locked']).', '.$db->quote($_POST['enableemail']).', '.$db->quote($_POST['enableads']).', '.$db->quote($_POST['enableids']).', 
 									 '.$db->quote($_POST['enablereporting']).', '.$db->quote($_POST['enablecaptcha']).', '.$db->quote($_POST['forcedanon']).', '.$db->quote($_POST['trialboard']).', '.$db->quote($_POST['popularboard']).',
 									 '.$db->quote($_POST['enablerecentpost']).', '.$db->quote($_POST['filetype']).')');
+						if (mkdir(svrpath.$_POST['boarddirectory'], $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/src', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/res', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/thumb', $mode = 0755)) {
+							file_put_contents(svrpath. $_POST['boarddirectory'] .'/.htaccess' , 'DirectoryIndex board.html');
+							file_put_contents(svrpath . $_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
+						}
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
 						$db->Run('UPDATE '.dbprefix.'boards SET
