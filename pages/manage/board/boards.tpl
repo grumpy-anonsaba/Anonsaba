@@ -66,6 +66,7 @@
 								<option value="nsfw">Not Safe for Work</option>
 							</select>
 						</td>
+					</tr>
 					<tr>
 						<th>Board Section</th>
 						<td>

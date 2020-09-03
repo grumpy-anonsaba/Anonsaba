@@ -62,24 +62,23 @@
 						<div class="statinfohead">
 							Stats
 						</div>
-						<div class="statinfoleft">
-							Total Posts:
-						</div>
-						<div class="statinfoleft">
-							Unique Users:
-						</div>
-						<div class="statinfoleft">
-							Active Content:
-						</div>
-						<div class="statinforight">
-							{{postcount}}
-						</div>
-						<div class="statinforight">
-							{{uniqueusers}}
-						</div>
-						<div class="statinforight">
-							0 GB
-						</div>
+						<table cellspacing="1px">
+						<input type="hidden" name="id" id="id" />
+							<thead>
+								<tr>
+									<th>Total Posts:</th>
+									<td>{{postcount}}</td>
+								</tr>
+								<tr>
+									<th>Unique Users:</th>
+									<td>{{uniqueusers}}</td>
+								</tr>
+								<tr>
+									<th>Active Content:</th>
+									<td>0 GB</td>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 				<div id="content">
@@ -123,7 +122,7 @@
 								<div class="boardnames">
 									{% for boards in section.boards %}
 										<li>
-											<a href="{{url}}{{boards.name}}/">{{boards.desc}}</a>
+											<a href="{{url}}{{boards.name}}/">{{boards.desc}}</a>{% if boards.locked == 1 %}&nbsp;<img src="/pages/images/lock-icon.png" />{% endif %}
 										</li>
 									{% else %}
 										No boards

@@ -180,21 +180,13 @@ a, a:visited {
 	border-bottom-style: dashed;
 	border-bottom-width: thin;
 }
-.statinfoleft {
-	position: relative;
-	top: 2%;
-	font-weight: bold;
-	font-size: .8vw;
-	width: 35%;
-	padding-bottom: 1em;
+.statinfo th {
+	text-align: left;
+	font-size: 1vw;
 }
-.statinforight {
-	position: relative;
-	bottom: 71%;
-	width: 30%;
-	left: 35%;
-	font-size: .8vw;
-	padding-bottom: 1em;
+.statinfo td{
+	padding-left: 5em;
+	font-size: 1vw;
 }
 #content {
 	position: absolute;
