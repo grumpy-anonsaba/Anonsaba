@@ -412,10 +412,11 @@ class Management {
 	   Begin "Board Administration" function list */
 	public static function boards() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
 			$twig_data['postcount'] = $db->GetAll('SELECT boardname, COUNT(*) as count FROM '.dbprefix.'posts WHERE deleted <> 1 GROUP BY boardname');
 			$twig_data['filetypes'] = $db->GetAll('SELECT name FROM '.dbprefix.'filetypes');
+			$twig_data['sections'] = $db->GetAll('SELECT name FROM '.dbprefix.'sections');
 			self::updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
@@ -471,7 +472,7 @@ class Management {
 	}
 	public static function filetypes() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
 			self::updateActive($_SESSION['manage_username']);
 			$twig_data['filetype'] = $db->GetAll('SELECT * FROM '.dbprefix.'filetypes');
 			switch ($_GET['do']) {
@@ -493,6 +494,46 @@ class Management {
 				break;
 			}
 			Core::Output('/manage/board/filetypes.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permissions for this!');
+		}
+	}
+	public static function sections() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+			self::updateActive($_SESSION['manage_username']);
+			$twig_data['sections'] = $db->GetAll('SELECT * FROM '.dbprefix.'sections ORDER BY `order`');
+			switch ($_GET['do']) {
+				case 'create':
+					self::updateActive($_SESSION['manage_username']);
+					if ($_POST['id'] == '') {
+						//Lets make sure the section name/abbr doesn't exist first
+						if ($db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'sections WHERE name = '.$db->quote($_POST['name'])) > 0) {
+							break;
+						} elseif ($db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'sections WHERE abbr = '.$db->quote($_POST['abbr'])) > 0) {
+							break;
+						} else {
+							$db->Run('INSERT INTO '.dbprefix.'sections (`order`, abbr, name, hidden) VALUES ('.$db->quote($_POST['order']).', '.$db->quote($_POST['abbr']).', '.$db->quote($_POST['name']).', '.$db->quote($_POST['hidden']).')');
+						}	
+						Core::Log(time(), $_SESSION['manage_username'], 'Created Section: '.$_POST['name']);
+					} else {
+						$db->Run('UPDATE '.dbprefix.'sections SET 
+									`order` = '.$db->quote($_POST['order']).',
+									abbr = '.$db->quote($_POST['abbr']).',
+									name = '.$db->quote($_POST['name']).',
+									hidden = '.$db->quote($_POST['hidden']).'
+								WHERE id = '.$db->quote($_POST['id']));
+						Core::Log(time(), $_SESSION['manage_username'], 'Updated Section: '.$_POST['name']);
+					}
+				break;
+				case 'del':
+					self::updateActive($_SESSION['manage_username']);
+					$oldsection = $db->GetOne('SELECT name FROM '.dbprefix.'sections WHERE id = '.$db->quote($_GET['id']));
+					$db->Run('DELETE FROM '.dbprefix.'sections WHERE id = '.$db->quote($_GET['id']));
+					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Section: '.$oldsection);
+				break;
+			}
+			Core::Output('/manage/board/sections.tpl', $twig_data);
 		} else {
 			Core::Error('You don\'t have permissions for this!');
 		}
