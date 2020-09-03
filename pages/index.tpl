@@ -121,9 +121,11 @@
 							<div id="{{section.name}}" name="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
 								<div class="boardnames">
 									{% for boards in section.boards %}
-										<li>
-											<a href="{{url}}{{boards.name}}/">{{boards.desc}}</a>{% if boards.locked == 1 %}&nbsp;<img src="/pages/images/lock-icon.png" />{% endif %}
-										</li>
+										<a href="{{url}}{{boards.name}}/">
+											<li>
+												{{boards.desc}}{% if boards.locked == 1 %}&nbsp;<img src="/pages/images/lock-icon.png" />{% endif %}
+											</li>
+										</a>
 									{% else %}
 										No boards
 									{% endfor %}
