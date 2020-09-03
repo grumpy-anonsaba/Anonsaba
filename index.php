@@ -10,6 +10,7 @@
 	$twig_data['slogan'] = Core::GetConfigOption('slogan');
 	$twig_data['version'] = Core::GetConfigOption('version');
 	$twig_data['irc'] = Core::GetConfigOption('irc');
+	$twig_data['url'] = weburl;
 	switch($_GET['view']) {
 		case 'faq':
 			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY ordr');

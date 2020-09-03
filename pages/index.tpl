@@ -119,11 +119,11 @@
 									{% if section.hidden == 1 %}+{% else %}&minus;{% endif %}</span>
 								</span>
 							</div>
-							<div id="{{section.name}}" name="{{section.name}}">
+							<div id="{{section.name}}" name="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
 								<div class="boardnames">
 									{% for boards in section.boards %}
 										<li>
-											{{boards.desc}}
+											<a href="{{url}}{{boards.name}}/">{{boards.desc}}</a>
 										</li>
 									{% else %}
 										No boards

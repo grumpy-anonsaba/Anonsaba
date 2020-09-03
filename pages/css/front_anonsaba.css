@@ -251,16 +251,25 @@ a, a:visited {
 }
 .boardsectionname {
 	background-color: #b3d7ff;
-	font-size: 100%;
+	font-size: 1vw;
 	font-weight: bold;
 }
 .boardnames {
-	font-size: 100%;
+	width: 100%;
+	font-size: 1vw;
 	list-style-position: inside;
+	list-style-type: none;
 	display: inline-table;
 	height: auto;
 }
 .boardnames li {
 	float: left;
-	width: 48%;
+	width: 50%;
+}
+.boardnames li:hover {
+	background-color: #80c1ff;
+	cursor: pointer;
+}
+.boardnames a:link {
+	text-decoration: none;
 }
