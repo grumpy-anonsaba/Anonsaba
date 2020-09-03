@@ -82,11 +82,7 @@
 						<td>
 							{% for type in filetypes %}
 								<label for="file{{type.name}}">{{type.name}}</label>
-								<input type="checkbox" name="file{{type.name}}" id="file{{type.name}}"
-									{% if type.name in ['jpg', 'gif', 'png'] %}
-										checked="checked"
-									{% endif %}
-								/>
+								<input type="checkbox" name="file{{type.name}}" id="file{{type.name}}" />
 								{% if loop.index % 3 == 0 %}
 									<br />
 								{% endif %}
@@ -183,6 +179,11 @@
 		function newboardclick() {
 			document.getElementById("boardopt").style.display = "block";
 			document.getElementById("logs").style.display = "none";
+			if (document.getElementById("id").value == "") {
+				document.getElementById("filejpg").checked = true;
+				document.getElementById("filepng").checked = true;
+				document.getElementById("filegif").checked = true;
+			}
 		}
 		function updateFiletypes (item) {
 			document.getElementById("file"+item).checked = true;
@@ -297,8 +298,8 @@
 			}
 		}
 		function edit(id, boarddirectory, boarddescription, type, section, maximagesize, maxpostperpage, maxboardpages, maxthreadhours, markpage, maxthreadreply, defaultpostername, locked, enableemail, enableads, enableids, enablereporting, enablecaptcha, forcedanon, trialboard, popularboard, enablerecentpost, filetypes) {
-			newboardclick();
 			document.getElementById("id").value = id;
+			newboardclick();
 			document.getElementById('boarddirectory').disabled = true;
 			document.getElementById("boarddirectory").value = boarddirectory;
 			document.getElementById("boarddescription").value = boarddescription;
