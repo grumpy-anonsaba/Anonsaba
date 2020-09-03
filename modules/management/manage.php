@@ -467,4 +467,32 @@ class Management {
 			Core::Error('You don\'t have permissions for this!');
 		}
 	}
+	public static function filetypes() {
+		global $db, $twig_data;
+		if (self::getStaffLevel($_SESSION['manage_username']) <= 2) {
+			self::updateActive($_SESSION['manage_username']);
+			$twig_data['filetype'] = $db->GetAll('SELECT * FROM '.dbprefix.'filetypes');
+			switch ($_GET['do']) {
+				case 'create':
+					self::updateActive($_SESSION['manage_username']);
+					if ($_POST['id'] == '') {
+						$db->Run('INSERT INTO '.dbprefix.'filetypes (name, image) VALUES ('.$db->quote($_POST['type']).', '.$db->quote($_POST['image']).')');
+						Core::Log(time(), $_SESSION['manage_username'], 'Created Filetype: '.$_POST['type']);
+					} else {
+						$db->Run('UPDATE '.dbprefix.'filetypes SET image = '.$db->quote($_POST['image']).' WHERE id = '.$db->quote($_POST['id']));
+						Core::Log(time(), $_SESSION['manage_username'], 'Updated Filetype: '.$_POST['type']);
+					}
+				break;
+				case 'del':
+					self::updateActive($_SESSION['manage_username']);
+					$oldtype = $db->GetOne('SELECT name FROM '.dbprefix.'filetypes WHERE id = '.$db->quote($_GET['id']));
+					$db->Run('DELETE FROM '.dbprefix.'filetypes WHERE id = '.$db->quote($_GET['id']));
+					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Filetype: '.$oldtype);
+				break;
+			}
+			Core::Output('/manage/board/filetypes.tpl', $twig_data);
+		} else {
+			Core::Error('You don\'t have permissions for this!');
+		}
+	}
 }

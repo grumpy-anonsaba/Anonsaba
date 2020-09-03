@@ -527,3 +527,22 @@ input#myfile {
 .boardopt select {
 	width:100%;
 }
+.filetype {
+	position: relative;
+	top: 5%;
+	width: 50%;
+	height: auto;
+	margin: auto;
+	padding-bottom: 0.25em;
+	display: none;
+}
+.filetype th {
+	text-align:left;
+}
+.filetype td {
+	padding-left: 5em;
+}
+.filetype input {
+	border-radius: 5px;
+	width:155%;
+}
