@@ -46,7 +46,7 @@
 		$db = new Database($dsn, $config['dbuser'], $config['dbpass']);
 	}
 	if (!isset($twig)) {
-		require_once dirname(__DIR__, 3).'/vendor/autoload.php';
+		require_once $config['svrpath'].'modules/autoload.php';
 		$loader = new \Twig\Loader\FilesystemLoader($config['dir']);
 		$twig = new \Twig\Environment($loader, ['cache' => $config['cache'],]);
 	}
