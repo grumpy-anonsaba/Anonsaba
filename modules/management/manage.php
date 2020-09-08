@@ -3,28 +3,28 @@
 // Anonsaba 3.0 - Management Console
 
 class Management {
-	public static function validateSession($manage=false) {
+	public function validateSession($manage=false) {
 		global $db;
 		if(isset($_SESSION['manage_username']) && isset($_SESSION['sessionid'])) {
 			if($_SESSION['sessionid'] == $db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username']))) {
 				return true;
 			} else {
-				self::destroySession($_SESSION['manage_username']);
-				self::loginForm('1', 'Invalid Session!');
+				$this->destroySession($_SESSION['manage_username']);
+				$this->loginForm('1', 'Invalid Session!');
 			}
 		} else {
 			if(!$manage) {
-				die(self::loginForm('2', ''));
+				die($this->loginForm('2', ''));
 			} else {
 				return false;
 			}
 		}
 	}
-	public static function updateActive($user) {
+	public function updateActive($user) {
 		global $db;
 		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($user));
 	}
-	public static function createSession($user) {
+	public function createSession($user) {
 		global $db;
 		$chars = hash;
 		$sessionid = '';
@@ -34,7 +34,7 @@ class Management {
 		$_SESSION['sessionid'] = $sessionid;
 		$_SESSION['manage_username'] = $user;
 		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
-		$level = self::getStaffLevel($user);
+		$level = $this->getStaffLevel($user);
 		if ($boards == 'all' || $level == 1) {
 			setcookie('mod_cookie', 'allboards', time() + 1800, '/', cookies);
 		} else {
@@ -43,20 +43,20 @@ class Management {
 		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = '.$db->quote($sessionid).' WHERE username = '.$db->quote($user));
 		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($user));
 	}
-	public static function destroySession($user) {
+	public function destroySession($user) {
 		global $db;
 		$db->Run('UPDATE '.dbprefix.'staff SET sessionid = "" WHERE username = '.$db->quote($user));
 		unset($_SESSION['manage_username']);
 		unset($_SESSION['sessionid']);
 		$boards = $db->GetOne('SELECT boards FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
-		$level = self::getStaffLevel($user);
+		$level = $this->getStaffLevel($user);
 		if ($boards == 'all' || $level == 1) {
 			setcookie('mod_cookie', 'allboards', time() - 1800, '/', cookies);
 		} else {
 			setcookie('mod_cookie', $boards, time() - 1800, '/', cookies);
 		}
 	}
-	public static function loginForm($error, $errormsg) {
+	public function loginForm($error, $errormsg) {
 		$twig_data['action'] = isset($_GET['action']) ? $_GET['action'] : 'stats';
 		$twig_data['current'] = isset($_GET['side']) ? $_GET['side'] : 'main';
 		if ($error == '1') {
@@ -70,27 +70,27 @@ class Management {
 		die();
 	}
 	// Verifying that the supplied password is correct
-	public static function checkLogin($side, $action) {
+	public function checkLogin($side, $action) {
 		global $db;
 		$ip = Core::getIP();
 		// If the user doesn't exist throw an error
 		if (!$db->GetOne('SELECT * FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username']))) {
 			Core::Log(time(), $_POST['username'], 'Failed Login attempt from: '.$ip);
-			self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
+			$this->loginForm('1', 'Either the Username or Password you supplied is incorrect');
 		}
 		// First lets make sure that the user account isn't locked out!
-		if (self::checkLock($_POST['username']) && self::checkSuspended($_POST['username'])) {
+		if ($this->checkLock($_POST['username']) && $this->checkSuspended($_POST['username'])) {
 			if (password_verify($_POST['password'], $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($_POST['username'])))) {
 				// Lets update the hash 
 				// The user will always be able to still login, but if a hacker finds this it will constantly stay changing
 				$db->Run('UPDATE '.dbprefix.'staff SET password = '.$db->quote(password_hash($_POST['password'], PASSWORD_ARGON2I)));
 				// Set the users active time!
-				self::updateActive($_POST['username']);
+				$this->updateActive($_POST['username']);
 				// Delete all failed login attempts!
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($_POST['username']));
 				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = 0 WHERE username = '.$db->quote($_POST['username']));
 				// Create the session
-				self::createSession($_POST['username']);
+				$this->createSession($_POST['username']);
 				// Log that this user has logged in!
 				Core::Log(time(), $_POST['username'], 'Logged in');
 				// Point them to the main page
@@ -102,16 +102,16 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = '.$loginattempts.' WHERE username = '.$db->quote($_POST['username']));
 				// Lets update the failed time as well
 				$db->Run('UPDATE '.dbprefix.'staff SET failedtime = '.time().' WHERE username = '.$db->quote($_POST['username']));
-				self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
+				$this->loginForm('1', 'Either the Username or Password you supplied is incorrect');
 			}
 		}
 	}
-	public static function logOut() {
+	public function logOut() {
 		global $db;
-		self::destroySession($_SESSION['manage_username']);
+		$this->destroySession($_SESSION['manage_username']);
 		header("Location: ".weburl.'manage/');
 	}
-	public static function checkLock($user) {
+	public function checkLock($user) {
 		global $db;
 		if ($db->GetOne('SELECT failed FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)) >= 3) {
 			// Lets check if it's been 30 minutes since 3 failed login attempts
@@ -119,28 +119,28 @@ class Management {
 				$db->Run('UPDATE '.dbprefix.'staff SET failed = 0 WHERE username = '.$db->quote($user));
 				return true;
 			} else {
-				self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
+				$this->loginForm('1', 'Either the Username or Password you supplied is incorrect');
 			}
 		} else {
 			return true;
 		}
 	}
-	public static function checkSuspended($user) {
+	public function checkSuspended($user) {
 		global $db;
 		$ip = Core::getIP();
 		if ($db->GetOne('SELECT suspended FROM '.dbprefix.'staff WHERE username = '.$db->quote($user)) == 0) {
 			return true;
 		} else {
 			Core::Log(time(), $user, 'Failed Login attempt to suspended account from IP: '.$ip);
-			self::loginForm('1', 'Either the Username or Password you supplied is incorrect');
+			$this->loginForm('1', 'Either the Username or Password you supplied is incorrect');
 		}
 	}
-	public static function getStaffLevel($user) {
+	public function getStaffLevel($user) {
 		global $db;
 		return $db->GetOne('SELECT level FROM '.dbprefix.'staff WHERE username = '.$db->quote($user));
 	}
 	/* This is the "Main" section function list */
-	public static function stats() {
+	public function stats() {
 		global $db, $twig_data;
 		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
 		$twig_data['version'] = Core::GetConfigOption('version');
@@ -180,19 +180,19 @@ class Management {
 		}
 		Core::Output('/manage/main/welcome.tpl', $twig_data);
 	}
-	public static function spp() {
+	public function spp() {
 		global $db;
-		self::updateActive($_SESSION['manage_username']);
+		$this->updateActive($_SESSION['manage_username']);
 		die('
 			<div class="action">
 				<input type="text" value="'.$db->GetOne('SELECT sessionid FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])).'" />
 			</div>
 			');
 	}
-	public static function changePass() {
+	public function changePass() {
 		global $db, $twig_data;
 		if (isset($_POST['submit'])) {
-			self::updateActive($_SESSION['manage_username']);
+			$this->updateActive($_SESSION['manage_username']);
 			// First lets make sure the old password matches what they currently have
 			if (!password_verify($_POST['oldpass'], $db->GetOne('SELECT password FROM '.dbprefix.'staff WHERE username = '.$db->quote($_SESSION['manage_username'])))) {
 				$twig_data['error'] = true;
@@ -213,10 +213,10 @@ class Management {
 	}
 	/* This ends the "Main" section function list
 	   Begin "Site Administration" function list */
-	public static function news() {
+	public function news() {
 		global $db, $twig_data;
-		self::updateActive($_SESSION['manage_username']);
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+		$this->updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['newspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC');
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
@@ -224,21 +224,21 @@ class Management {
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
 				if($_POST['id'] != '') {
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('news'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a news post');
 				} else {
 					// Update active time
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					// Post the news post
 					$db->Run('INSERT INTO '.dbprefix.'front (`by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('news').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a news post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "news" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "news" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -248,10 +248,10 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
-	public static function faq() {
+	public function faq() {
 		global $db, $twig_data;
-		self::updateActive($_SESSION['manage_username']);
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+		$this->updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['faqspost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY ordr');
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
@@ -259,21 +259,21 @@ class Management {
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
 				if($_POST['id'] != '') {
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).', `ordr` = '.$_POST['order'].' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('faq'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a FAQ post');
 				} else {
 					// Update active time
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					// Post the FAQ post
 					$db->Run('INSERT INTO '.dbprefix.'front (`ordr`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['order'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('faq').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a FAQ post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "faq" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "faq" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -283,10 +283,10 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
-	public static function rules() {
+	public function rules() {
 		global $db, $twig_data;
-		self::updateActive($_SESSION['manage_username']);
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+		$this->updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['rulespost'] = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY ordr');
 			if ($_GET['do'] == 'filesubmit') {
 				$upload = new Upload();
@@ -294,21 +294,21 @@ class Management {
 				unset($upload);
 			} elseif ($_GET['do'] == 'post') {
 				if ($_POST['id'] != '') {
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'front SET message = '.$db->quote($_POST['post']).', subject = '.$db->quote($_POST['subject']).', email = '.$db->quote($_POST['email']).', `ordr` = '.$_POST['order'].' WHERE id = '.$_POST['id'].' AND type = '.$db->quote('rules'));
 					Core::Log(time(), $_SESSION['manage_username'], 'Edited a Rules post');
 				} else {
 					// Update active time
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					// Post the Rules post
 					$db->Run('INSERT INTO '.dbprefix.'front (`ordr`, `by`, `message`, `date`, `type`, `subject`, `email`) VALUES ('.$_POST['order'].', '.$db->quote($_SESSION['manage_username']).', '.$db->quote($_POST['post']).', '.time().', '.$db->quote('rules').', '.$db->quote($_POST['subject']).', '.$db->quote($_POST['email']).')');
 					Core::Log(time(), $_SESSION['manage_username'], 'Created a Rules post');
 				}
 			} elseif ($_GET['do'] == 'delpost') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'front WHERE type = "rules" and id = '.$_GET['id']);
 			} elseif ($_GET['do'] == 'getmsg') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$msg = $db->GetOne('SELECT message FROM '.dbprefix.'front WHERE type = "rules" AND id = '.$_GET['id']);
 				echo $msg;
 				die();
@@ -318,30 +318,30 @@ class Management {
 			Core::Error('You don\'t have permission for this!');
 		}
 	}
-	public static function staff() {
+	public function staff() {
 		global $db, $twig_data;
-		self::updateActive($_SESSION['manage_username']);
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+		$this->updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['entry'] = $db->GetAll('SELECT * FROM '.dbprefix.'staff ORDER BY username');
 			$twig_data['boards'] = $db->Getall('SELECT * FROM '.dbprefix.'boards ORDER BY name');
 			switch ($_GET['do']) {
 				case 'suspend':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'staff SET suspended = 1 WHERE id = '.$_GET['id']);
 					Core::Log(time(), $_SESSION['manage_username'], 'Suspended '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
 				break;
 				case 'del':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					Core::Log(time(), $_SESSION['manage_username'], 'Deleted '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
 					$db->Run('DELETE FROM '.dbprefix.'staff WHERE id = '.$_GET['id']);
 				break;
 				case 'unsuspend':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$db->Run('UPDATE '.dbprefix.'staff SET suspended = 0 WHERE id = '.$_GET['id']);
 					Core::Log(time(), $_SESSION['manage_username'], 'Unsuspended '.$db->GetOne('SELECT username FROM '.dbprefix.'staff WHERE id = '.$_GET['id']));
 				break;
 				case 'create':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					switch($_POST['level']) {
 						case '1':
 							$level = 'Administrator';
@@ -392,16 +392,16 @@ class Management {
 			Core::Error('You don\'t have permissions for this!');
 		}
 	}
-	public static function logs() {
+	public function logs() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
-			self::updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
+			$this->updateActive($_SESSION['manage_username']);
 			$twig_data['entry'] = $db->GetAll('SELECT * FROM '.dbprefix.'logs ORDER BY time DESC LIMIT 25 OFFSET '.($_GET['page'] * 25));
 			$pages = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'logs');
 			$twig_data['page'] = $_GET['page'];
 			$twig_data['pages'] = ($pages/25);
 			if ($_GET['do'] == 'clearlog') {
-				self::updateActive($_SESSION['manage_username']);
+				$this->updateActive($_SESSION['manage_username']);
 				$db->Run('DELETE FROM '.dbprefix.'logs');
 				Core::Log(time(), $_SESSION['manage_username'], 'Deleted all Log items');
 			}
@@ -410,17 +410,17 @@ class Management {
 	}
 	/* This ends the "Site Administration" section function list
 	   Begin "Board Administration" function list */
-	public static function boards() {
+	public function boards() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
 			$twig_data['postcount'] = $db->GetAll('SELECT boardname, COUNT(*) as count FROM '.dbprefix.'posts WHERE deleted <> 1 GROUP BY boardname');
 			$twig_data['filetypes'] = $db->GetAll('SELECT name FROM '.dbprefix.'filetypes');
 			$twig_data['sections'] = $db->GetAll('SELECT name FROM '.dbprefix.'sections');
-			self::updateActive($_SESSION['manage_username']);
+			$this->updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'create':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					if ($_POST['id'] == '') {
 						$db->Run('INSERT INTO '.dbprefix.'boards 
 									(name, `desc`, class, section, imagesize, postperpage, boardpages, threadhours, markpage, threadreply, postername, locked, email, ads, showid, report, captcha, forcedanon, trial, popular, recentpost, filetypes) 
@@ -463,7 +463,7 @@ class Management {
 					}
 				break;
 				case 'del':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$oldboard = $db->GetOne('SELECT name FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
 					$db->Run('DELETE FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
 					$dir = svrpath.$oldboard;
@@ -479,14 +479,14 @@ class Management {
 			Core::Error('You don\'t have permissions for this!');
 		}
 	}
-	public static function filetypes() {
+	public function filetypes() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
-			self::updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
+			$this->updateActive($_SESSION['manage_username']);
 			$twig_data['filetype'] = $db->GetAll('SELECT * FROM '.dbprefix.'filetypes');
 			switch ($_GET['do']) {
 				case 'create':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					if ($_POST['id'] == '') {
 						$db->Run('INSERT INTO '.dbprefix.'filetypes (name, image) VALUES ('.$db->quote($_POST['type']).', '.$db->quote($_POST['image']).')');
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Filetype: '.$_POST['type']);
@@ -496,7 +496,7 @@ class Management {
 					}
 				break;
 				case 'del':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$oldtype = $db->GetOne('SELECT name FROM '.dbprefix.'filetypes WHERE id = '.$db->quote($_GET['id']));
 					$db->Run('DELETE FROM '.dbprefix.'filetypes WHERE id = '.$db->quote($_GET['id']));
 					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Filetype: '.$oldtype);
@@ -507,14 +507,14 @@ class Management {
 			Core::Error('You don\'t have permissions for this!');
 		}
 	}
-	public static function sections() {
+	public function sections() {
 		global $db, $twig_data;
-		if (self::getStaffLevel($_SESSION['manage_username']) == 1) {
-			self::updateActive($_SESSION['manage_username']);
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
+			$this->updateActive($_SESSION['manage_username']);
 			$twig_data['sections'] = $db->GetAll('SELECT * FROM '.dbprefix.'sections ORDER BY `order`');
 			switch ($_GET['do']) {
 				case 'create':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					if ($_POST['id'] == '') {
 						//Lets make sure the section name/abbr doesn't exist first
 						if ($db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'sections WHERE name = '.$db->quote($_POST['name'])) > 0) {
@@ -536,7 +536,7 @@ class Management {
 					}
 				break;
 				case 'del':
-					self::updateActive($_SESSION['manage_username']);
+					$this->updateActive($_SESSION['manage_username']);
 					$oldsection = $db->GetOne('SELECT name FROM '.dbprefix.'sections WHERE id = '.$db->quote($_GET['id']));
 					$db->Run('DELETE FROM '.dbprefix.'sections WHERE id = '.$db->quote($_GET['id']));
 					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Section: '.$oldsection);
