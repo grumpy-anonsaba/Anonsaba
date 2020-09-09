@@ -39,4 +39,29 @@ Class Core {
 		}
 		return $ip;
 	}
+	public static function formatSizeUnits($bytes) {
+	// Snippet from PHP Share: http://www.phpshare.org
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes . ' Bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes . ' Byte';
+        } else {
+            $bytes = '0 Bytes';
+        }
+		return $bytes;
+	}
+	public static function GetSize($dir) {
+		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS));
+		$totalSize = 0;
+		foreach ($iterator as $file) {
+			$totalSize += $file->getSize();
+		}
+		return $totalSize;
+	}
 }

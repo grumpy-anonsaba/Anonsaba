@@ -36,6 +36,10 @@
 		}
 	}
 	/* End old code snippit */
+	$boards = $db->GetAll('SELECT name FROM '.dbprefix.'boards');
+	foreach ($boards as $board) {
+		$total += Core::GetSize(svrpath.$board['name']);
+	}
 	$pages = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
 	$twig_data['recentposts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 ORDER BY time DESC LIMIT 5');
 	$twig_data['postcount'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE deleted = 0');
@@ -44,4 +48,5 @@
 	$twig_data['pages'] = ($pages/5);
 	$twig_data['entries'] = $entries;
 	$twig_data['view'] = $_GET['view'];
+	$twig_data['activecontent'] = Core::formatSizeUnits($total);
 	Core::Output('/index.tpl', $twig_data);

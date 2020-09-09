@@ -75,7 +75,7 @@
 								</tr>
 								<tr>
 									<th>Active Content:</th>
-									<td>0 GB</td>
+									<td>{{activecontent}}</td>
 								</tr>
 							</thead>
 						</table>
