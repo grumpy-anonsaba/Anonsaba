@@ -433,6 +433,9 @@ class Management {
 						if (mkdir(svrpath.$_POST['boarddirectory'], $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/src', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/res', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/thumb', $mode = 0755)) {
 							file_put_contents(svrpath. $_POST['boarddirectory'] .'/.htaccess' , 'DirectoryIndex board.html');
 							file_put_contents(svrpath . $_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
+							$board_core = new BoardCore();
+							$board_core->Board($_POST['boarddirectory']);
+							$board_core->RefreshAll();
 						}
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
@@ -465,13 +468,15 @@ class Management {
 				case 'del':
 					$this->updateActive($_SESSION['manage_username']);
 					$oldboard = $db->GetOne('SELECT name FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
-					$db->Run('DELETE FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
-					$dir = svrpath.$oldboard;
-					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
-						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
+					if ($oldboard) {
+						$db->Run('DELETE FROM '.dbprefix.'boards WHERE id = '.$db->quote($_GET['id']));
+						$dir = svrpath.$oldboard;
+						foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+							$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
+						}
+						rmdir($dir);
+						Core::Log(time(), $_SESSION['manage_username'], 'Deleted Board: /'.$oldboard.'/');
 					}
-					rmdir($dir);
-					Core::Log(time(), $_SESSION['manage_username'], 'Deleted Board: /'.$oldboard.'/');
 				break;
 			}
 			Core::Output('/manage/board/boards.tpl', $twig_data);

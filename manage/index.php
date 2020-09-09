@@ -7,6 +7,7 @@ require_once realpath(dirname(__DIR__)).'/config/config.php';
 require_once svrpath.'modules/upload.php';
 require_once svrpath.'modules/management/manage.php';
 require_once svrpath.'modules/core.php';
+require_once svrpath.'modules/board.php';
 
 
 // Okay let's start the session now that we have those files
