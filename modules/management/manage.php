@@ -462,6 +462,9 @@ class Management {
 									recentpost = '.$db->quote($_POST['enablerecentpost']).',
 									filetypes = '.$db->quote($_POST['filetype']).'
 								WHERE id = '.$db->quote($_POST['id']));
+						$board_core = new BoardCore();
+						$board_core->board($_POST['boarddirectory']);
+						$board_core->refreshPages();
 						Core::Log(time(), $_SESSION['manage_username'], 'Updated Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					}
 				break;

@@ -30,6 +30,8 @@ class BoardCore {
 		$twig_data['timgw'] = Core::GetConfigOption('timgw');
 		$twig_data['rimgh'] = Core::GetConfigOption('rimgh');
 		$twig_data['rimgw'] = Core::GetConfigOption('rimgw');
+		$twig_data['board'] = $this->board;
+		$twig_data['weburl'] = weburl;
 		$twig_data['posts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE boardname = '.$db->quote($this->board['name']).' AND deleted = 0');
 		$data = $twig->render('/board/board_page.tpl', $twig_data);
 		$data = str_replace('\t', '',$data);
