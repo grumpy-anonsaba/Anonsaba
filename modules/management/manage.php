@@ -144,7 +144,7 @@ class Management {
 		global $db, $twig_data;
 		$db->Run('UPDATE '.dbprefix.'staff SET active = '.time().' WHERE username = '.$db->quote($_SESSION['manage_username']));
 		$twig_data['version'] = Core::GetConfigOption('version');
-		if (file_get_contents('http://www.anonsaba.org/ver.php') != Core::GetConfigOption('version')) {
+		if (file_get_contents('https://www.anonsaba.org/ver.php') != Core::GetConfigOption('version')) {
 			$update = '1';
 		} else {
 			$update = '0';
