@@ -434,8 +434,8 @@ class Management {
 							file_put_contents(svrpath. $_POST['boarddirectory'] .'/.htaccess' , 'DirectoryIndex board.html');
 							file_put_contents(svrpath . $_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
 							$board_core = new BoardCore();
-							$board_core->Board($_POST['boarddirectory']);
-							$board_core->RefreshAll();
+							$board_core->board($_POST['boarddirectory']);
+							$board_core->refreshPages();
 						}
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
