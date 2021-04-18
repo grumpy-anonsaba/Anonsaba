@@ -576,7 +576,7 @@ class Management {
 						$board_core->board($brd['name']);
 						$board_core->refreshAll();
 					}
-					Core::Log(time(), $_SESSION['manage_username'], 'Ran "Rebuild All"');
+					Core::Log(time(), $_SESSION['manage_username'], 'Cleared Twig cache');
 					$time_elapsed_secs = round(microtime(true) - $start, 2);
 					$results = array('done' => 'success', 'time' => $time_elapsed_secs);
 					die(json_encode($results));
