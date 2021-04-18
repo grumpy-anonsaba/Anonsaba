@@ -84,7 +84,7 @@
 					<th>Username</th>
 				</tr>
 				<tr>
-					<td><input type="text" name="username" id="username" placeholder="Can be left blank" /></td>
+					<td><input type="text" name="username" id="username" placeholder="Cannot be left blank" /></td>
 				</tr>
 				<tr>
 					<th>Password</th>
@@ -188,6 +188,7 @@
 		}
 		function edit(id, username, level, boards) {
 			document.getElementById("staff").style.display = "block";
+			document.getElementById('password').placeholder='Can be left blank';
 			document.getElementById("logs").style.display = "none";
 			document.getElementById("id").value = id;
 			document.getElementById('username').disabled = true;
