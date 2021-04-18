@@ -20,7 +20,7 @@ class BoardCore {
 	}
 	public function refreshAll() {
 		self::refreshPages();
-		self::refreshThreads();
+		//self::refreshThreads();
 	}
 	public function refreshPages() {
 		global $db, $twig_data, $twig;

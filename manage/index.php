@@ -71,10 +71,6 @@ switch ($action) {
 		break;
 	default:
 		$manage->ValidateSession();
-		page($action);
+		$manage->$action();
 		break;
-}
-function page($action) {
-	global $manage;
-	$manage->$action();
 }

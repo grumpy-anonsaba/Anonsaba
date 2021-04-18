@@ -437,7 +437,7 @@ class Management {
 							file_put_contents(svrpath . $_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
 							$board_core = new BoardCore();
 							$board_core->board($_POST['boarddirectory']);
-							$board_core->refreshPages();
+							$board_core->refreshAll();
 						}
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
@@ -466,7 +466,7 @@ class Management {
 								WHERE id = '.$db->quote($_POST['id']));
 						$board_core = new BoardCore();
 						$board_core->board($_POST['boarddirectory']);
-						$board_core->refreshPages();
+						$board_core->refreshAll();
 						Core::Log(time(), $_SESSION['manage_username'], 'Updated Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					}
 				break;
@@ -555,6 +555,32 @@ class Management {
 			Core::Output('/manage/board/sections.tpl', $twig_data);
 		} else {
 			Core::Error('You don\'t have permissions for this!');
+		}
+	}
+	public function rebuildall() {
+		global $db, $twig_data;
+		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
+			$this->updateActive($_SESSION['manage_username']);
+			switch ($_GET['do']) {
+				case 'run':
+					$this->updateActive($_SESSION['manage_username']);
+					$dir = svrpath.'pages_cache';
+					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
+					}
+					rmdir($dir);
+					$board = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
+					$board_core = new BoardCore();
+					foreach ($board as $brd) {
+						$board_core->board($brd['name']);
+						$board_core->refreshAll();
+					}
+					Core::Log(time(), $_SESSION['manage_username'], 'Ran "Rebuild All"');
+				break;
+			}
+			Core::Output('/manage/board/rebuildall.tpl', $twig_data);
+		} else {
+			
 		}
 	}
 }
