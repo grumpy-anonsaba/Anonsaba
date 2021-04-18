@@ -14,11 +14,18 @@
 	<body>
 		<div class="boardcontent" id="boardcontent">
 			<div class="navbar" id="navbar">
-				[<a href="{{weburl}}">Home</a>]&nbsp;&nbsp;
-				{% for sections in section %}
-					[
-					{{sections.name}}
-					]
+				<div class="homebutt">
+					<a href="{{weburl}}">Home</a>
+				</div>&nbsp;&nbsp;
+				{% for section in boards %}
+					<div class="boardsecs">
+						{{section.name}}
+						<div class="dropdown-content">
+							{% for boards in section.boards %}
+								<a title="{{boards.desc}}" href="{{weburl}}{{boards.name}}/">{{boards.desc}}</a>
+							{% endfor %}
+						</div>
+					</div>
 				{% endfor %}
 			</div>
 			<div class="boardname" id="boardname">

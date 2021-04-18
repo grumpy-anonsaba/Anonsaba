@@ -33,17 +33,18 @@ class BoardCore {
 		$twig_data['board'] = $this->board;
 		$twig_data['weburl'] = weburl;
 		$twig_data['posts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE boardname = '.$db->quote($this->board['name']).' AND deleted = 0');
-		$twig_data['section'] = $db->GetAll('SELECT * FROM `'.prefix.'sections`');
-		$sections = $db->GetAll('SELECT name FROM '.dbprefix.'sections ORDER BY `order` ASC');
-		$boards = array();
-		foreach($sections as $section) {
-			$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE section = '.$db->quote($section['name']).' ORDER BY name ASC');
-			foreach($results as $line) {
-				$boards[$section['name']][$line['name']]['name'] = htmlspecialchars($line['name']);
-				$boards[$section['name']][$line['name']]['desc'] = htmlspecialchars($line['desc']);
+		$sections = array();
+		$results_boardexist = $db->GetAll('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+		if (count($results_boardsexist) >= 0) {
+			$sections = $db->GetAll('SELECT * FROM  '.dbprefix.'sections ORDER BY `order` ASC');
+			foreach($sections AS $key=>$section) {
+				$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE section = '.$db->quote($section['name']).' ORDER BY name ASC');
+				foreach($results AS $line) {
+					$sections[$key]['boards'][] = $line;
+				}
 			}
 		}
-		$twig_data['boards'] = $boards;
+		$twig_data['boards'] = $sections;
 		$data = $twig->render('/board/board_page.tpl', $twig_data);
 		$data = str_replace('\t', '',$data);
 		$data = str_replace('&nbsp;\r\n', '&nbsp;',$data);
