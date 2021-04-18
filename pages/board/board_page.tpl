@@ -12,18 +12,18 @@
 		<title>{{board.desc}}</title>
 	</head>
 	<body>
-		<div class="navbar" id="navbar">
-			[<a href="{{weburl}}">Home</a>]&nbsp;&nbsp;
-			{% for sect in boards %}
-				[
-				{% for brd in sect %}
-					<a title="{{brd.desc}}" href="{{weburl}}{{brd.name}}/">{{brd.desc}}</a>{% if loop.last %}{% else %} / {% endif %}
+		<div class="boardcontent" id="boardcontent">
+			<div class="navbar" id="navbar">
+				[<a href="{{weburl}}">Home</a>]&nbsp;&nbsp;
+				{% for sections in section %}
+					[
+					{{sections.name}}
+					]
 				{% endfor %}
-				 ]
-			{% endfor %}
-		</div>
-		<div class="boardname" id="boardname">
-			/{{board.name}}/ - {{board.desc}}
+			</div>
+			<div class="boardname" id="boardname">
+				/{{board.name}}/ - {{board.desc}}
+			</div>
 		</div>
 	</body>
 </html>
