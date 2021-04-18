@@ -1,7 +1,7 @@
 {% extends "/manage/main.tpl" %}
 {% block managecontent %}
 	<div class="moduleheader">
-		Rebuild all Board pages
+		Clear Twig Cache
 	</div>
 	<div class="modules">
 		<div class="logs" id="logs">
@@ -9,7 +9,7 @@
 				<div class="alert alert-success alert-dismissible fade in">
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 					<div id="confirms">
-						<strong>Success!</strong> Ran "Rebuild All" in 
+						<strong>Success!</strong> Cleared Twig cache in  
 					</div>
 				</div>
 				<br />

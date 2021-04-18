@@ -559,7 +559,7 @@ class Management {
 	}
 	public function rebuildall() {
 		global $db, $twig_data;
-		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
+		if ($this->getStaffLevel($_SESSION['manage_username']) <= 2) {
 			$this->updateActive($_SESSION['manage_username']);
 			switch ($_GET['do']) {
 				case 'run':
@@ -577,7 +577,7 @@ class Management {
 						$board_core->refreshAll();
 					}
 					Core::Log(time(), $_SESSION['manage_username'], 'Ran "Rebuild All"');
-					$time_elapsed_secs = microtime(true) - $start;
+					$time_elapsed_secs = round(microtime(true) - $start, 2);
 					$results = array('done' => 'success', 'time' => $time_elapsed_secs);
 					die(json_encode($results));
 				break;

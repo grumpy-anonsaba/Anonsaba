@@ -41,13 +41,13 @@ if ($manage->validateSession(true)) {
 		case 'boards':
 			if($manage->getStaffLevel($_SESSION['manage_username']) == 1) {
 				$twig_data['sectionname'] = 'Board Administration';
-				$twig_data['names'] = array('Boards' , 'Edit filetypes', 'Edit Sections', 'Word filter', 'Spam filter', 'Manage Ads', 'Move threads', 'Rebuild board', 'Rebuild all boards');
-				$twig_data['urls'] = array('&action=boards', '&action=filetypes', '&action=sections', '&action=wf', '&action=sf', '&action=ads', '&action=movethread', '&action=rebuildboard', '&action=rebuildall');
+				$twig_data['names'] = array('Boards' , 'Edit filetypes', 'Edit Sections', 'Word filter', 'Spam filter', 'Manage Ads', 'Move threads', 'Clear Twig Cache');
+				$twig_data['urls'] = array('&action=boards', '&action=filetypes', '&action=sections', '&action=wf', '&action=sf', '&action=ads', '&action=movethread', '&action=rebuildall');
 				$twig_data['arraynum'] = count($twig_data['names']);
 			} elseif($manage->getStaffLevel($_SESSION['manage_username']) == 2) {
 				$twig_data['sectionname'] = 'Board Administration';
-				$twig_data['names'] = array('Word filter', 'Spam filter', 'Move threads', 'Rebuild board', 'Rebuild all boards');
-				$twig_data['urls'] = array('&action=wf', '&action=sf', '&action=movethread', '&action=rebuildboard', '&action=rebuildall');
+				$twig_data['names'] = array('Word filter', 'Spam filter', 'Move threads', 'Clear Twig Cache');
+				$twig_data['urls'] = array('&action=wf', '&action=sf', '&action=movethread', '&action=rebuildall');
 				$twig_data['arraynum'] = count($twig_data['names']);
 			}
 			break;
