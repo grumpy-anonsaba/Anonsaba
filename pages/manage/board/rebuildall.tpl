@@ -5,12 +5,25 @@
 	</div>
 	<div class="modules">
 		<div class="logs" id="logs">
+			<div id="confirm">
+				<div class="confirm" id="confirm">
+					Successfully ran Rebuild All!
+				</div>
+				<br /><br />
+			</div>
 			<div class="fc">
 				<input type="submit" value="Run" onclick="run();" />
 			</div>
 		</div>
 	</div>
 	<script>
+		window.onload = function() {
+			document.getElementById("confirm").style.display = "none";
+			if (sessionStorage.getItem('success') == "true") {
+				document.getElementById("confirm").style.display = "block";
+			}
+			sessionStorage.setItem('success', 'false');
+		}
 		function getQueryVariable(variable) {
 			var query = window.location.search.substring(1);
 			var vars = query.split("&");
@@ -30,6 +43,7 @@
 			req.send(formData);
 			req.onreadystatechange = function () {
 				window.location.replace("index.php?side="+side+"&action="+action);
+				sessionStorage.setItem('success', 'true');
 			}
 		}
 	</script>
