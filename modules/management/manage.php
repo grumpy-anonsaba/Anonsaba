@@ -564,6 +564,7 @@ class Management {
 			switch ($_GET['do']) {
 				case 'run':
 					$this->updateActive($_SESSION['manage_username']);
+					$start = microtime(true);
 					$dir = svrpath.'pages_cache';
 					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
 						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
@@ -576,6 +577,9 @@ class Management {
 						$board_core->refreshAll();
 					}
 					Core::Log(time(), $_SESSION['manage_username'], 'Ran "Rebuild All"');
+					$time_elapsed_secs = microtime(true) - $start;
+					$results = array('done' => 'success', 'time' => $time_elapsed_secs);
+					die(json_encode($results));
 				break;
 			}
 			Core::Output('/manage/board/rebuildall.tpl', $twig_data);

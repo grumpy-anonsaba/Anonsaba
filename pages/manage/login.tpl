@@ -6,6 +6,9 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="/pages/images/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/pages/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/pages/images/favicon-16x16.png">
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	</head>
 	<body>
 		<div id="container">
@@ -14,8 +17,9 @@
 			</div>
 			<div class="loginformarea">
 				{% if errorfound %}
-					<div class="errormsg">
-						{{errormsg}}
+					<div class="alert alert-danger alert-dismissible fade in">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							<strong>Error!</strong> {{errormsg}}
 					</div>
 				{% endif %}
 				<form method="post" action='index.php?side={{current}}&action={{action}}&acti=login'>

@@ -289,21 +289,54 @@ td, th {
 	font-size: 1.3vw;
 	margin: auto;
 }
-.confirm {
-	position: relative;
-	top: 5%;
-	width: 90%;
-	height: 10%;
-	border-radius: 5%;
-	border-color: #99ff33;
-	background-color: #66ff33;
-	border-style: solid;
-	border-width: thin;
-	text-align: center;
-	font-weight: bold;
-	font-size: 1.3vw;
-	margin: auto;
+/* Alerts */
+.alert-success {
+	color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
 }
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.fade.in { 
+    opacity: 1;
+}
+.alert-dismissable, .alert-dismissible {
+    padding-right: 35px;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+	font-size: .9vw;
+}
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    -o-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.close {
+    float: right;
+	margin-right: 1%;
+    font-size: .9vw;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+.alert-dismissable .close, .alert-dismissible .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    color: inherit;
+}
+/* End Alerts */
 .changepass {
 	position: relative;
 	top: 20%;
