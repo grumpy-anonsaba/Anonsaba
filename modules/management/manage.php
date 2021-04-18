@@ -415,8 +415,8 @@ class Management {
 		if ($this->getStaffLevel($_SESSION['manage_username']) == 1) {
 			$twig_data['boards'] = $db->GetAll('SELECT * FROM '.dbprefix.'boards');
 			$twig_data['postcount'] = $db->GetAll('SELECT name as boardname,
-														  (SELECT COUNT(*) FROM posts WHERE boardname = boards.name AND deleted <> 1) count
-												   FROM boards');
+														  (SELECT COUNT(*) FROM '.db.prefix.'posts WHERE boardname = '.db.prefix.'boards.name AND deleted <> 1) count
+												   FROM '.dbprefix.'boards');
 			$twig_data['filetypes'] = $db->GetAll('SELECT name FROM '.dbprefix.'filetypes');
 			$twig_data['sections'] = $db->GetAll('SELECT name FROM '.dbprefix.'sections');
 			$this->updateActive($_SESSION['manage_username']);
