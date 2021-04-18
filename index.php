@@ -46,6 +46,7 @@
 	$twig_data['uniqueusers'] = $db->GetOne('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE deleted = 0');
 	$twig_data['boards'] = $sections;
 	$twig_data['pages'] = ($pages/5);
+	$twig_data['page'] = $_GET['page'];
 	$twig_data['entries'] = $entries;
 	$twig_data['view'] = $_GET['view'];
 	$twig_data['activecontent'] = Core::formatSizeUnits($total);
