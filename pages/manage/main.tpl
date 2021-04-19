@@ -8,6 +8,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="refresh" content="1800">
 		<title>{{sitename}} - Management</title>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 		<script type="text/javascript">
 			<!--
 				function logout() {
@@ -21,6 +23,12 @@
 				  xhttp.open("GET", "index.php?action=spp", true);
 				  xhttp.send();
 				}
+				function checkCookie() {
+					if(document.cookie.match(/^(.*;)?\s*mod_cookie\s*=\s*[^;]+(.*)?$/) === null) {
+						window.location.replace("index.php?action=logout");
+					}
+				}
+				var interval = setInterval(function () { checkCookie(); }, 600000);
 			//-->
 		</script>
 	</head>
