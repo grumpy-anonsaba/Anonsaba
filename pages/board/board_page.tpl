@@ -41,7 +41,7 @@
 		</div>
 		<div id="footerwrapper">
 			<div class="posticon">
-				<img src="/pages/images/post.png" />
+				<a title="New Post"><img src="/pages/images/post.png" /></a>
 			</div>
 			<div class="footer">
 					{{sitename}} is powered by <a href="http://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a>
