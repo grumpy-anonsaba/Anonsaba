@@ -59,7 +59,20 @@
 		   $result = $qry->fetch();
 	$pages = (is_array($result)) ? array_shift($result) : $result;
 	
-	$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 ORDER BY time DESC LIMIT 5');
+	$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE recentpost = 0');
+		   $qry->execute();
+	$brdqry = $qry->fetchAll();
+	$board = array();
+	foreach ($brdqry as $line) {
+		$board[] = $line['name'];
+	}
+	$newboard = implode(', ', $board);
+	if ($brdqry) {
+		$execute = 'AND boardname NOT IN ('.$db->quote($newboard).') ';
+	} else {
+		$execute = '';
+	}
+	$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 '.$execute.'ORDER BY time DESC LIMIT 5');
 		   $qry->execute();
 	$twig_data['recentposts'] = $qry->fetchAll();
 	
