@@ -27,9 +27,24 @@
 						</div>
 					</div>
 				{% endfor %}
+				<div class="stylechooser">
+					Style
+					<div class="dropdown-contents">
+						<a>Light</a>
+						<a>Dark</a>
+					</div>
+				</div>
 			</div>
 			<div class="boardname" id="boardname">
 				/{{board.name}}/ - {{board.desc}}
+			</div>
+		</div>
+		<div id="footerwrapper">
+			<div class="posticon">
+				<img src="/pages/images/post.png" />
+			</div>
+			<div class="footer">
+					{{sitename}} is powered by <a href="http://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a>
 			</div>
 		</div>
 	</body>

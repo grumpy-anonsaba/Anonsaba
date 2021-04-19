@@ -48,6 +48,7 @@ class BoardCore {
 		$data = $twig->render('/board/board_page.tpl', $twig_data);
 		$data = str_replace('\t', '',$data);
 		$data = str_replace('&nbsp;\r\n', '&nbsp;',$data);
+		$twig_data['sitename'] = Core::GetConfigOption('sitename');
 		self::printPage(svrpath.$this->board['name'].'/board.html', $this->board['name'], $data);
 	}
 	public function printPage($filename, $board, $content) {
