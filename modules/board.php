@@ -9,13 +9,18 @@ class BoardCore {
 	public function board ($board) {
 		global $db;
 		if ($board != '') {
-			$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE name = '.$db->quote($board));
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE name = ?');
+			$qry->execute(array($board));
+			$results = $qry->fetchAll();
 			foreach ($results[0] as $key=>$line) {
 				if (!is_numeric($key)) {
 					$this->board[$key] = $line;
 				}
 			}
-			$this->board['uniqueposts'] = $db->GetOne('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE boardname = '.$db->quote($this->board['name']).' AND deleted = 0');
+			$qry = $db->prepare('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0');
+			$qry->execute(array($this->board['name']));
+			$result = $qry->fetch();
+			$this->board['uniqueposts'] = (is_array($result)) ? array_shift($result) : $result;
 		}
 	}
 	public function refreshAll() {
@@ -25,20 +30,30 @@ class BoardCore {
 	public function refreshPages() {
 		global $db, $twig_data, $twig;
 		$twig_data['filetypes'] = $this->board['filetypes'];
-		$twig_data['files'] = $db->GetAll('SELECT * FROM '.dbprefix.'files WHERE boardname = '.$db->quote($this->board['name']));;
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'files WHERE boardname = ?');
+			   $qry->execute(array($this->board['name']));
+		$twig_data['files'] = $qry->fetchAll();
 		$twig_data['timgh'] = Core::GetConfigOption('timgh');
 		$twig_data['timgw'] = Core::GetConfigOption('timgw');
 		$twig_data['rimgh'] = Core::GetConfigOption('rimgh');
 		$twig_data['rimgw'] = Core::GetConfigOption('rimgw');
 		$twig_data['board'] = $this->board;
 		$twig_data['weburl'] = weburl;
-		$twig_data['posts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE boardname = '.$db->quote($this->board['name']).' AND deleted = 0');
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0');
+			   $qry->execute(array($this->board['name']));
+		$twig_data['posts'] = $qry->fetchAll();
 		$sections = array();
-		$results_boardexist = $db->GetAll('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+		$qry = $db->prepare('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+			   $qry->execute();
+			   $results_boardexist = $qry->fetchAll();
 		if (count($results_boardsexist) >= 0) {
-			$sections = $db->GetAll('SELECT * FROM  '.dbprefix.'sections ORDER BY `order` ASC');
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'sections ORDER BY `order` ASC');
+			$qry->execute();
+			$sections = $qry->fetchAll();
 			foreach($sections AS $key=>$section) {
-				$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE section = '.$db->quote($section['name']).' ORDER BY name ASC');
+				$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE section = ? ORDER BY name ASC');
+				$qry->execute(array($section['name']));
+				$results = $qry->fetchAll();
 				foreach($results AS $line) {
 					$sections[$key]['boards'][] = $line;
 				}
