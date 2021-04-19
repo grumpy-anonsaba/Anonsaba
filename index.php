@@ -14,36 +14,65 @@
 	$twig_data['url'] = weburl;
 	switch($_GET['view']) {
 		case 'faq':
-			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('faq').' ORDER BY ordr');
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'front WHERE type = ? ORDER BY ordr');
+			$qry->execute(array('faq'));
+			$entries = $qry->fetchAll();
 			break;
 		case 'rules':
-			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('rules').' ORDER BY ordr');
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'front WHERE type = ? ORDER BY ordr');
+			$qry->execute(array('rules'));
+			$entries = $qry->fetchAll();
 			break;
 		default:
-			$entries = $db->GetAll('SELECT * FROM '.dbprefix.'front WHERE type = '.$db->quote('news').' ORDER BY date DESC LIMIT 5 OFFSET '.($_GET['page'] * 5));
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'front WHERE type = ? ORDER BY date DESC LIMIT 5 OFFSET ?');
+			$qry->execute(array('news', ($_GET['page'] * 5)));
+			$entries = $qry->fetchAll();
 			break;
 	}
 	/* Old code snippit */
 	$sections = array();
-	$results_boardexist = $db->GetAll('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+	$qry = $db->prepare('SELECT id FROM '.dbprefix.'boards LIMIT 1');
+		   $qry->execute();
+		   $results_boardexist = $qry->fetchAll();
 	if (count($results_boardsexist) >= 0) {
-		$sections = $db->GetAll('SELECT * FROM  '.dbprefix.'sections ORDER BY `order` ASC');
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'sections ORDER BY `order` ASC');
+		$qry->execute();
+		$sections = $qry->fetchAll();
 		foreach($sections AS $key=>$section) {
-			$results = $db->GetAll('SELECT * FROM '.dbprefix.'boards WHERE section = '.$db->quote($section['name']).' ORDER BY name ASC');
+			$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE section = ? ORDER BY name ASC');
+			$qry->execute(array($section['name']));
+			$results = $qry->fetchAll();
 			foreach($results AS $line) {
 				$sections[$key]['boards'][] = $line;
 			}
 		}
 	}
 	/* End old code snippit */
-	$boards = $db->GetAll('SELECT name FROM '.dbprefix.'boards');
+	$qry = $db->prepare('SELECT name FROM '.dbprefix.'boards');
+		   $qry->execute();
+		   $boards = $qry->fetchAll();
 	foreach ($boards as $board) {
 		$total += Core::GetSize(svrpath.$board['name']);
 	}
-	$pages = $db->GetOne('SELECT COUNT(*) FROM  '.dbprefix.'front WHERE type = '.$db->quote('news'));
-	$twig_data['recentposts'] = $db->GetAll('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 ORDER BY time DESC LIMIT 5');
-	$twig_data['postcount'] = $db->GetOne('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE deleted = 0');
-	$twig_data['uniqueusers'] = $db->GetOne('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE deleted = 0');
+	$qry = $db->prepare('SELECT COUNT(*) FROM '.dbprefix.'front WHERE type = ?');
+		   $qry->execute(array('news'));
+		   $result = $qry->fetch();
+	$pages = (is_array($result)) ? array_shift($result) : $result;
+	
+	$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE deleted = 0 ORDER BY time DESC LIMIT 5');
+		   $qry->execute();
+	$twig_data['recentposts'] = $qry->fetchAll();
+	
+	$qry = $db->prepare('SELECT COUNT(*) FROM '.dbprefix.'posts WHERE deleted  = 0');
+		   $qry->execute();
+		   $result = $qry->fetch();
+	$twig_data['postcount'] = (is_array($result)) ? array_shift($result) : $result;
+	
+	$qry = $db->prepare('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE deleted = 0');
+		   $qry->execute();
+		   $result = $qry->fetch();
+	$twig_data['uniqueusers'] = (is_array($result)) ? array_shift($result) : $result;
+
 	$twig_data['boards'] = $sections;
 	$twig_data['pages'] = ($pages/5);
 	$twig_data['page'] = $_GET['page'];

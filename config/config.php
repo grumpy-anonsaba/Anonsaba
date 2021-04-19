@@ -37,13 +37,23 @@
 	
 	// That's all no need to modify anything below this line
 	if (!isset($db)) {
-		require 'database.php';
 		if ($config['conntype']) {
 			$dsn = $config['dbtype'].':unix_socket='.$config['dbhost'].';dbname='.$config['dbname'];
 		} else {
 			$dsn = $config['dbtype'].':host='.$config['dbhost'].';dbname='.$config['dbname'];
 		}
-		$db = new Database($dsn, $config['dbuser'], $config['dbpass']);
+		try {
+			$options = [
+						PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+						PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+						PDO::ATTR_EMULATE_PREPARES   => false,
+						];
+			$db = new PDO($dsn, $config['dbuser'], $config['dbpass'], $options);
+			$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+		}
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 	if (!isset($twig)) {
 		require_once $config['svrpath'].'modules/autoload.php';

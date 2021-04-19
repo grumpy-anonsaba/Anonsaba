@@ -21,11 +21,15 @@ Class Core {
 	}
 	public static function GetConfigOption($value) {
 		global $db;
-		return $db->GetOne('SELECT config_value from '.dbprefix.'site_config WHERE config_name = '.$db->quote($value));
+		$qry = $db->prepare('SELECT config_value FROM '.dbprefix.'site_config WHERE config_name = ?');
+		$qry->execute(array($value));
+		$value = $qry->fetch();
+		return (is_array($value)) ? array_shift($value) : $value;
 	}
 	public static function Log($time, $user="Anonsaba", $message) {
 		global $db;
-		$db->Run('INSERT INTO '.dbprefix.'logs (time, user, message) VALUES ('.$time.', '.$db->quote($user).', '.$db->quote($message).')');
+		$qry = $db->prepare('INSERT INTO '.dbprefix.'logs (time, user, message) VALUES (?,?,?)');
+		$qry->execute(array($time, $user, $message));
 	}
 	public static function getIP() {
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
