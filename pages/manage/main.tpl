@@ -29,6 +29,16 @@
 				var interval = setInterval(function () { checkCookie(); }, 600000);
 			//-->
 		</script>
+		{% if level == 3 %}
+			<style type="text/css">
+				.modmodbutton { 
+					left: 11.5%;
+				}
+				.modmodbuttonselected { 
+					left: 11.5%;
+				}
+			</style>
+		{% endif %}
 	</head>
 	<body>
 		<div id="content_wrap">
@@ -49,11 +59,13 @@
 							</div>
 						</a>
 					{% endif %}
-					<a href="index.php?side=boards&action={{action}}">
-						<div class="{% if level > 1 %}mod{% endif %}boardbutton{% if current == 'boards' %}selected{% endif %}">
-							Board Administration
-						</div>
-					</a>
+					{% if level <= 2 %}
+						<a href="index.php?side=boards&action={{action}}">
+							<div class="{% if level > 1 %}mod{% endif %}boardbutton{% if current == 'boards' %}selected{% endif %}">
+								Board Administration
+							</div>
+						</a>
+					{% endif %}
 					<a href="index.php?side=mod&action={{action}}">
 						<div class="{% if level > 1 %}mod{% endif %}modbutton{% if current == 'mod' %}selected{% endif %}">
 							Moderation

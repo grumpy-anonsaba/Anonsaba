@@ -10,7 +10,7 @@ class BoardCore {
 		global $db;
 		if ($board != '') {
 			$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE name = ?');
-			$qry->execute(array($board));
+				   $qry->execute(array($board));
 			$results = $qry->fetchAll();
 			foreach ($results[0] as $key=>$line) {
 				if (!is_numeric($key)) {
@@ -18,19 +18,19 @@ class BoardCore {
 				}
 			}
 			$qry = $db->prepare('SELECT COUNT(DISTINCT ipid) FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0');
-			$qry->execute(array($this->board['name']));
-			$result = $qry->fetch();
+				   $qry->execute(array($this->board['name']));
+				   $result = $qry->fetch();
 			$this->board['uniqueposts'] = (is_array($result)) ? array_shift($result) : $result;
 		}
 	}
 	public function refreshAll() {
-		self::refreshPages();
+		$this->refreshPages();
 		//self::refreshThreads();
 	}
 	public function refreshPages() {
 		global $db, $twig_data, $twig;
 		$twig_data['filetypes'] = $this->board['filetypes'];
-		$qry = $db->prepare('SELECT * FROM '.dbprefix.'files WHERE boardname = ?');
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'files WHERE board = ?');
 			   $qry->execute(array($this->board['name']));
 		$twig_data['files'] = $qry->fetchAll();
 		$twig_data['timgh'] = Core::GetConfigOption('timgh');
@@ -45,7 +45,7 @@ class BoardCore {
 		$sections = array();
 		$qry = $db->prepare('SELECT id FROM '.dbprefix.'boards LIMIT 1');
 			   $qry->execute();
-			   $results_boardexist = $qry->fetchAll();
+		$results_boardexist = $qry->fetchAll();
 		if (count($results_boardsexist) >= 0) {
 			$qry = $db->prepare('SELECT * FROM '.dbprefix.'sections ORDER BY `order` ASC');
 			$qry->execute();
@@ -60,11 +60,11 @@ class BoardCore {
 			}
 		}
 		$twig_data['boards'] = $sections;
+		$twig_data['sitename'] = Core::GetConfigOption('sitename');
 		$data = $twig->render('/board/board_page.tpl', $twig_data);
 		$data = str_replace('\t', '',$data);
 		$data = str_replace('&nbsp;\r\n', '&nbsp;',$data);
-		$twig_data['sitename'] = Core::GetConfigOption('sitename');
-		self::printPage(svrpath.$this->board['name'].'/board.html', $this->board['name'], $data);
+		$this->printPage(svrpath.$this->board['name'].'/board.html', $this->board['name'], $data);
 	}
 	public function printPage($filename, $board, $content) {
 		$tempfile = tempnam(svrpath . $board . '/res', 'tmp'); 
