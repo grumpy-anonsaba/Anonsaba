@@ -149,3 +149,67 @@
 	margin-top: .15%;
 	cursor: pointer;
 }
+.post {
+	
+	margin-top: 15%;
+	width: 100%;
+}
+.titlebar  {
+	margin: 0 auto;
+	width: 50%;
+	background-color: #99ccff;
+	border-top-left-radius: 3%;
+	border-top-right-radius: 3%;
+}
+.titlebar subject {
+	font-weight: bold;
+	font-size: .9vw;
+}
+.titlebar name {
+	font-size: .8vw;
+}
+.titlebar nameemail {
+	font-size: .8vw;
+	color: #1a8cff;
+}
+.titlebar reply {
+	float: right;
+	cursor: pointer;
+}
+.titlebar date {
+	font-size: .7vw;
+}
+.titlebar report {
+	float: right;
+	cursor:pointer;
+}
+.titlebar postby {
+	font-style: italic;
+	font-size: .7vw;
+}
+.titlebar postid {
+	font-weight: bold;
+	font-size: .7vw;
+}
+.titlebar ipid {
+	color: #003366;
+}
+.postmsg {
+	margin: 0 auto;
+	width: 50%;
+	background-color: #b3d9ff;
+}
+.postmsg postimage img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	cursor: pointer;
+}
+.postmsg replies:hover {
+	cursor: pointer;
+}
+.postmsg replies txt {
+	position: relative;
+	bottom: 5px;
+	font-size: .7vw;
+}

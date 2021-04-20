@@ -39,7 +39,7 @@ class BoardCore {
 		$twig_data['rimgw'] = Core::GetConfigOption('rimgw');
 		$twig_data['board'] = $this->board;
 		$twig_data['weburl'] = weburl;
-		$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0');
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 ORDER BY bumped DESC');
 			   $qry->execute(array($this->board['name']));
 		$twig_data['posts'] = $qry->fetchAll();
 		$sections = array();

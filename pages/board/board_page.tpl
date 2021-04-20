@@ -38,6 +38,31 @@
 			<div class="boardname" id="boardname">
 				/{{board.name}}/ - {{board.desc}}
 			</div>
+			<div class ="post" id="post">
+				{% for post in posts %}
+					{% if post.parent == 0 %}
+						<div class="titlebar" id="titlebar">
+							<subject>{{post.subject}}</subject> - <date>{{post.time|date('m/d/Y h:i', 'America/Chicago')}} {% if post.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}</date><report><a title="Report"><img src="/pages/images/report.png" /></a></report>&nbsp;<reply><a title="Reply"><img src="/pages/images/reply.png" /></a></reply>
+							<br />
+							<postby>Posted by <name{% if post.email != '' %}email{% endif %}>{{post.name}}</name></postby>&nbsp;&nbsp;&nbsp;{% if board.showid == 1 %}<postid>ID: <ipid>{{post.ipid}}</ipid></postid>{% endif %}
+						</div>
+						<div class="postmsg" id="postmsg">
+							{% for file in files %}
+								{% if file.id == post.id %}
+									<postimage><img title="{{file.original}}" src="thumb/{{file.file}}" /></postimage>
+									<br /><br />
+								{% endif %}
+							{% endfor %}
+							<replies title="View thread"><img src="/pages/images/comments.png"> <txt>{{post.comments}} {% if post.comments == 1 %}Reply{% else %}Replies{% endif %}<txt></replies>
+						</div>
+					{% endif %}
+					<br />
+				{% endfor %}
+			</div>
+			<style type="text/css">
+				.clear { clear: both; height: 60px; }
+			</style>
+			<div class="clear"></div>
 		</div>
 		<div id="footerwrapper">
 			<div class="posticon">
