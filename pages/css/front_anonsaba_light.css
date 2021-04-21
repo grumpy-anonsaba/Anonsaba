@@ -6,7 +6,6 @@ html, body {
 	width: 100%;
 	overflow: hidden;
 }
-
 /* Landing page stuff */
 .front-sitename h1 {
 	color: #4da6ff;
@@ -52,7 +51,7 @@ html, body {
 	background-color: #cce6ff;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);	
 }
-.front-board-list-list h2 {
+.front-board-list-list-wrap {
 	background-color: #b3d7ff;
 }
 .front-board-list-list li:hover {

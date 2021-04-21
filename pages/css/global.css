@@ -132,7 +132,7 @@ body a {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
-.front-board-list h1 {
+.front-board-list h2 {
 	margin: 0;
 	margin-top: 23%;
 	text-align: center;
@@ -140,12 +140,21 @@ body a {
 	font-size: 1.2vw;
 	margin-bottom: 15px;
 }
-.front-board-list-list h2 {
-	font-size: 1vw;
-	font-weight: bold;
+.front-board-list th {
+	font-size: .8vw;
+	text-align: left;
+}
+.front-board-list td {
+	font-size: .8vw;
+	padding-left: 3em;
+}
+.front-board-list td a {
+	text-decoration:none;
+}
+.front-board-list-list h3 {
 	padding-bottom:0;
 	margin-bottom:0;
-	margin-top: 10px;
+	display: inline;
 }
 .front-board-list-list li {
 	font-size: 1vw;
@@ -155,10 +164,19 @@ body a {
 	list-style-type: none;
 	display: inline-table;
 }
+.front-board-list-list menu {
+	padding:0;
+	margin: 0;
+}
 .front-board-list-list-fr {
 	float: right;
 	padding-right: 5px;
 	cursor: pointer;
+}
+.front-board-list-list-wrap {
+	font-size: 1vw;
+	font-weight: bold;
+	margin-top: 10px;
 }
 .front-board-list-list li:hover {
 	cursor: pointer;

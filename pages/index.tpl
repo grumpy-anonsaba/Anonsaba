@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<!-- Site Title -->
 		<title>{{sitename}}</title>
@@ -13,7 +13,7 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="/pages/css/front_anonsaba_light.css">
 		<link rel="stylesheet alternate" href="/pages/css/front_anonsaba_dark.css">
-		<link rel="stylesheet" href="/pages/css/newglobal.css">
+		<link rel="stylesheet" href="/pages/css/global.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="/pages/images/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/pages/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/pages/images/favicon-16x16.png">
@@ -31,9 +31,9 @@
 					<h2>"{{slogan}}"</h2>
 				</div>
 			</header>
-			<section class="front-content-wrapper">
-				<section class="front-site-info-wrapper">
-					<section class="front-site-info">
+			<div class="front-content-wrapper">
+				<div class="front-site-info-wrapper">
+					<div class="front-site-info">
 						<nav class="front-navbar">
 							<button id="news">News</button>
 							<button id="faq">FAQ</button>
@@ -42,14 +42,14 @@
 						<section class="front-recent-posts">
 							<h2>Recent Posts</h2>
 							{% for recentpost in recentposts %}
-								<article class="front-recent-posts-posts">
+								<div class="front-recent-posts-posts">
 									>>>/{{recentpost.boardname}}/{{recentpost.id}} - {{recentpost.message|striptags("")|slice(0, 60)|raw}}{% if recentpost.message|length > 60 %}...{% endif %}
-								</article>
+								</div>
 							{% endfor %}
 						</section>
 						<section class="front-site-stats">
 							<h2>Site Statistics</h2>
-							<article class="front-site-stats-stats">
+							<div class="front-site-stats-stats">
 								<table>
 									<tbody>
 										<tr>
@@ -66,19 +66,17 @@
 										</tr>
 									</tbody>
 								</table>
-							</article>
+							</div>
 						</section>
-					</section>
-					<section class="front-site-content" id="front-site-content">
+					</div>
+					<div class="front-site-content" id="front-site-content">
 						{% for entry in entries %}
 							<article class="front-site-content-content">
 								<h3>{{entry.subject}}{% if entry.type == 'news' %} by {{entry.by}} - {{entry.date|date('m/d/Y h:i', 'America/Chicago')}} {% if entry.date|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}{% endif %}</h3>
-								<p>
-									{{entry.message|raw}}
-								</p>
+								<p>{{entry.message|raw}}</p>
 							</article>
 						{% endfor %}
-						<article class="front-site-content-content-switch">
+						<div class="front-site-content-content-switch">
 							{% if not view %}
 								{% if pages -1 > 0 %}
 									{% for i in range(0, pages ) %}
@@ -96,34 +94,34 @@
 									0
 								{% endif %}
 							{% endif %}
-						</article>
-					</section>
-				</section>
-				<section class="front-board-list-wrapper">
+						</div>
+					</div>
+				</div>
+				<div class="front-board-list-wrapper">
 					<section class="front-board-list">
-						<h1>Boards</h1>
+						<h2>Boards</h2>
 						{% for section in boards %}
 							<article class="front-board-list-list">
-								<h2>
-									{{section.name}}
+								<div class="front-board-list-list-wrap">
+									<h3>{{section.name}}</h3>
 									<div class="front-board-list-list-fr" id="toggle-{{section.name}}{% if section.hidden == 1 %}-on{% else %}-off{% endif %}">
-										{% if section.hidden == 1 %}
-											&#43;
-										{% else %}
-											&#8722;
-										{% endif %}
+											{% if section.hidden == 1 %}
+												&#43;
+											{% else %}
+												&#8722;
+											{% endif %}
 									</div>
-								</h2>
-								<section id="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
+								</div>
+								<menu id="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
 									{% for boards in section.boards %}
 										<li>{{boards.desc}}</li>
 									{% endfor %}
-								</section>
+								</menu>
 							</article><div class="front-board-list-list-clear"></div>
 						{% endfor %}
 					</section>
-				</section>
-			</section>
+				</div>
+			</div>
 			<footer class="front-footer">
 				{{sitename}} is powered by <a href="https://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a>
 			</footer>
