@@ -630,12 +630,8 @@ class Management {
 													$_POST['enablerecentpost'], 
 													$_POST['filetype']
 													));
-						if (mkdir(svrpath.$_POST['boarddirectory'], $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/src', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/res', $mode = 0755) && mkdir(svrpath.$_POST['boarddirectory'].'/thumb', $mode = 0755)) {
-							file_put_contents(svrpath. $_POST['boarddirectory'] .'/.htaccess' , 'DirectoryIndex board.html');
-							file_put_contents(svrpath . $_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
-							$board_core = new BoardCore();
-							$board_core->board($_POST['boarddirectory']);
-							$board_core->refreshAll();
+						if (mkdir(svrpath.'board/'.$_POST['boarddirectory'], $mode = 0755) && mkdir(svrpath.'board/'.$_POST['boarddirectory'].'/src', $mode = 0755) && mkdir(svrpath.'board/'.$_POST['boarddirectory'].'/res', $mode = 0755) && mkdir(svrpath.'board/'.$_POST['boarddirectory'].'/thumb', $mode = 0755)) {
+							file_put_contents(svrpath.'board/'.$_POST['boarddirectory'] . '/src/.htaccess', 'AddType text/plain .ASM .C .CPP .CSS .JAVA .JS .LSP .PHP .PL .PY .RAR .SCM .TXT'. "\n" . 'SetHandler default-handler');
 						}
 						Core::Log(time(), $_SESSION['manage_username'], 'Created Board: /'.$_POST['boarddirectory'].'/ - '.$_POST['boarddescription']);
 					} else {
@@ -700,7 +696,7 @@ class Management {
 					if ($oldboard) {
 						$qry = $db->prepare('DELETE FROM '.dbprefix.'boards WHERE id = ?');
 							   $qry->execute(array($_GET['id']));
-						$dir = svrpath.$oldboard;
+						$dir = svrpath.'board/'.$oldboard;
 						foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
 							$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
 						}
