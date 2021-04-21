@@ -114,7 +114,7 @@
 								</div>
 								<menu id="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
 									{% for boards in section.boards %}
-										<li>{{boards.desc}}</li>
+										{% if boards.popular == 1 %}<div class="front-board-list-list-popular">{% endif %}<a href="/{{boards.name}}" title="{{boards.desc}}"><li>{{boards.desc}}{% if boards.popular == 1 %} <i class="fas fa-fire"></i>{% endif %}{% if boards.locked == 1 %}&nbsp;<i class="fas fa-lock"></i>{% endif %}</li></a>{% if boards.popular == 1 %}</div>{% endif %}
 									{% endfor %}
 								</menu>
 							</article><div class="front-board-list-list-clear"></div>

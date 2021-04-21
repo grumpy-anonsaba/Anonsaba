@@ -57,3 +57,6 @@ html, body {
 .front-board-list-list li:hover {
 	background-color: #80c1ff;
 }
+.fa-fire {
+	color: #e9241d;
+}
