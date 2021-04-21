@@ -4,7 +4,7 @@ body a {
 /* Landing page stuff */
 .front-container {
 	position: relative;
-	height: 70%;
+	height: 89%;
 	width:75%;
 	margin: 0 auto;
 	font-size: 16px;
@@ -30,7 +30,7 @@ body a {
 .front-content-wrapper {
 	margin-top: 3%;
 	display: flex;
-	height: 100%;
+	height: 80%;
 }
 .front-site-info-wrapper {
 	flex: 3;
