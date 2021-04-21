@@ -1,3 +1,6 @@
+body a {
+	text-decoration: none;
+}
 /* Landing page stuff */
 .front-container {
 	position: relative;
