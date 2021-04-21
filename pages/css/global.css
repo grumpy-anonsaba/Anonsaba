@@ -168,6 +168,9 @@ body a {
 	padding:0;
 	margin: 0;
 }
+.front-board-list-list i {
+	font-size: .6vw;
+}
 .front-board-list-list-fr {
 	float: right;
 	padding-right: 5px;
@@ -183,6 +186,9 @@ body a {
 }
 .front-board-list-list a:link {
 	text-decoration: none;
+}
+.front-board-list-list a, a:visited {
+  color: inherit;
 }
 .front-board-list-list-clear {
 	clear: both;
