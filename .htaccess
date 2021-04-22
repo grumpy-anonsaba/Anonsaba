@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+Options -Multiviews
+RewriteEngine On
+
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# redirect "/xxx" to "/board/index.php?board=xxx"
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ /board/index.php?board=$1 [L]
+RewriteRule ^([^/]+)/$ /board/index.php?board=$1 [L]
+
+</IfModule>
