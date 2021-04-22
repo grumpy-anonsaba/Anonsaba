@@ -60,3 +60,49 @@ html, body {
 .fa-fire {
 	color: #e9241d;
 }
+/* End landing page stuff */
+
+/* Begin Board page stuff */
+.board-navigation {
+	background-color: #dbedff;
+	box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+}
+.board-navigation-home button {
+	background-color: #cce6ff;
+}
+.board-navigation-home button:hover {
+	background-color: #b3d7ff;
+	border-style: groove;
+	border-color: #b3d7ff;
+	cursor: pointer;
+}
+.board-navigation-boards {
+  background-color: #cce6ff;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.board-navigation-boards a:hover {
+	background-color: #b3d9ff
+}
+.board-navigation-section button {
+	background-color: #cce6ff;
+}
+.board-navigation-section:hover button {
+	background-color: #b3d7ff;
+	border-style: groove;
+	border-color: #b3d7ff;
+	cursor: pointer;
+}
+.board-navigation-section:hover .board-navigation-boards {
+	display: block;
+}
+.board-navigation-boards {
+	background-color: #cce6ff;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.board-navigation-boards a {
+	color: #000;
+}
+.board-footer {
+	background-color: #dbedff;
+	box-shadow: 0px -3px 3px rgb(0 0 0 / 10%)
+}

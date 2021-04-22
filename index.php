@@ -52,7 +52,7 @@
 		   $qry->execute();
 		   $boards = $qry->fetchAll();
 	foreach ($boards as $board) {
-		$total += Core::GetSize(svrpath.$board['name']);
+		$total += Core::GetSize(svrpath.'/board/'.$board['name']);
 	}
 	$qry = $db->prepare('SELECT COUNT(*) FROM '.dbprefix.'front WHERE type = ?');
 		   $qry->execute(array('news'));

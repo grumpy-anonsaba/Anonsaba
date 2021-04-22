@@ -205,3 +205,86 @@ body a {
 	align-items: center;
 	justify-content: center;
 }
+/* Begin Board page stuff */
+.board-navigation {
+	width: 100%;
+	height: 3%;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	position: fixed;
+	display: flex;
+}
+.board-navigation-home {
+	display: flex;
+	margin-right: .9%;
+	margin-left: .8%;
+	align-items: center;
+	justify-content:center;
+}
+.board-navigation-home button {
+	border-radius: 10%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	height: 80%;
+	font-size: .8vw;
+}
+.board-navigation-section {
+	align-items: center;
+	justify-content:center;
+	margin-right: .3%;
+}
+.board-navigation-section button {
+	border-radius: 10%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	height: 80%;
+	font-size: .8vw;
+	margin-top: 7%;
+}
+.board-navigation-boards {
+	display: none;
+	position: absolute;
+	min-width: 160px;
+	z-index: 1;
+	border-radius: 3%;
+	/*margin-top: 1.4%;
+	margin-left: 4%;*/
+	font-size: .8vw;
+	align-self: flex-start;
+	justify-self: flex-end;
+}
+.board-navigation-boards a {
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	text-align: left;
+}
+.board-container {
+	position: relative;
+	height: 100%;
+	width:75%;
+	margin: 0 auto;
+	font-size: 16px;
+}
+/* Board page header */
+.board-head-wrapper {
+	margin-top: 5%;
+	text-align:center;
+}
+.board-head-header h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 2.2vw;
+}
+/* Board page footer */
+.board-footer {
+	position: fixed;
+	z-index: 100;
+	height: 3%;
+	width: 100%;
+	left: 0%;
+	top: 97%;
+}
