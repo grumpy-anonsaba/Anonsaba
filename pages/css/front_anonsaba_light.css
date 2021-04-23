@@ -76,11 +76,20 @@ html, body {
 	border-color: #b3d7ff;
 	cursor: pointer;
 }
-.board-navigation-boards {
+.board-navigation-style button {
+	background-color: #cce6ff;
+}
+.board-navigation-style button:hover {
+	background-color: #b3d7ff;
+	border-style: groove;
+	border-color: #b3d7ff;
+	cursor: pointer;
+}
+.board-navigation-dropdown {
   background-color: #cce6ff;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-.board-navigation-boards a:hover {
+.board-navigation-dropdown a:hover {
 	background-color: #b3d9ff
 }
 .board-navigation-section button {
@@ -92,14 +101,17 @@ html, body {
 	border-color: #b3d7ff;
 	cursor: pointer;
 }
-.board-navigation-section:hover .board-navigation-boards {
+.board-navigation-section:hover .board-navigation-dropdown {
 	display: block;
 }
-.board-navigation-boards {
+.board-navigation-style:hover .board-navigation-dropdown {
+	display: block;
+}
+.board-navigation-dropdown {
 	background-color: #cce6ff;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-.board-navigation-boards a {
+.board-navigation-dropdown a {
 	color: #000;
 }
 .board-footer {

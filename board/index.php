@@ -28,6 +28,28 @@
 				}
 			}
 		}
+		$qry = $db->prepare('SELECT 
+								    id,
+									name,
+									email,
+									subject,
+									message,
+									password,
+									level,
+									parent,
+									time,
+									deleted,
+									ipid,
+									sticky,
+									`lock`,
+									bumped,
+									comments,
+									cleared,
+									report,
+									banmessage
+							FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 AND parent = 0');
+			   $qry->execute(array($board[0]['name']));
+		$twig_data['thread_posts'] = $qry->fetchAll();
 		$twig_data['boards'] = $sections;
 		Core::Output('/board/board_page.tpl', $twig_data);
 	} else {

@@ -25,7 +25,7 @@
 	
 	// Website paths
 	$config['svrpath'] = realpath(dirname(__DIR__)).'/'; // Do not change this unless you know what you're doing
-	$config['weburl'] = ''; // Please enter your websites full address here. (Note: https is supported)
+	$config['weburl'] = ''; // Please enter your websites full address here. (Note: https is supported) Ex: https://www.4chan.org/
 	$config['webcookie'] = ''; // Example: www.4chan.org -> .4chan.org
 	
 	// Twig Paths

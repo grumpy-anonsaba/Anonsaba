@@ -17,6 +17,7 @@ Class Core {
 		global $twig;
 		$data['sitename'] = self::GetConfigOption('sitename');
 		$data['version'] = self::GetConfigOption('version');
+		$data['weburl'] = weburl;
 		echo $twig->display($template, $data);
 	}
 	public static function GetConfigOption($value) {

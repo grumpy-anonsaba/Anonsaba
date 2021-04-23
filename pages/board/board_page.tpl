@@ -13,22 +13,30 @@
 		<!-- CSS -->
 		<link rel="stylesheet" href="/pages/css/front_anonsaba_light.css">
 		<link rel="stylesheet alternate" href="/pages/css/front_anonsaba_dark.css">
-		<link rel="stylesheet" href="/pages/css/global.css">
+		<link rel="stylesheet" href="/pages/css/newglobal.css">
 		<link rel="apple-touch-icon" sizes="180x180" href="/pages/images/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/pages/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/pages/images/favicon-16x16.png">
 		<!-- Scripts -->
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
 	</head>
 	<body>
 		<nav class="board-navigation">
 			<div class="board-navigation-home">
-				<button>Home</button>
+				<button id="board-navigation-home-button">Home</button>
+			</div>
+			<div class="board-navigation-style">
+				<button>Styles</button>
+				<div class="board-navigation-dropdown">
+					<a>Light</a>
+					<a>Dark</a>
+				</div>
 			</div>
 			{% for section in boards %}
 				<div class="board-navigation-section" id="{{section.name}}">
 					<button>{{section.name}}</button>
-					<div class="board-navigation-boards" id="toggle-{{section.name}}">
+					<div class="board-navigation-dropdown">
 						{% for boards in section.boards %}
 							<a title="{{boards.desc}}" href="{{weburl}}{{boards.name}}/">{{boards.desc}}</a>
 						{% endfor %}
@@ -44,10 +52,21 @@
 				</div>
 			</header>
 		</div>
+		<!-- Thread posts -->
+		<div class="board-posts">
+		
+		</div>
+		<!-- End thread posts -->
 		<!-- End board container -->
 		<footer class="board-footer">
-				{{sitename}} is powered by <a href="https://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a>
+			<div class="board-footer-center"><i class="fas fa-share-square" title="New post"></i></div>
+			<div class="board-footer-fr">{{sitename}} is powered by <a href="https://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a></div>
 		</footer>
 		<!-- Scripts -->
+		<script>
+			$('#board-navigation-home-button').click(function () {
+				$(location).attr('href', '{{weburl}}')
+			});
+		</script>
 	</body>
 </html>

@@ -217,8 +217,8 @@ body a {
 }
 .board-navigation-home {
 	display: flex;
-	margin-right: .9%;
 	margin-left: .8%;
+	margin-right: .3%;
 	align-items: center;
 	justify-content:center;
 }
@@ -229,6 +229,20 @@ body a {
 	text-align: center;
 	height: 80%;
 	font-size: .8vw;
+}
+.board-navigation-style {
+	align-items: center;
+	justify-content: center;
+	margin-right: .9%;
+}
+.board-navigation-style button {
+	border-radius: 10%;
+	border-style: solid;
+	border-width: thin;
+	text-align: center;
+	height: 80%;
+	font-size: .8vw;
+	margin-top: 6%;
 }
 .board-navigation-section {
 	align-items: center;
@@ -244,19 +258,17 @@ body a {
 	font-size: .8vw;
 	margin-top: 7%;
 }
-.board-navigation-boards {
+.board-navigation-dropdown {
 	display: none;
 	position: absolute;
 	min-width: 160px;
 	z-index: 1;
 	border-radius: 3%;
-	/*margin-top: 1.4%;
-	margin-left: 4%;*/
 	font-size: .8vw;
 	align-self: flex-start;
 	justify-self: flex-end;
 }
-.board-navigation-boards a {
+.board-navigation-dropdown a {
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
@@ -287,4 +299,17 @@ body a {
 	width: 100%;
 	left: 0%;
 	top: 97%;
+	display: inline;
+}
+.board-footer-center {
+	text-align: center;
+	font-size: 1vw;
+	margin-top: .2%;
+	cursor: pointer;
+}
+.board-footer-fr {
+	float: right;
+	margin-right: 1%;
+    margin-top: -1%;
+	font-size: .65vw;
 }
