@@ -50,6 +50,11 @@
 							FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 AND parent = 0');
 			   $qry->execute(array($board[0]['name']));
 		$twig_data['thread_posts'] = $qry->fetchAll();
+		$files = '"jpg", "png", "gif", "youtube"';
+		echo $query;
+		$qry = $db->prepare('SELECT * FROM '.dbprefix.'files WHERE board = ? AND type IN ('.$files.')');
+			   $qry->execute(array($board[0]['name']));
+		$twig_data['thread_files'] = $qry->fetchAll();
 		$twig_data['boards'] = $sections;
 		Core::Output('/board/board_page.tpl', $twig_data);
 	} else {

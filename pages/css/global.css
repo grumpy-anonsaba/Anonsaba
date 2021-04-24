@@ -281,6 +281,11 @@ body a {
 	margin: 0 auto;
 	font-size: 16px;
 }
+.board-wrapper {
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+}
 /* Board page header */
 .board-head-wrapper {
 	margin-top: 5%;
@@ -290,7 +295,89 @@ body a {
 	margin: 0;
 	padding: 0;
 	font-size: 2.2vw;
+	margin-bottom: 5%;
 }
+/* End board page header */
+/* Board page posts */
+.board-posts {
+	width: 75%;
+	margin: 0 auto;
+}
+.board-posts-thread {
+	margin: 0 auto;
+	width: 60%;	
+}
+.board-posts-thread-header {
+	border-top-left-radius: 3%;
+	border-top-right-radius: 3%;
+}
+.board-posts-thread-header h2 {
+	font-weight: bold;
+	font-size: .9vw;
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+.board-posts-thread-header-date {
+	font-size: .7vw;
+	display: inline;
+}
+.board-posts-thread-header-fr {
+	margin-top: .3%;
+    margin-right: .5%;
+    float: right;
+	font-size: .7vw;
+}
+.fa-flag {
+	cursor: pointer;
+}
+.fa-reply {
+	cursor: pointer;
+}
+.fa-trash-alt {
+	cursor: pointer;
+}
+.board-posts-thread-header-postby {
+	font-size: .8vw;
+	display: inline;
+}
+.board-posts-thread-header-postname {
+	font-size: .8vw;
+	display: inline;
+	font-style: italic;
+}
+.board-posts-thread-post-message {
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.board-posts-thread-post-image {
+	position: relative;
+	margin: 0 auto;
+	cursor: pointer;
+	max-width: 512px;
+	max-height: 512px;
+}
+.board-posts-thread-post-image img {
+	width: 100%;
+	height: 100%;
+}
+.board-posts-thread-post-image iframe {
+	max-width: 100%;
+	max-height: 100%;
+	border: 0;
+}
+.board-posts-thread-post-replies {
+	font-size: .7vw;	
+}
+.fa-comments {
+	cursor: pointer;
+}
+.board-posts-clear {
+	clear: both; 
+	height: 60px;	
+}
+/* End board page posts */
 /* Board page footer */
 .board-footer {
 	position: fixed;

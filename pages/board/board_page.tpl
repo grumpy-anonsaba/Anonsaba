@@ -45,18 +45,58 @@
 			{% endfor %}
 		</nav>
 		<!-- Board Container -->
-		<div class="board-container">
-			<header class="board-head-wrapper">
-				<div class="board-head-header">
-					<h1>/{{boardname}}/ - {{boarddesc}}</h1>
+		<div class="board-wrapper">
+			<div class="board-container">
+				<header class="board-head-wrapper">
+					<div class="board-head-header">
+						<h1>/{{boardname}}/ - {{boarddesc}}</h1>
+					</div>
+				</header>
+				<!-- Thread posts -->
+				<div class="board-posts">
+					{% for thread_post in thread_posts %}
+						{% if thread_post.parent == 0 %}
+							<article class="board-posts-thread">
+								<div class="board-posts-thread-header">
+									<h2>{{thread_post.subject}}</h2>
+									<div class="board-posts-thread-header-date">
+										&nbsp;-&nbsp;{{thread_post.time|date('m/d/Y h:i', 'America/Chicago')}} {% if thread_post.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}
+									</div>
+									<div class="board-posts-thread-header-fr">
+										<i class="fas fa-flag" title="Report"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fas fa-trash-alt" title="Delete"></i>
+									</div>
+									<br>
+									<div class="board-posts-thread-header-postby">
+										Posted by <div class="board-posts-thread-header-postname">{{thread_post.name}}</div>
+									</div>
+								</div>
+								<div class="board-posts-thread-post-message">
+									{% for thread_file in thread_files %}
+										{% if thread_file.id == thread_post.id %}
+											{% if thread_file.type != 'youtube' %}
+												<div class="board-posts-thread-post-image">
+													<img src="{{weburl}}board/{{boardname}}/thumb/{{thread_file.file}}" title="{{thread_file.original}}" class="board-posts-thread-post-image">
+												</div>
+											{% else %}
+												<div class="board-posts-thread-post-image">
+													<iframe width="512px" height="267px" src="https://www.youtube.com/embed/{{thread_file.file}}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+												</div>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+									<br>
+									<div class="board-posts-thread-post-replies">
+										{% if thread_post.comments >= 1 %}<i class="fas fa-comments" title="View thread"></i> {{thread_post.comments}}  {% if thread_post.comments == 1 %}Reply{% else %}Replies{% endif %}{% else %}<i class="fas fa-comment"></i> {{thread_post.comments}} Replies{% endif %}
+									</div>
+								</div>
+							</article>
+						{% endif %}
+						<div class="board-posts-clear"></div>
+					{% endfor %}
 				</div>
-			</header>
+				<!-- End thread posts -->
+			</div>
 		</div>
-		<!-- Thread posts -->
-		<div class="board-posts">
-		
-		</div>
-		<!-- End thread posts -->
 		<!-- End board container -->
 		<footer class="board-footer">
 			<div class="board-footer-center"><i class="fas fa-share-square" title="New post"></i></div>

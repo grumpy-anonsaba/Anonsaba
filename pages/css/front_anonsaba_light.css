@@ -114,6 +114,16 @@ html, body {
 .board-navigation-dropdown a {
 	color: #000;
 }
+/* End board navigation */
+/* Begin Board posts */
+.board-posts-thread-header {
+	background-color: #99ccff;	
+}
+.board-posts-thread-post-message {
+	background-color: #b3d9ff;	
+}
+/* End board posts */
+/* Begin board footer */
 .board-footer {
 	background-color: #dbedff;
 	box-shadow: 0px -3px 3px rgb(0 0 0 / 10%)
