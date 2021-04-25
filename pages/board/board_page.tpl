@@ -22,6 +22,13 @@
 		<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
 	</head>
 	<body>
+		<div class="board-posts-newpost-wrapper">
+			<div class="board-posts-newpost">
+				<div class="board-posts-newpost-fr">
+					<i class="far fa-times-circle" id="board-posts-newpost-close" title="Close"></i>
+				</div>
+			</div>
+		</div>
 		<nav class="board-navigation">
 			<div class="board-navigation-home">
 				<button id="board-navigation-home-button">Home</button>
@@ -73,20 +80,25 @@
 								<div class="board-posts-thread-post-message">
 									{% for thread_file in thread_files %}
 										{% if thread_file.id == thread_post.id %}
+											<br>
 											{% if thread_file.type != 'youtube' %}
 												<div class="board-posts-thread-post-image">
 													<img src="{{weburl}}board/{{boardname}}/thumb/{{thread_file.file}}" title="{{thread_file.original}}" class="board-posts-thread-post-image">
 												</div>
 											{% else %}
 												<div class="board-posts-thread-post-image">
-													<iframe width="512px" height="267px" src="https://www.youtube.com/embed/{{thread_file.file}}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+													<iframe width="512" height="267" src="https://www.youtube.com/embed/{{thread_file.file}}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
 												</div>
 											{% endif %}
 										{% endif %}
 									{% endfor %}
 									<br>
 									<div class="board-posts-thread-post-replies">
-										{% if thread_post.comments >= 1 %}<i class="fas fa-comments" title="View thread"></i> {{thread_post.comments}}  {% if thread_post.comments == 1 %}Reply{% else %}Replies{% endif %}{% else %}<i class="fas fa-comment"></i> {{thread_post.comments}} Replies{% endif %}
+										{% for thread_reply in thread_replies %}
+											{% if thread_reply.threadid == thread_post.id %}
+												{% if thread_reply.replies >= 1 %}<i class="fas fa-comments" title="View thread"></i> {{thread_reply.replies}}  {% if thread_reply.replies == 1 %}Reply{% else %}Replies{% endif %}{% else %}<i class="fas fa-comment" title="View thread"></i> {{thread_reply.replies}} Replies{% endif %}
+											{% endif %}
+										{% endfor %}
 									</div>
 								</div>
 							</article>
@@ -99,13 +111,19 @@
 		</div>
 		<!-- End board container -->
 		<footer class="board-footer">
-			<div class="board-footer-center"><i class="fas fa-share-square" title="New post"></i></div>
+			<div class="board-footer-center"><i class="fas fa-share-square" title="New post" id="board-newpost"></i></div>
 			<div class="board-footer-fr">{{sitename}} is powered by <a href="https://www.anonsaba.org/" target="_blank">Anonsaba {{version}}</a></div>
 		</footer>
 		<!-- Scripts -->
 		<script>
 			$('#board-navigation-home-button').click(function () {
 				$(location).attr('href', '{{weburl}}')
+			});
+			$('#board-newpost').click(function() {
+				$('.board-posts-newpost-wrapper').fadeIn('slow');
+			});
+			$('#board-posts-newpost-close').click(function() {
+				$('.board-posts-newpost-wrapper').fadeOut('slow');
 			});
 		</script>
 	</body>

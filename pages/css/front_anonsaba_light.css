@@ -63,6 +63,14 @@ html, body {
 /* End landing page stuff */
 
 /* Begin Board page stuff */
+.board-posts-newpost-wrapper {
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.board-posts-newpost {
+	background-color: #b3d9ff;	
+	box-shadow: 0px 8px 16px 0px rgb(255 255 255 / 20%)
+}
 .board-navigation {
 	background-color: #dbedff;
 	box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
@@ -116,6 +124,9 @@ html, body {
 }
 /* End board navigation */
 /* Begin Board posts */
+.board-posts-thread {
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
 .board-posts-thread-header {
 	background-color: #99ccff;	
 }

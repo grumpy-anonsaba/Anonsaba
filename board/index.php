@@ -43,13 +43,18 @@
 									sticky,
 									`lock`,
 									bumped,
-									comments,
 									cleared,
 									report,
 									banmessage
-							FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 AND parent = 0');
+							FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 AND parent = 0 ORDER BY bumped DESC');
 			   $qry->execute(array($board[0]['name']));
 		$twig_data['thread_posts'] = $qry->fetchAll();
+		$qry = $db->prepare('SELECT
+								id as threadid,
+								(SELECT COUNT(*) FROM '.dbprefix.'posts WHERE parent = threadid) as replies
+							FROM '.dbprefix.'posts WHERE PARENT = 0 AND boardname = ?');
+				$qry->execute(array($board[0]['name']));
+		$twig_data['thread_replies'] = $qry->fetchAll();
 		$files = '"jpg", "png", "gif", "youtube"';
 		echo $query;
 		$qry = $db->prepare('SELECT * FROM '.dbprefix.'files WHERE board = ? AND type IN ('.$files.')');

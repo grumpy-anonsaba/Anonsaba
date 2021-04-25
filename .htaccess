@@ -5,6 +5,12 @@ RewriteEngine On
 #RewriteCond %{SERVER_PORT} !^443$
 #RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# redirect "/manage" to "/manage/index.php"
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^manage$ /manage/index.php [L]
+RewriteRule ^manage/$ /manage/index.php [L]
+
 # redirect "/xxx" to "/board/index.php?board=xxx"
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
