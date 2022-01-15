@@ -164,7 +164,16 @@ body a {
 	list-style-type: none;
 	display: inline-table;
 }
-.front-board-list-list menu {
+.front-board-list-list ol {
+	display: unset;
+	list-style-type: unset;
+	margin-block-start: unset;
+	margin-block-end: unset;
+	margin-inline-start: unset;
+	margin-inline-end: unset;
+	padding-inline-start: unset;
+}
+.front-board-list-list nav {
 	padding:0;
 	margin: 0;
 }
