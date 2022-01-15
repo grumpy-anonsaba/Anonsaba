@@ -813,14 +813,6 @@ class Management {
 						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
 					}
 					rmdir($dir);
-					$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards');
-						   $qry->execute();
-					$board = $qry->fetchAll();
-					$board_core = new BoardCore();
-					foreach ($board as $brd) {
-						$board_core->board($brd['name']);
-						$board_core->refreshAll();
-					}
 					Core::Log(time(), $_SESSION['manage_username'], 'Cleared Twig cache');
 					$time_elapsed_secs = round(microtime(true) - $start, 2);
 					$results = array('done' => 'success', 'time' => $time_elapsed_secs);

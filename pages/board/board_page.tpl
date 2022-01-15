@@ -19,9 +19,10 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="/pages/images/favicon-16x16.png">
 		<!-- Scripts -->
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+		<script src="https://use.fontawesome.com/releases/v6.0.0-beta3/js/all.js" data-auto-replace-svg="nest"></script>
 	</head>
 	<body>
+		<!-- Post box -->
 		<div class="board-posts-newpost-wrapper">
 			<div class="board-posts-newpost">
 				<div class="board-posts-newpost-fr">
@@ -30,7 +31,29 @@
 				<div class="board-posts-newpost-box">
 					<div class="board-posts-newpost-box-flex">
 						<div class="board-posts-newpost-box-flex-flexchild">
-							Some text
+							<input type="text" name="board-posts-newpost-box-username" />
+							<input type="text" name="board-posts-newpost-box-email" />
+							<input type="text" name="board-posts-newpost-box-subject" />
+							<div class="board-post-newpost-box-wysiwyg-wrapper">
+								<div class="board-post-newpost-box-wysiwyg-menu">
+									<i class="fa-solid fa-text-height" id="board-posts-newpost-textheight" title="Font size"></i>
+									<i class="fa-solid fa-bold" id="board-posts-newpost-boldtext" title="Bold text"></i>
+									<i class="fa-solid fa-underline" id="board-posts-newpost-underlinetext" title="Underline text"></i>
+									<i class="fa-solid fa-italic" id="board-posts-newpost-italictext" title="Italic text"></i>
+									
+									<i class="fa-solid fa-list" id="board-posts-newpost-bulletlist" title="Bullet list"></i>
+									<i class="fa-solid fa-list-ol" id="board-posts-newpost-numberlist" title="Number list"></i>
+									<i class="fa-solid fa-align-center" id="board-posts-newpost-aligncenter" title="Align center"></i>
+									<i class="fa-solid fa-code" id="board-posts-newpost-codeblock" title="Code block"></i>
+									
+									<i class="fa-solid fa-image" id="board-posts-newpost-uploadimage" title="Upload image"></i>
+									<i class="fa-solid fa-photo-film" id="board-posts-newpost-gif" title="GIF"></i>
+									<i class="fa-brands fa-youtube" id="board-posts-newpost-youtube" title="Youtube video"></i>
+									<i class="fa-solid fa-link" id="board-posts-newpost-linktext" title="Link text"></i>
+								</div>
+								<div class="board-post-newpost-box-wysiwyg-text" contenteditable="true" spellcheck="true"> </div>
+							</div>
+							<input type="password" name="board-posts-newpost-box-password" id="board-posts-newpost-box-password" />
 						</div>
 						<div class="board-posts-newpost-box-flex-flexchild">
 							Some other text
@@ -39,6 +62,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- End post box -->
 		<nav class="board-navigation">
 			<div class="board-navigation-home">
 				<button id="board-navigation-home-button">Home</button>
@@ -134,11 +158,19 @@
 				}
 				return text;
 			}
+			function getCookie() {
+				const cookieValue = document.cookie
+					  .split('; ')
+					  .find(row => row.startsWith('board-posts-password='))
+					  .split('=')[1];
+				return cookieValue;
+			}
 			$(function() {
 				if (document.cookie.match(/^(.*;)?\s*board-posts-password\s*=\s*[^;]+(.*)?$/) === null) {
 					document.cookie = "board-posts-password=" + generatePassword() + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
+					document.getElementById("board-posts-newpost-box-password").value = getCookie();
 				} else {
-					console.log('Cookie!');
+					document.getElementById("board-posts-newpost-box-password").value = getCookie();
 				}
 			});
 			$('#board-navigation-home-button').click(function () {

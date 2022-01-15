@@ -243,6 +243,42 @@ body a {
 .fa-times-circle {
 	cursor: pointer;
 }
+.fa-text-height {
+	cursor: pointer;
+}
+.fa-bold {
+	cursor: pointer;
+}
+.fa-underline {
+	cursor: pointer;
+}
+.fa-italic {
+	cursor: pointer;
+}
+.fa-list {
+	cursor: pointer;
+}
+.fa-list-ol {
+	cursor: pointer;
+}
+.fa-align-center {
+	cursor: pointer;
+}
+.fa-code {
+	cursor: pointer;
+}
+.fa-image {
+	cursor: pointer;
+}
+.fa-photo-film {
+	cursor: pointer;
+}
+.fa-youtube {
+	cursor: pointer;
+}
+.fa-link {
+	cursor: pointer;
+}
 .board-navigation {
 	width: 100%;
 	height: 3%;
