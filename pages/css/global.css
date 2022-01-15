@@ -228,6 +228,18 @@ body a {
     margin-top: .3%;
 	margin-right: .3%;
 }
+.board-posts-newpost-box {
+	width: 99%;
+	height: 95%;
+	margin-left: .5%;
+	display: inline-block;
+}
+.board-posts-newpost-box-flex {
+	display: flex;
+}
+.board-posts-newpost-box-flex-flexchild {
+	flex: 1;
+}
 .fa-times-circle {
 	cursor: pointer;
 }

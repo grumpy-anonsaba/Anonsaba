@@ -27,6 +27,16 @@
 				<div class="board-posts-newpost-fr">
 					<i class="far fa-times-circle" id="board-posts-newpost-close" title="Close"></i>
 				</div>
+				<div class="board-posts-newpost-box">
+					<div class="board-posts-newpost-box-flex">
+						<div class="board-posts-newpost-box-flex-flexchild">
+							Some text
+						</div>
+						<div class="board-posts-newpost-box-flex-flexchild">
+							Some other text
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<nav class="board-navigation">
