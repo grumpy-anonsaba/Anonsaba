@@ -116,6 +116,21 @@
 		</footer>
 		<!-- Scripts -->
 		<script>
+			function generatePassword() {
+				var possible = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789![]{}()%&*$#^<>~@|';
+				var text = '';
+				for(var i=0; i < 16; i++) {
+					text += possible.charAt(Math.floor(Math.random() * possible.length));
+				}
+				return text;
+			}
+			$(function() {
+				if (document.cookie.match(/^(.*;)?\s*board-posts-password\s*=\s*[^;]+(.*)?$/) === null) {
+					document.cookie = "board-posts-password=" + generatePassword() + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
+				} else {
+					console.log('Cookie!');
+				}
+			});
 			$('#board-navigation-home-button').click(function () {
 				$(location).attr('href', '{{weburl}}')
 			});
