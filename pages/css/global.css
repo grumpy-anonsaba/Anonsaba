@@ -249,7 +249,7 @@ body a {
 .board-posts-newpost-box-flex-flexchild {
 	flex: 1;
 }
-.fa-times-circle {
+.fa-circle-xmark {
 	cursor: pointer;
 }
 .fa-text-height {
@@ -416,7 +416,7 @@ body a {
 .fa-reply {
 	cursor: pointer;
 }
-.fa-trash-alt {
+.fa-trash-can {
 	cursor: pointer;
 }
 .board-posts-thread-header-postby {

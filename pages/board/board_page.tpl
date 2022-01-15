@@ -26,7 +26,7 @@
 		<div class="board-posts-newpost-wrapper">
 			<div class="board-posts-newpost">
 				<div class="board-posts-newpost-fr">
-					<i class="far fa-times-circle" id="board-posts-newpost-close" title="Close"></i>
+					<i class="fa-regular fa-circle-xmark" id="board-posts-newpost-close" title="Close"></i>
 				</div>
 				<div class="board-posts-newpost-box">
 					<div class="board-posts-newpost-box-flex">
@@ -104,7 +104,7 @@
 										&nbsp;-&nbsp;{{thread_post.time|date('m/d/Y h:i', 'America/Chicago')}} {% if thread_post.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}
 									</div>
 									<div class="board-posts-thread-header-fr">
-										<i class="fas fa-flag" title="Report"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fas fa-trash-alt" title="Delete"></i>
+										<i class="fas fa-flag" title="Report"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fa-solid fa-trash-can" title="Delete"></i>
 									</div>
 									<br>
 									<div class="board-posts-thread-header-postby">
