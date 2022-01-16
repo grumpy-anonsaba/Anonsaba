@@ -31,9 +31,9 @@
 				<div class="board-posts-newpost-box">
 					<div class="board-posts-newpost-box-flex">
 						<div class="board-posts-newpost-box-flex-flexchild">
-							<input type="text" name="board-posts-newpost-box-username" />
-							<input type="text" name="board-posts-newpost-box-email" />
-							<input type="text" name="board-posts-newpost-box-subject" />
+							<input type="text" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" /><br />
+							<input type="text" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" /><br />
+							<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br />
 							<div class="board-post-newpost-box-wysiwyg-wrapper">
 								<div class="board-post-newpost-box-wysiwyg-menu">
 									<i class="fa-solid fa-text-height" id="board-posts-newpost-textheight" title="Font size"></i>
@@ -51,9 +51,12 @@
 									<i class="fa-brands fa-youtube" id="board-posts-newpost-youtube" title="Youtube video"></i>
 									<i class="fa-solid fa-link" id="board-posts-newpost-linktext" title="Link text"></i>
 								</div>
-								<div class="board-post-newpost-box-wysiwyg-text" contenteditable="true" spellcheck="true"> </div>
-							</div>
+								<div class="board-post-newpost-box-wysiwyg-text" id="board-post-newpost-box-wysiwyg-text" contenteditable="true" spellcheck="true"> </div>
+							</div><br />
 							<input type="password" name="board-posts-newpost-box-password" id="board-posts-newpost-box-password" />
+							<div class="board-post-newpost-box-submit" id="board-post-newpost-box-submit">
+								&nbsp;Submit&nbsp;
+							</div>
 						</div>
 						<div class="board-posts-newpost-box-flex-flexchild">
 							Some other text
@@ -108,7 +111,7 @@
 									</div>
 									<br>
 									<div class="board-posts-thread-header-postby">
-										Posted by <div class="board-posts-thread-header-postname">{{thread_post.name}}</div>
+										Posted by <div class="board-posts-thread-header-postname">{{thread_post.name}}</div> {% if thread_post.sticky == 1 %}&nbsp;<i class="fa-solid fa-thumbtack"></i>{% endif %}{% if thread_post.lock == 1 %}&nbsp;<i class="fa-solid fa-lock"></i>{% endif %}
 									</div>
 								</div>
 								<div class="board-posts-thread-post-message">
@@ -181,6 +184,29 @@
 			});
 			$('#board-posts-newpost-close').click(function() {
 				$('.board-posts-newpost-wrapper').fadeOut('slow');
+			});
+			$('#board-post-newpost-box-submit').click(function() {
+				var username = document.getElementById("board-posts-newpost-box-username").value;
+				var email = document.getElementById("board-posts-newpost-box-email").value;
+				var subject = document.getElementById("board-posts-newpost-box-subject").value;
+				var post = $('#board-post-newpost-box-wysiwyg-text').html();
+				var password = document.getElementById("board-posts-newpost-box-password").value;
+				var board = "{{boardname}}";
+				let req = new XMLHttpRequest();
+				let formData = new FormData();
+				formData.append("username", username);
+				formData.append("email", email);
+				formData.append("subject", subject);
+				formData.append("post", post);
+				formData.append("password", password);
+				formData.append("board", board);
+				req.open("POST", "https://www.anonsaba.org/board/index.php?action=post");
+				req.send(formData);
+				req.onreadystatechange = function () {
+					if (req.readyState === 4) {
+						console.log(this.responseText);
+					}
+				}
 			});
 		</script>
 	</body>

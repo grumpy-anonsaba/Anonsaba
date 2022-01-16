@@ -225,10 +225,22 @@ body a {
 	position: fixed;
 	top: 0;
 	left: 0;
+	overflow: auto;
+}
+.board-post-newpost-box-submit {
+    display: block;
+    font-size: .9vw;
+    text-align: center;
+    font-weight: bold;
+    border: thin solid;
+    margin-bottom: 10px;
+    cursor: pointer;
+    float: right;
+	border-radius: 10px;
 }
 .board-posts-newpost {
     width: 35%;
-    height: 50%;
+    min-height: 50%;
     margin: 10% auto;
     border-radius: 10px;
 }
