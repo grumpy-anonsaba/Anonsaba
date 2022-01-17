@@ -75,6 +75,7 @@
 		$twig_data['boardname'] = $board[0]['name'];
 		$twig_data['boarddesc'] = $board[0]['desc'];
 		$twig_data['boardlock'] = $board[0]['locked'];
+		$twig_data['board'] = $board;
 		$sections = array();
 		$qry = $db->prepare('SELECT id FROM '.dbprefix.'boards LIMIT 1');
 			   $qry->execute();
