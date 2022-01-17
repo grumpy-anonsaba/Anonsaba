@@ -266,6 +266,13 @@ body a {
     border-radius: 0px 10px 10px 0px;
 	margin-bottom: 1%;
 }
+.board-post-newpost-box-wysiwyg-text {
+    min-height: 122px;
+    overflow: hidden;
+    padding: 8px 16px;
+    resize: vertical;
+	overflow-wrap: anywhere;
+}
 .fa-circle-xmark {
 	cursor: pointer;
 }
