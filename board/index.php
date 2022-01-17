@@ -46,10 +46,12 @@
 			$result = 'failed';
 			$reason = 'Board is locked';
 		} else {
+			// Get what our post ID is going to be
 			$qry = $db->prepare('SELECT id + 1 FROM '.dbprefix.'posts WHERE boardname = ? ORDER by id DESC LIMIT 0, 1');
 				   $qry->execute(array($_POST['board']));
 			$idq = $qry->fetch();
 			$id = ($idq) ? $idq['id + 1'] : 1;
+			// Create our ipid
 			$ipid = Core::sEncrypt(Core::getIP());
 			$qry = $db->prepare('SELECT ip, ipid FROM '.dbprefix.'posts');
 				   $qry->execute();
@@ -59,8 +61,13 @@
 					$ipid = $r['ipid'];
 				}
 			}
+			// Check our post name
+			$qry = $db->prepare('SELECT forcedanon, postername FROM '.dbprefix.'boards WHERE name = ?');
+				   $qry->execute(array($_POST['board']));
+			$board_postname = $qry->fetch();
+			$username = ($_POST['username'] == '' || $board_postname['forcedanon'] == 1) ? $board_postname['postername'] : $_POST['username'];
 			$qry = $db->prepare('INSERT INTO '.dbprefix.'posts (`id`, `name`, `email`, `subject`, `message`, `password`, `parent`, `ip`, `boardname`, `ipid`, `bumped`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-				   $qry->execute(array($id, $_POST['username'], $_POST['email'], $_POST['subject'], $_POST['post'], password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
+				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $_POST['post'], password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
 			$result = 'success';
 			$rid = ''.$id.'';
 		}

@@ -32,8 +32,8 @@
 					<div class="board-posts-newpost-box">
 						<div class="board-posts-newpost-box-flex">
 							<div class="board-posts-newpost-box-flex-flexchild">
-								{% if board_info.forcedanon == 0 %}<input type="text" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" /><br />{% endif %}
-								{% if board_info.email == 1 %}<input type="text" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" /><br />{% endif %}
+								<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" />{% if board_info.forcedanon == 0 %}<br />{% endif %}
+								<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" />{% if board_info.email == 1 %}<br />{% endif %}
 								<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br />
 								<div class="board-post-newpost-box-wysiwyg-wrapper">
 									<div class="board-post-newpost-box-wysiwyg-menu">
