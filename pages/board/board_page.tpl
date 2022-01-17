@@ -54,6 +54,9 @@
 								<div class="board-post-newpost-box-wysiwyg-text" id="board-post-newpost-box-wysiwyg-text" contenteditable="true" spellcheck="true"> </div>
 							</div><br />
 							<input type="password" name="board-posts-newpost-box-password" id="board-posts-newpost-box-password" />
+							<div id="modpass">
+								<br /><input type="password" name="board-posts-newpost-box-modpass" id="board-posts-newpost-box-modpass" placeholder="Mod password" />
+							</div>
 							<div class="board-post-newpost-box-submit" id="board-post-newpost-box-submit">
 								&nbsp;Submit&nbsp;
 							</div>
@@ -99,6 +102,12 @@
 				<!-- Thread posts -->
 				<div class="board-posts">
 					{% for thread_post in thread_posts %}
+						{% set count = 0 %}
+						{% for thread_files_counts in thread_files_count %}
+							{% if thread_files_counts.id == thread_post.id %}
+								{% set count = thread_files_counts.count %}
+							{% endif %}
+						{% endfor %}
 						{% if thread_post.parent == 0 %}
 							<article class="board-posts-thread">
 								<div class="board-posts-thread-header">
@@ -115,20 +124,31 @@
 									</div>
 								</div>
 								<div class="board-posts-thread-post-message">
+									{% set active = 1 %}
 									{% for thread_file in thread_files %}
 										{% if thread_file.id == thread_post.id %}
-											<br>
-											{% if thread_file.type != 'youtube' %}
-												<div class="board-posts-thread-post-image">
-													<img src="{{weburl}}board/{{boardname}}/thumb/{{thread_file.file}}" title="{{thread_file.original}}" class="board-posts-thread-post-image">
-												</div>
+											{% if count == 1 %}
+												<br>
+												{% if thread_file.type != 'youtube' %}
+													<div class="board-posts-thread-post-image">
+														<img src="{{weburl}}board/{{boardname}}/thumb/{{thread_file.file}}" title="{{thread_file.original}}" class="board-posts-thread-post-image">
+													</div>
+												{% else %}
+													<div class="board-posts-thread-post-image">
+														<iframe width="512" height="267" src="https://www.youtube.com/embed/{{thread_file.file}}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+													</div>
+												{% endif %}
 											{% else %}
-												<div class="board-posts-thread-post-image">
-													<iframe width="512" height="267" src="https://www.youtube.com/embed/{{thread_file.file}}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-												</div>
+												<br />{{count}} files
 											{% endif %}
+											{% set active = 0 %}
 										{% endif %}
 									{% endfor %}
+									{% if active %}
+										<div class="board-posts-thread-post-postmessage">
+											{{ thread_post.message|raw }}
+										</div>
+									{% endif %}
 									<br>
 									<div class="board-posts-thread-post-replies">
 										{% for thread_reply in thread_replies %}
@@ -161,19 +181,26 @@
 				}
 				return text;
 			}
-			function getCookie() {
+			function getCookie(name) {
 				const cookieValue = document.cookie
 					  .split('; ')
-					  .find(row => row.startsWith('board-posts-password='))
+					  .find(row => row.startsWith(name+'='))
 					  .split('=')[1];
 				return cookieValue;
+			}
+			if (document.cookie.match(/^(.*;)?\s*mod_cookie\s*=\s*[^;]+(.*)?$/) === null) {
+				document.getElementById("modpass").style.display = 'none';
+			} else {
+				if (getCookie('mod_cookie') == 'allboards') {
+					document.getElementById("modpass").style.display = 'block';
+				}
 			}
 			$(function() {
 				if (document.cookie.match(/^(.*;)?\s*board-posts-password\s*=\s*[^;]+(.*)?$/) === null) {
 					document.cookie = "board-posts-password=" + generatePassword() + "; expires=Fri, 31 Dec 9999 23:59:59 GMT"
-					document.getElementById("board-posts-newpost-box-password").value = getCookie();
+					document.getElementById("board-posts-newpost-box-password").value = getCookie("board-posts-password");
 				} else {
-					document.getElementById("board-posts-newpost-box-password").value = getCookie();
+					document.getElementById("board-posts-newpost-box-password").value = getCookie("board-posts-password");
 				}
 			});
 			$('#board-navigation-home-button').click(function () {
@@ -204,7 +231,12 @@
 				req.send(formData);
 				req.onreadystatechange = function () {
 					if (req.readyState === 4) {
-						console.log(this.responseText);
+						var obj = JSON.parse(this.responseText);
+						if (obj.result == 'success') {
+							location.reload();
+						} else {
+							alert('Error! '+ obj.reason);
+						}
 					}
 				}
 			});

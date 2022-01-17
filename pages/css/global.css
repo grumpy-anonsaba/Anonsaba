@@ -445,6 +445,10 @@ body a {
     display: flex;
     flex-direction: column;
 }
+.board-posts-thread-post-postmessage {
+	padding-left: 1%;
+	padding-top: 1%;
+}
 .board-posts-thread-post-image {
 	position: relative;
 	margin: 0 auto;
