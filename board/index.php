@@ -6,16 +6,43 @@
 	
 	/* Post uploads */
 	if ($_GET['action'] == 'post') {
+		$is_mod = false;
+		$mod_first = false;
+		$mod_user = '';
+		// Let's check if the user is a mod
+		if ($_POST['modpass'] != '') {
+			$qry = $db->prepare('SELECT sessionid, username FROM '.dbprefix.'staff');
+				   $qry->execute();
+			$mc = $qry->fetchAll();
+			foreach ($mc as $mod_check) {
+				if (Core::sDecrypt($mod_check['sessionid']) == $_POST['modpass']) {
+					$mod_first = true;
+					$mod_user = $mod_check['username'];
+				}
+			}
+			if ($mod_first) {
+				// User passed initial  check
+				$qry = $db->prepare('SELECT php_sessionid FROM '.dbprefix.'staff WHERE username = ?');
+					   $qry->execute(array($mod_user));
+				$mod_second = $qry->fetch();
+				if (password_verify($_POST['sessid'], $mod_second['php_sessionid'])) {
+					$is_mod = true;
+				} else {
+					// Destroy the management session
+					$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = "", php_sessionid = "" WHERE username = ?');
+						   $qry->execute(array($mod_user));
+				}
+			}
+		}
 		// Declare our JSON stuff
 		$result = '';
 		$reason = '';
 		$rid = '';
-		$board = '';
 		// Lets make sure the board isn't locked
 		$qry = $db->prepare('SELECT locked FROM boards WHERE name = ?');
 			   $qry->execute(array($_POST['board']));
 		$locked = $qry->fetch();
-		if ($locked['locked'] == 1) {
+		if ($locked['locked'] == 1 && !$is_mod) {
 			$result = 'failed';
 			$reason = 'Board is locked';
 		} else {
@@ -35,10 +62,9 @@
 			$qry = $db->prepare('INSERT INTO '.dbprefix.'posts (`id`, `name`, `email`, `subject`, `message`, `password`, `parent`, `ip`, `boardname`, `ipid`, `bumped`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 				   $qry->execute(array($id, $_POST['username'], $_POST['email'], $_POST['subject'], $_POST['post'], password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
 			$result = 'success';
-			$rid = $id;
-			$board = $_POST['board'];
+			$rid = ''.$id.'';
 		}
-		$results = array('result' => $result, 'reason' => $reason, 'id' => $rid, 'board' => $board);
+		$results = array('result' => $result, 'reason' => $reason, 'id' => $rid);
 		die(json_encode($results));
 	}
 	/* Begin the wall of declares */

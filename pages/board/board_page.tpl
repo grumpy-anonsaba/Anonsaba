@@ -173,6 +173,7 @@
 		</footer>
 		<!-- Scripts -->
 		<script>
+			var SESSID = "";
 			function generatePassword() {
 				var possible = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789![]{}()%&*$#^<>~@|';
 				var text = '';
@@ -194,6 +195,11 @@
 				if (getCookie('mod_cookie') == 'allboards') {
 					document.getElementById("modpass").style.display = 'block';
 				}
+			}
+			if (document.cookie.match(/^(.*;)?\s*PHPSESSID\s*=\s*[^;]+(.*)?$/) === null) {
+				// do nothing
+			} else {
+				SESSID = getCookie('PHPSESSID');
 			}
 			$(function() {
 				if (document.cookie.match(/^(.*;)?\s*board-posts-password\s*=\s*[^;]+(.*)?$/) === null) {
@@ -219,6 +225,7 @@
 				var post = $('#board-post-newpost-box-wysiwyg-text').html();
 				var password = document.getElementById("board-posts-newpost-box-password").value;
 				var board = "{{boardname}}";
+				var modpass = document.getElementById("board-posts-newpost-box-modpass").value;
 				let req = new XMLHttpRequest();
 				let formData = new FormData();
 				formData.append("username", username);
@@ -226,8 +233,10 @@
 				formData.append("subject", subject);
 				formData.append("post", post);
 				formData.append("password", password);
-				formData.append("board", board);
-				req.open("POST", "https://www.anonsaba.org/board/index.php?action=post");
+				formData.append("board", board)
+				formData.append("modpass", modpass);
+				formData.append("sessid", SESSID);
+				req.open("POST", "{{weburl}}board/index.php?action=post");
 				req.send(formData);
 				req.onreadystatechange = function () {
 					if (req.readyState === 4) {

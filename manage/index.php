@@ -10,8 +10,8 @@ require_once svrpath.'modules/core.php';
 
 
 // Okay let's start the session now that we have those files
-session_set_cookie_params(1800); // Cookie last for 30 minutes
 session_start();
+session_set_cookie_params(1800); // Cookie last for 30 minutes
 
 // Now let's actually start the management modules/core
 $manage = new Management();

@@ -11,7 +11,8 @@ class Management {
 				   $qry->execute(array($_SESSION['manage_username']));
 				   $result = $qry->fetch();
 			$sessionid = (is_array($result)) ? array_shift($result) : $result;
-			if($_SESSION['sessionid'] == $sessionid) {
+			if(Core::sDecrypt($sessionid) == $_SESSION['sessionid']) {
+				$this->updateActive($_SESSION['manage_username']);
 				return true;
 			} else {
 				$this->destroySession($_SESSION['manage_username']);
@@ -49,13 +50,13 @@ class Management {
 		} else {
 			setcookie('mod_cookie', $boards, time() + 1800, '/', webcookie);
 		}
-		$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = ? WHERE username = ?');
-			   $qry->execute(array($sessionid, $user));
+		$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = ?, php_sessionid = ? WHERE username = ?');
+			   $qry->execute(array(Core::sEncrypt($sessionid), password_hash(session_id(), PASSWORD_ARGON2I), $user));
 		$this->updateActive($user);
 	}
 	public function destroySession($user) {
 		global $db;
-		$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = "" WHERE username = ?');
+		$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = "", php_sessionid = "" WHERE username = ?');
 			   $qry->execute(array($user));
 		unset($_SESSION['manage_username']);
 		unset($_SESSION['sessionid']);
@@ -249,7 +250,7 @@ class Management {
 		$qry = $db->prepare('SELECT sessionid FROM '.dbprefix.'staff WHERE username = ?');
 			   $qry->execute(array($_SESSION['manage_username']));
 			   $result = $qry->fetch();
-		$postpass = (is_array($result)) ? array_shift($result) : $result;
+		$postpass = Core::sDecrypt($result['sessionid']);
 		die('
 			<div class="action">
 				<input type="text" value="'. $postpass .'" />
