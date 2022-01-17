@@ -12,7 +12,19 @@ class Management {
 				   $result = $qry->fetch();
 			$sessionid = (is_array($result)) ? array_shift($result) : $result;
 			if(Core::sDecrypt($sessionid) == $_SESSION['sessionid']) {
+				// Update active time
 				$this->updateActive($_SESSION['manage_username']);
+				// Update the cookie
+				$qry = $db->prepare('SELECT boards FROM '.dbprefix.'staff WHERE username = ?');
+				$qry->execute(array($_SESSION['manage_username']));
+				$result = $qry->fetch();
+				$boards = (is_array($result)) ? array_shift($result) : $result;
+				$level = $this->getStaffLevel($_SESSION['manage_username']);
+				if ($boards == 'all' || $level == 1) {
+					setcookie('mod_cookie', 'allboards', time() + 1800, '/', webcookie);
+				} else {
+					setcookie('mod_cookie', $boards, time() + 1800, '/', webcookie);
+				}
 				return true;
 			} else {
 				$this->destroySession($_SESSION['manage_username']);
