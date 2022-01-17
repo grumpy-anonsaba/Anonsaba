@@ -261,6 +261,11 @@ body a {
 .board-posts-newpost-box-flex-flexchild {
 	flex: 1;
 }
+.board-posts-postbox input[type=text] {
+    width: 98%;
+    border-radius: 0px 10px 10px 0px;
+	margin-bottom: 1%;
+}
 .fa-circle-xmark {
 	cursor: pointer;
 }
