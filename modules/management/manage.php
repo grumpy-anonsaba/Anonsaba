@@ -837,4 +837,13 @@ class Management {
 			
 		}
 	}
+	public function modgetIP() {
+		global $db;
+		$qry = $db->prepare('SELECT ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+			   $qry->execute(array($_GET['id'], $_GET['board']));
+		$result = $qry->fetch();
+		$ip = (is_array($result)) ? array_shift($result) : $result;
+		echo Core::sDecrypt($ip);
+		die();
+	}
 }
