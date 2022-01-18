@@ -33,9 +33,9 @@
 						<div class="board-posts-newpost-box-flex">
 							<div class="board-posts-newpost-box-flex-flexchild">
 								<div class="board-posts-postbox">
-									<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" />{% if board_info.forcedanon == 0 %}<br />{% endif %}
-									<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" />{% if board_info.email == 1 %}<br />{% endif %}
-									<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br />
+									<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" />{% if board_info.forcedanon == 0 %}<br>{% endif %}
+									<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" />{% if board_info.email == 1 %}<br>{% endif %}
+									<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br>
 								</div>
 								<div class="board-post-newpost-box-wysiwyg-wrapper">
 									<div class="board-post-newpost-box-wysiwyg-menu">
@@ -55,10 +55,10 @@
 										<i class="fa-solid fa-link" id="board-posts-newpost-linktext" title="Link text"></i>
 									</div>
 									<div class="board-post-newpost-box-wysiwyg-text" id="board-post-newpost-box-wysiwyg-text" contenteditable="true" spellcheck="true"> </div>
-								</div><br />
+								</div><br>
 								<input type="password" name="board-posts-newpost-box-password" id="board-posts-newpost-box-password" />
 								<div id="modpass">
-									<br /><input type="password" name="board-posts-newpost-box-modpass" id="board-posts-newpost-box-modpass" placeholder="Mod password" />
+									<br><input type="password" name="board-posts-newpost-box-modpass" id="board-posts-newpost-box-modpass" placeholder="Mod password" />
 								</div>
 								<div class="board-post-newpost-box-submit" id="board-post-newpost-box-submit">
 									&nbsp;Submit&nbsp;
@@ -119,7 +119,7 @@
 											&nbsp;-&nbsp;{{thread_post.time|date('m/d/Y h:i', 'America/Chicago')}} {% if thread_post.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}
 										</div>
 										<div class="board-posts-thread-header-fr">
-											<i class="fas fa-flag" title="Report"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fa-solid fa-trash-can" title="Delete"></i>
+											<i class="fas fa-flag" title="Report" id="report" onclick="reportPost({{thread_post.id}});"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fa-solid fa-trash-can" title="Delete"></i>
 										</div>
 										<br>
 										<div class="board-posts-thread-header-postby">
@@ -142,7 +142,7 @@
 														</div>
 													{% endif %}
 												{% else %}
-													<br />{{count}} files
+													<br>{{count}} files
 												{% endif %}
 												{% set active = 0 %}
 											{% endif %}
@@ -191,6 +191,10 @@
 						  .find(row => row.startsWith(name+'='))
 						  .split('=')[1];
 					return cookieValue;
+				}
+				function reportPost(id) {
+					alert("Thread ID: "+id);
+					event.stopImmediatePropagation();
 				}
 				if (document.cookie.match(/^(.*;)?\s*mod_cookie\s*=\s*[^;]+(.*)?$/) === null) {
 					document.getElementById("modpass").style.display = 'none';
