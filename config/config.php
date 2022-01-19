@@ -31,6 +31,7 @@
 	// Twig Paths
 	$config['dir'] = $config['svrpath'].'pages';
 	$config['cache'] = $config['svrpath'].'pages_cache';
+	$config['board_cache'] = realpath(dirname(__DIR__)).'/'.'board_pages_cache';
 	
 	// Security
 	$config['hash'] = ''; // Please enter 24+ LETTERS AND NUMBERS here
@@ -59,6 +60,11 @@
 		require_once $config['svrpath'].'modules/autoload.php';
 		$loader = new \Twig\Loader\FilesystemLoader($config['dir']);
 		$twig = new \Twig\Environment($loader, ['cache' => $config['cache'],]);
+	}
+	if (!isset($twig_board)) {
+		require_once $config['svrpath'].'modules/autoload.php';
+		$loader = new \Twig\Loader\FilesystemLoader($config['dir']);
+		$twig_board = new \Twig\Environment($loader, ['cache' => $config['board_cache'],]);
 	}
 	foreach ($config as $key=>$value) {
 		define($key, $value);

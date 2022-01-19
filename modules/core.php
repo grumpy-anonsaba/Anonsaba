@@ -30,12 +30,13 @@ Class Core {
 		self::Output('/error.tpl', $twig_data);
 		die();
 	}
-	public static function Output($template, $data) {
-		global $twig;
+	public static function Output($template, $data, $board=false) {
+		global $twig, $twig_board;
 		$data['sitename'] = self::GetConfigOption('sitename');
 		$data['version'] = self::GetConfigOption('version');
 		$data['weburl'] = weburl;
-		echo $twig->display($template, $data);
+		$template = ($board) ? $twig_board->display($template, $data) : $twig->display($template, $data);
+		echo $template;
 	}
 	public static function GetConfigOption($value) {
 		global $db;

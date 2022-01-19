@@ -149,5 +149,5 @@
 		$qry = $db->prepare('SELECT COUNT(id) as count, id FROM '.dbprefix.'files WHERE board = ? GROUP BY id');
 			   $qry->execute(array($board[0]['name']));
 		$twig_data['thread_files_count'] = $qry->fetchAll();
-		Core::Output('/board/board_page.tpl', $twig_data);
+		Core::Output('/board/board_page.tpl', $twig_data, true);
 	}
