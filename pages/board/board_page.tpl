@@ -33,8 +33,8 @@
 						<div class="board-posts-newpost-box-flex">
 							<div class="board-posts-newpost-box-flex-flexchild">
 								<div class="board-posts-postbox">
-									<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" placeholder="Name" />{% if board_info.forcedanon == 0 %}<br>{% endif %}
-									<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" placeholder="Email" />{% if board_info.email == 1 %}<br>{% endif %}
+									<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" {% if board_info.forcedanon == 0 %}placeholder="Name"{% endif %} />{% if board_info.forcedanon == 0 %}<br>{% endif %}
+									<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" {% if board_info.email == 1 %}placeholder="Email"{% endif %} />{% if board_info.email == 1 %}<br>{% endif %}
 									<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br>
 								</div>
 								<div class="board-post-newpost-box-wysiwyg-wrapper">
@@ -119,7 +119,7 @@
 											&nbsp;-&nbsp;{{thread_post.time|date('m/d/Y h:i', 'America/Chicago')}} {% if thread_post.time|date('H', 'America/Chicago') >= 12 %}PM{% else %}AM{% endif %}
 										</div>
 										<div class="board-posts-thread-header-fr">
-											<i class="fas fa-flag" title="Report" id="report" onclick="reportPost({{thread_post.id}});"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fa-solid fa-trash-can" title="Delete"></i>
+											<i class="fas fa-flag" title="Report" onclick="reportPost({{thread_post.id}});"></i>&nbsp;<i class="fas fa-reply" title="Quick Reply"></i>&nbsp;<i class="fa-solid fa-trash-can" title="Delete"></i>
 										</div>
 										<br>
 										<div class="board-posts-thread-header-postby">
