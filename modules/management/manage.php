@@ -821,12 +821,12 @@ class Management {
 				case 'run':
 					$this->updateActive($_SESSION['manage_username']);
 					$start = microtime(true);
-					$dir = svrpath.'pages_cache';
+					$dir = cache;
 					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
 						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
 					}
 					rmdir($dir);
-					$dir = svrpath.'board_pages_cache';
+					$dir = board_cache;
 					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
 						$path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
 					}
