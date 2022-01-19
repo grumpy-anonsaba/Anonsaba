@@ -74,6 +74,20 @@
 		$results = array('result' => $result, 'reason' => $reason, 'id' => $rid);
 		die(json_encode($results));
 	}
+	/* Reports */
+	if ($_GET['action'] == 'report') {
+		// Get how many times this has been reported
+		$qry = $db->prepare('SELECT report,reportmsg FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+			   $qry->execute(array($_GET['id'], $_GET['board']));
+		$report_details = $qry->fetch();
+		// Check if this has been reported more than once if so append the next report!
+		$report_message = ($report_details['report'] > 0) ? $_GET['report_message'].'|'.$report_details['reportmsg'] : $_GET['report_message'];
+		// Let's upload the report
+		$qry = $db->prepare('UPDATE '.dbprefix.'posts SET report = ?, reportmsg = ? WHERE id = ? AND boardname = ?');
+			   $qry->execute(array($report_details['report'] + 1, $report_message, $_GET['id'], $_GET['board']));
+		$results = array('result' => 'success');
+		die(json_encode($results));
+	}
 	/* Begin the wall of declares */
 	$qry = $db->prepare('SELECT * FROM '.dbprefix.'boards WHERE name = ?');
 		   $qry->execute(array($_GET['board']));
