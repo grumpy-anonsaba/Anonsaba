@@ -179,6 +179,7 @@ body a {
 }
 .front-board-list-list i {
 	font-size: .6vw;
+	vertical-align: 9%;
 }
 .front-board-list-list-fr {
 	float: right;
@@ -201,6 +202,9 @@ body a {
 }
 .front-board-list-list-clear {
 	clear: both;
+}
+.front-board-list-list-popular {
+	font-weight: bold;
 }
 /* Landing page footer */
 .front-footer {

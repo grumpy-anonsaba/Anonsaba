@@ -113,11 +113,11 @@
 											{% endif %}
 									</div>
 								</div>
-								<menu id="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
+								<nav id="{{section.name}}" {% if section.hidden == 1 %}style="display: none;"{% endif %}>
 									{% for boards in section.boards %}
 										{% if boards.popular == 1 %}<div class="front-board-list-list-popular">{% endif %}<ol><li><a href="/{{boards.name}}" title="{{boards.desc}}">{{boards.desc}}{% if boards.popular == 1 %} <i class="fas fa-fire"></i>{% endif %}{% if boards.locked == 1 %}&nbsp;<i class="fas fa-lock"></i>{% endif %}</a></li></ol>{% if boards.popular == 1 %}</div>{% endif %}
 									{% endfor %}
-								</menu>
+								</nav>
 							</article><div class="front-board-list-list-clear"></div>
 						{% endfor %}
 					</section>
