@@ -480,6 +480,10 @@ body a {
 .board-posts-thread-post-replies {
 	font-size: .7vw;	
 }
+.board-posts-thread-post-replies span {
+	float: right;
+	padding-right: .7%;
+}
 .fa-comments {
 	cursor: pointer;
 }

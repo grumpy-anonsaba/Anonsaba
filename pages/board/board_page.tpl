@@ -159,8 +159,8 @@
 													{% if thread_reply.replies >= 1 %}<i class="fas fa-comments" title="View thread"></i> {{thread_reply.replies}}  {% if thread_reply.replies == 1 %}Reply{% else %}Replies{% endif %}{% else %}<i class="fas fa-comment" title="View thread"></i> {{thread_reply.replies}} Replies{% endif %}
 												{% endif %}
 											{% endfor %}
+											<span id="dnb-{{boardname}}-{{thread_post.id}}"></span>
 										</div>
-										<span id="dnb-{{boardname}}-{{thread_post.id}}"></span>
 									</div>
 								</article>
 							{% endif %}
@@ -197,25 +197,28 @@
 					alert("Thread ID: "+id);
 					event.stopImmediatePropagation();
 				}
+				function isMod() {
+					var dnbelements = document.getElementsByTagName('span');
+					var dnbelement;
+					var dnbinfo;
+					for(var i=0; i<dnbelements.length;i++) {
+						dnbelement = dnbelements[i];
+						if (dnbelement.getAttribute('id').substr(0, 3) == 'dnb') {
+							dnbinfo = dnbelement.getAttribute('id').split('-');
+							let req = new XMLHttpRequest();
+							req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+dnbinfo[2]+"&board="+dnbinfo[1],false);
+							req.send();
+							var ip = req.responseText;
+							dnbelements[i].innerHTML = "[IP: "+ip.replace('::ffff:', '') +"]";
+						}
+					}
+				}
 				if (document.cookie.match(/^(.*;)?\s*mod_cookie\s*=\s*[^;]+(.*)?$/) === null) {
 					document.getElementById("modpass").style.display = 'none';
 				} else {
 					if (getCookie('mod_cookie') == 'allboards') {
 						document.getElementById("modpass").style.display = 'block';
-						var dnbelements = document.getElementsByTagName('span');
-						var dnbelement;
-						var dnbinfo;
-						for(var i=0; i<dnbelements.length;i++) {
-							dnbelement = dnbelements[i];
-							if (dnbelement.getAttribute('id').substr(0, 3) == 'dnb') {
-								dnbinfo = dnbelement.getAttribute('id').split('-');
-								let req = new XMLHttpRequest();
-								req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+dnbinfo[2]+"&board="+dnbinfo[1],false);
-								req.send();
-								var ip = req.responseText;
-								dnbelements[i].innerHTML = "[IP: "+ip.replace('::ffff:', '') +" ]";
-							}
-						}
+						isMod();
 					}
 				}
 				if (document.cookie.match(/^(.*;)?\s*PHPSESSID\s*=\s*[^;]+(.*)?$/) === null) {
