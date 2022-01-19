@@ -71,6 +71,14 @@ html, body {
 	background-color: #b3d9ff;	
 	box-shadow: 0px 8px 16px 0px rgb(255 255 255 / 20%)
 }
+.board-posts-report-wrapper {
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.board-posts-report {
+	background-color: #b3d9ff;	
+	box-shadow: 0px 8px 16px 0px rgb(255 255 255 / 20%)	
+}
 .board-post-newpost-box-wysiwyg-menu {
 	background-color: #F2F2F2;
 }

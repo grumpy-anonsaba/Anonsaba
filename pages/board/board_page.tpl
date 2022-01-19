@@ -72,6 +72,22 @@
 				</div>
 			</div>
 			<!-- End post box -->
+			<!-- Report box -->
+			<div class="board-posts-report-wrapper">
+				<div class="board-posts-report">
+					<div class="board-posts-report-fr">
+						<i class="fa-regular fa-circle-xmark" id="board-posts-report-close" title="Close"></i>
+					</div>
+					<input type="hidden" id="board-posts-report-report_id">
+					<select id="board-posts-report-report_reason">
+						<option value="rule_violation">Rule Violation</option>
+						<option value="spam">Spam</option>
+						<option value="Custom">Custom</option>
+					</select>
+					<input type="hidden" id="board-posts-report-report_reason-custom">
+				</div>
+			</div>
+			<!-- End report box -->
 			<nav class="board-navigation">
 				<div class="board-navigation-home">
 					<button id="board-navigation-home-button">Home</button>
@@ -194,7 +210,8 @@
 					return cookieValue;
 				}
 				function reportPost(id) {
-					alert("Thread ID: "+id);
+					$('.board-posts-report-wrapper').fadeIn('slow');
+					document.getElementById("board-posts-report-report_id").value = id;
 					event.stopImmediatePropagation();
 				}
 				function isMod() {
@@ -242,6 +259,9 @@
 				});
 				$('#board-posts-newpost-close').click(function() {
 					$('.board-posts-newpost-wrapper').fadeOut('slow');
+				});
+				$('#board-posts-report-close').click(function() {
+					$('.board-posts-report-wrapper').fadeOut('slow');
 				});
 				$('#board-post-newpost-box-submit').click(function() {
 					var username = document.getElementById("board-posts-newpost-box-username").value;

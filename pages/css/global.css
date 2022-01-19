@@ -231,6 +231,22 @@ body a {
 	left: 0;
 	overflow: auto;
 }
+.board-posts-report-wrapper {
+	display: none;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: auto;
+}
+.board-posts-report {
+	width: 35%;
+    min-height: 50%;
+    margin: 10% auto;
+    border-radius: 10px;	
+}
 .board-post-newpost-box-submit {
     display: block;
     font-size: .9vw;
@@ -252,6 +268,11 @@ body a {
 	float: right;
     margin-top: .3%;
 	margin-right: .3%;
+}
+.board-posts-report-fr {
+	float: right;
+    margin-top: .3%;
+	margin-right: .3%;	
 }
 .board-posts-newpost-box {
 	width: 99%;
