@@ -50,7 +50,7 @@
 										<i class="fa-solid fa-code" id="board-posts-newpost-codeblock" title="Code block"></i>
 										
 										<i class="fa-solid fa-image" id="board-posts-newpost-uploadimage" title="Upload image"></i>
-										<i class="fa-solid fa-photo-film" id="board-posts-newpost-gif" title="GIF"></i>
+										{% if gif_support %}<i class="fa-solid fa-photo-film" id="board-posts-newpost-gif" title="GIF"></i>{% endif %}
 										<i class="fa-brands fa-youtube" id="board-posts-newpost-youtube" title="Youtube video"></i>
 										<i class="fa-solid fa-link" id="board-posts-newpost-linktext" title="Link text"></i>
 									</div>

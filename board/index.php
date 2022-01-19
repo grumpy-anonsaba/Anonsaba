@@ -149,5 +149,6 @@
 		$qry = $db->prepare('SELECT COUNT(id) as count, id FROM '.dbprefix.'files WHERE board = ? GROUP BY id');
 			   $qry->execute(array($board[0]['name']));
 		$twig_data['thread_files_count'] = $qry->fetchAll();
+		$twig_data['gif_support'] = (Core::GetConfigOption('tenor_api_key') != '') ? true : false;
 		Core::Output('/board/board_page.tpl', $twig_data, true);
 	}
