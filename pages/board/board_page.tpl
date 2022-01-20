@@ -229,11 +229,18 @@
 						dnbelement = dnbelements[i];
 						if (dnbelement.getAttribute('id').substr(0, 3) == 'dnb') {
 							dnbinfo = dnbelement.getAttribute('id').split('-');
-							let req = new XMLHttpRequest();
-							req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+dnbinfo[2]+"&board="+dnbinfo[1],false);
-							req.send();
-							var ip = req.responseText;
-							dnbelements[i].innerHTML = "[IP: "+ip.replace('::ffff:', '') +"]";
+							getIP(dnbinfo[2], dnbinfo[1], i);
+						}
+					}
+				}
+				function getIP(id, board, element) {
+					let dnbelements = document.getElementsByTagName('span');
+					let req = new XMLHttpRequest();
+					req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+id+"&board="+board);
+					req.send();
+					req.onreadystatechange = function() {
+						if (req.readyState === 4) {
+							dnbelements[element].innerHTML = "[IP: "+this.responseText.replace('::ffff:', '') +"]";
 						}
 					}
 				}
