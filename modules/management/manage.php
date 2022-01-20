@@ -25,6 +25,8 @@ class Management {
 				} else {
 					setcookie('mod_cookie', $boards, time() + 1800, '/', webcookie);
 				}
+				// Update session cookie
+				setcookie(session_name(), session_id(), time() + 1800, '/');
 				return true;
 			} else {
 				$this->destroySession($_SESSION['manage_username']);
