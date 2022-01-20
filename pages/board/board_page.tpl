@@ -79,12 +79,16 @@
 						<i class="fa-regular fa-circle-xmark" id="board-posts-report-close" title="Close"></i>
 					</div>
 					<input type="hidden" id="board-posts-report-report_id">
+					<label for="board-posts-report-report_reason">Report Reason: </label>
 					<select id="board-posts-report-report_reason">
 						<option value="rule_violation">Rule Violation</option>
 						<option value="spam">Spam</option>
 						<option value="Custom">Custom</option>
 					</select>
-					<input type="hidden" id="board-posts-report-report_reason-custom">
+					<textarea id="board-posts-report-report_reason-custom" style="display:none;" rows="10" cols="30"></textarea>
+					<div class="board-post-report-box-submit" id="board-post-report-box-submit">
+						&nbsp;Submit&nbsp;
+					</div>
 				</div>
 			</div>
 			<!-- End report box -->
@@ -194,6 +198,8 @@
 			<!-- Scripts -->
 			<script>
 				var SESSID = "";
+				var custom_report = false;
+				var report_reason = "Rule Violation";
 				function generatePassword() {
 					var possible = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789![]{}()%&*$#^<>~@|';
 					var text = '';
@@ -251,6 +257,18 @@
 						document.getElementById("board-posts-newpost-box-password").value = getCookie("board-posts-password");
 					}
 				});
+				$('#board-posts-report-report_reason').change(function() {
+					$('select option:selected').each(function() {
+						if ($(this).text() == 'Custom') {
+							document.getElementById('board-posts-report-report_reason-custom').style.display = 'block';
+							custom_report = true;
+						} else {
+							document.getElementById('board-posts-report-report_reason-custom').style.display = 'none';
+							custom_report = false;
+							report_reason = $(this).text();
+						}
+					});
+				});
 				$('#board-navigation-home-button').click(function () {
 					$(location).attr('href', '{{weburl}}')
 				});
@@ -290,6 +308,32 @@
 								location.reload();
 							} else {
 								alert('Error! '+ obj.reason);
+							}
+						}
+					}
+				});
+				$('#board-post-report-box-submit').click(function() {
+					var report_id = document.getElementById("board-posts-report-report_id").value;
+					var report_message = "";
+					if (custom_report) {
+						report_message = document.getElementById("board-posts-report-report_reason-custom").value;
+					} else {
+						report_message = report_reason;
+					}
+					let req = new XMLHttpRequest();
+					let formData = new FormData();
+					formData.append("id", report_id);
+					formData.append("board", "{{boardname}}");
+					formData.append("report_message", report_message);
+					req.open("POST", "{{weburl}}board/index.php?action=report");
+					req.send(formData);
+					req.onreadystatechange = function() {
+						if (req.readyState === 4) {
+							var obj = JSON.parse(this.responseText);
+							if (obj.result == 'success') {
+								console.log('Report submitted');
+							} else {
+								console.log(this.responseText);
 							}
 						}
 					}

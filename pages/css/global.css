@@ -258,6 +258,17 @@ body a {
     float: right;
 	border-radius: 10px;
 }
+.board-post-report-box-submit {
+    display: block;
+    font-size: .9vw;
+    text-align: center;
+    font-weight: bold;
+    border: thin solid;
+    margin-bottom: 10px;
+    cursor: pointer;
+    float: right;
+	border-radius: 10px;
+}
 .board-posts-newpost {
     width: 35%;
     min-height: 50%;

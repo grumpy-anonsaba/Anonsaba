@@ -76,16 +76,40 @@
 	}
 	/* Reports */
 	if ($_GET['action'] == 'report') {
+		$stop = false;
+		$result = "";
+		$reason = "";
 		// Get how many times this has been reported
-		$qry = $db->prepare('SELECT report,reportmsg FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
-			   $qry->execute(array($_GET['id'], $_GET['board']));
+		$qry = $db->prepare('SELECT report,reportmsg,report_ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+			   $qry->execute(array($_POST['id'], $_POST['board']));
 		$report_details = $qry->fetch();
 		// Check if this has been reported more than once if so append the next report!
-		$report_message = ($report_details['report'] > 0) ? $_GET['report_message'].'|'.$report_details['reportmsg'] : $_GET['report_message'];
+		$report_message = ($report_details['report'] > 0) ? $_POST['report_message'].'|'.$report_details['reportmsg'] : $_POST['report_message'];
+		$report_ip = ($report_details['report'] > 0) ? Core::sEncrypt(Core::getIP()).'|'.$report_details['report_ip'] : Core::sEncrypt(Core::getIP());
+		// Check to make sure this user hasn't already reported this post
+		if ($report_details['report'] > 0) {
+			$report_ip_array = explode("|", $report_details['report_ip']);
+			foreach ($report_ip_array as $r) {
+				if (Core::sDecrypt($r) == Core::getIP()) {
+					$stop = true;
+					$result = 'failed';
+					$reason = 'You have already reported this post';
+				}
+			}
+		} else {
+			if (Core::sDecrypt($report_details['report_ip']) == Core::getIP()) {
+				$stop = true;
+				$result = 'failed';
+				$reason = 'You have already reported this post';
+			}
+		}
 		// Let's upload the report
-		$qry = $db->prepare('UPDATE '.dbprefix.'posts SET report = ?, reportmsg = ? WHERE id = ? AND boardname = ?');
-			   $qry->execute(array($report_details['report'] + 1, $report_message, $_GET['id'], $_GET['board']));
-		$results = array('result' => 'success');
+		if (!$stop) {
+			$qry = $db->prepare('UPDATE '.dbprefix.'posts SET report = ?, reportmsg = ?, report_ip = ? WHERE id = ? AND boardname = ?');
+				   $qry->execute(array($report_details['report'] + 1, $report_message, $report_ip, $_POST['id'], $_POST['board']));
+			$result = 'success';
+		}
+		$results = array('result' => $result, 'reason' => $reason);
 		die(json_encode($results));
 	}
 	/* Begin the wall of declares */
