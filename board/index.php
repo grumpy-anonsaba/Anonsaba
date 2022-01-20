@@ -80,14 +80,20 @@
 		$result = "";
 		$reason = "";
 		// Get how many times this has been reported
-		$qry = $db->prepare('SELECT report,reportmsg,report_ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+		$qry = $db->prepare('SELECT report,reportmsg,report_ip,cleared FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
 			   $qry->execute(array($_POST['id'], $_POST['board']));
 		$report_details = $qry->fetch();
+		// Make sure this hasn't already been cleared by mod team
+		if ($report_details['cleared'] == 1) {
+			$stop = true;
+			$result = 'failed';
+			$reason = 'This post has been approved by the mod team';
+		}
 		// Check if this has been reported more than once if so append the next report!
 		$report_message = ($report_details['report'] > 0) ? $_POST['report_message'].'|'.$report_details['reportmsg'] : $_POST['report_message'];
 		$report_ip = ($report_details['report'] > 0) ? Core::sEncrypt(Core::getIP()).'|'.$report_details['report_ip'] : Core::sEncrypt(Core::getIP());
 		// Check to make sure this user hasn't already reported this post
-		if ($report_details['report'] > 0) {
+		if ($report_details['report'] > 0 && !$stop) {
 			$report_ip_array = explode("|", $report_details['report_ip']);
 			foreach ($report_ip_array as $r) {
 				if (Core::sDecrypt($r) == Core::getIP()) {
@@ -96,7 +102,7 @@
 					$reason = 'You have already reported this post';
 				}
 			}
-		} else {
+		} elseif ($report_details['report'] >= 2 && !$stop) {
 			if (Core::sDecrypt($report_details['report_ip']) == Core::getIP()) {
 				$stop = true;
 				$result = 'failed';
