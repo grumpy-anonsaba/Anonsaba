@@ -289,7 +289,7 @@ class Management {
 				$twig_data['message'] = 'Old password cannot match New password!';
 			} else {
 				$qry = $db->prepare('UPDATE '.dbprefix.'staff SET password = ? WHERE username = ?');
-					   $qry->execute(array(password_hash($_POST['newpass'], PASSWORD_ARGON2I), $_SESSION['manage_username']));
+					   $qry->execute(array(Core::Encrypt($_POST['newpass']), $_SESSION['manage_username']));
 				$twig_data['confirm'] = true;
 				$twig_data['message'] = 'Password successfully changed!';
 			}
