@@ -240,7 +240,7 @@
 					req.send();
 					req.onreadystatechange = function() {
 						if (req.readyState === 4) {
-							dnbelements[element].innerHTML = "[IP: "+this.responseText.replace('::ffff:', '') +"]";
+							dnbelements[element].innerHTML = "[IP: "+this.responseText.replace('::ffff:', '') +"]&nbsp[B]&nbsp;[D]&nbsp;[D&B]&nbsp;[L]&nbsp;[S]";
 						}
 					}
 				}
