@@ -70,7 +70,7 @@
 			$message_sanitized = htmlspecialchars($_POST['post'], ENT_QUOTES);
 			$message = preg_replace('#&lt;(/?(?:b|u|i))&gt;#', '<\1>', $message_sanitized);
 			$qry = $db->prepare('INSERT INTO '.dbprefix.'posts (`id`, `name`, `email`, `subject`, `message`, `password`, `parent`, `ip`, `boardname`, `ipid`, `bumped`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $message, password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
+				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $message, password_hash($_POST['password'], PASSWORD_ARGON2I), $_POST['parent'], Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
 			$result = 'success';
 			$rid = ''.$id.'';
 		}

@@ -5,7 +5,15 @@
 
 Class Core {
 	public static function Encrypt($value) {
-		return password_hash($value, PASSWORD_ARGON2I);
+		$first_encryption = password_hash($value, PASSWORD_ARGON2I);
+		$encrypted_string = substr($first_encryption, strpos($first_encryption, "p=") + 2);
+		$final = self::sEncrypt($encrypted_string);
+		return $final;
+	}
+	public static function Decrypt($value) {
+		$first_decryption = self::sDecrypt($value);
+		$decrypted_string = '$argon2i$v=19$m=65536,t=4,p='.$first_decryption;
+		return $decrypted_string;
 	}
 	public static function sEncrypt($data, $key=salt) {
 		// Remove the base64 encoding from our key

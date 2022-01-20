@@ -63,7 +63,7 @@ class Management {
 			setcookie('mod_cookie', $boards, time() + 1800, '/', webcookie);
 		}
 		$qry = $db->prepare('UPDATE '.dbprefix.'staff SET sessionid = ?, php_sessionid = ? WHERE username = ?');
-			   $qry->execute(array(Core::sEncrypt($sessionid), password_hash(session_id(), PASSWORD_ARGON2I), $user));
+			   $qry->execute(array(Core::sEncrypt($sessionid), Core::Encrypt(session_id()), $user));
 		$this->updateActive($user);
 	}
 	public function destroySession($user) {
@@ -158,11 +158,11 @@ class Management {
 				   $qry->execute(array($_POST['username']));
 				   $result = $qry->fetch();
 			$currentpass = (is_array($result)) ? array_shift($result) : $result;
-			if (password_verify($_POST['password'], $currentpass)) {
+			if (password_verify($_POST['password'], Core::Decrypt($currentpass))) {
 				// Lets update the hash 
 				// The user will always be able to still login, but if a hacker finds this it will constantly stay changing
 				$qry = $db->prepare('UPDATE '.dbprefix.'staff SET password = ?');
-					   $qry->execute(array(password_hash($_POST['password'], PASSWORD_ARGON2I)));
+					   $qry->execute(array(Core::Encrypt($_POST['password'])));
 				// Set the users active time!
 				$this->updateActive($_POST['username']);
 				// Delete all failed login attempts!
@@ -278,7 +278,7 @@ class Management {
 				   $result = $qry->fetch();
 			$oldpass = (is_array($result)) ? array_shift($result) : $result;
 			// First lets make sure the old password matches what they currently have
-			if (!password_verify($_POST['oldpass'], $oldpass)) {
+			if (!password_verify($_POST['oldpass'], Core::Decrypt($oldpass))) {
 				$twig_data['error'] = true;
 				$twig_data['message'] = 'Incorrect old Password entered';
 			} elseif ($_POST['newpass'] != $_POST['newpass2']) {

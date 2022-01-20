@@ -33,6 +33,7 @@
 						<div class="board-posts-newpost-box-flex">
 							<div class="board-posts-newpost-box-flex-flexchild">
 								<div class="board-posts-postbox">
+									<input type="hidden" id="board-posts-thread-id">
 									<input type="{% if board_info.forcedanon == 1 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-username" id="board-posts-newpost-box-username" {% if board_info.forcedanon == 0 %}placeholder="Name"{% endif %} />{% if board_info.forcedanon == 0 %}<br>{% endif %}
 									<input type="{% if board_info.email == 0 %}hidden{% else %}text{% endif %}" name="board-posts-newpost-box-email" id="board-posts-newpost-box-email" {% if board_info.email == 1 %}placeholder="Email"{% endif %} />{% if board_info.email == 1 %}<br>{% endif %}
 									<input type="text" name="board-posts-newpost-box-subject" id="board-posts-newpost-box-subject" placeholder="Subject" /><br>
@@ -274,6 +275,7 @@
 				});
 				$('#board-newpost').click(function() {
 					$('.board-posts-newpost-wrapper').fadeIn('slow');
+					document.getElementById('board-posts-thread-id').value = '0';
 				});
 				$('#board-posts-newpost-close').click(function() {
 					$('.board-posts-newpost-wrapper').fadeOut('slow');
@@ -289,6 +291,7 @@
 					var password = document.getElementById("board-posts-newpost-box-password").value;
 					var board = "{{boardname}}";
 					var modpass = document.getElementById("board-posts-newpost-box-modpass").value;
+					var parent = document.getElementById('board-posts-thread-id').value;
 					let req = new XMLHttpRequest();
 					let formData = new FormData();
 					formData.append("username", username);
@@ -299,6 +302,7 @@
 					formData.append("board", board)
 					formData.append("modpass", modpass);
 					formData.append("sessid", SESSID);
+					formData.append("parent", parent);
 					req.open("POST", "{{weburl}}board/index.php?action=post");
 					req.send(formData);
 					req.onreadystatechange = function () {
