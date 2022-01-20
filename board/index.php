@@ -25,7 +25,7 @@
 				$qry = $db->prepare('SELECT php_sessionid FROM '.dbprefix.'staff WHERE username = ?');
 					   $qry->execute(array($mod_user));
 				$mod_second = $qry->fetch();
-				if (password_verify($_POST['sessid'], $mod_second['php_sessionid'])) {
+				if (password_verify($_POST['sessid'], Core::Decrypt($mod_second['php_sessionid']))) {
 					$is_mod = true;
 				} else {
 					// Destroy the management session
@@ -70,7 +70,7 @@
 			$message_sanitized = htmlspecialchars($_POST['post'], ENT_QUOTES);
 			$message = preg_replace('#&lt;(/?(?:b|u|i))&gt;#', '<\1>', $message_sanitized);
 			$qry = $db->prepare('INSERT INTO '.dbprefix.'posts (`id`, `name`, `email`, `subject`, `message`, `password`, `parent`, `ip`, `boardname`, `ipid`, `bumped`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $message, password_hash($_POST['password'], PASSWORD_ARGON2I), $_POST['parent'], Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
+				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $message, Core::Encrypt($_POST['password']), $_POST['parent'], Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
 			$result = 'success';
 			$rid = ''.$id.'';
 		}
