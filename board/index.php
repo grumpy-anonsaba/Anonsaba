@@ -66,8 +66,11 @@
 				   $qry->execute(array($_POST['board']));
 			$board_postname = $qry->fetch();
 			$username = ($_POST['username'] == '' || $board_postname['forcedanon'] == 1) ? $board_postname['postername'] : $_POST['username'];
+			// Now we need to sanitize our message
+			$message_sanitized = htmlspecialchars($_POST['post'], ENT_QUOTES);
+			$message = preg_replace('#&lt;(/?(?:b|u|i))&gt;#', '<\1>', $message_sanitized);
 			$qry = $db->prepare('INSERT INTO '.dbprefix.'posts (`id`, `name`, `email`, `subject`, `message`, `password`, `parent`, `ip`, `boardname`, `ipid`, `bumped`, `time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $_POST['post'], password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
+				   $qry->execute(array($id, $username, $_POST['email'], $_POST['subject'], $message, password_hash($_POST['password'], PASSWORD_ARGON2I), 0, Core::sEncrypt(Core::getIP()), $_POST['board'], $ipid, time(), time()));
 			$result = 'success';
 			$rid = ''.$id.'';
 		}
