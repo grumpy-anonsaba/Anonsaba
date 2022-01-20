@@ -229,11 +229,11 @@
 						dnbelement = dnbelements[i];
 						if (dnbelement.getAttribute('id').substr(0, 3) == 'dnb') {
 							dnbinfo = dnbelement.getAttribute('id').split('-');
-							getIP(dnbinfo[2], dnbinfo[1], i);
+							modControls(dnbinfo[2], dnbinfo[1], i);
 						}
 					}
 				}
-				function getIP(id, board, element) {
+				function modControls(id, board, element) {
 					let dnbelements = document.getElementsByTagName('span');
 					let req = new XMLHttpRequest();
 					req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+id+"&board="+board);
