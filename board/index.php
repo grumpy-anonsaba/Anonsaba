@@ -106,7 +106,7 @@
 		// Let's upload the report
 		if (!$stop) {
 			$qry = $db->prepare('UPDATE '.dbprefix.'posts SET report = ?, reportmsg = ?, report_ip = ? WHERE id = ? AND boardname = ?');
-				   $qry->execute(array($report_details['report'] + 1, $report_message, $report_ip, $_POST['id'], $_POST['board']));
+				   $qry->execute(array($report_details['report'] + 1, htmlspecialchars($report_message, ENT_QUOTES), $report_ip, $_POST['id'], $_POST['board']));
 			$result = 'success';
 		}
 		$results = array('result' => $result, 'reason' => $reason);
