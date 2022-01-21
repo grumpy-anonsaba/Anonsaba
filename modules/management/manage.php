@@ -861,6 +861,8 @@ class Management {
 				$new_sticky = ($current_sticky['sticky'] == 0) ? 1 : 0;
 				$qry = $db->prepare('UPDATE posts SET sticky = ? WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($new_sticky, $_POST['id'], $_POST['board']));
+				$log_text = ($new_sticky == 0) ? 'Unstickied' : 'Stickied';
+				Core::Log(time(), $_SESSION['manage_username'], $log_text.' Post: '.$_POST['id'].' on /'.$_POST['board'].'/');
 				$result = 'success';
 				break;
 		}
