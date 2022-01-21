@@ -883,15 +883,33 @@ class Management {
 	public function delbanPost() {
 		global $db;
 		$result = "";
+		$stop = false;
 		switch($_POST['type']) {
 			case 'ban':
 				$qry = $db->prepare('SELECT ip, ban_message FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($_POST['id'], $_POST['board']));
 				$info = $qry->fetch();
-				$new_message = $info['ban_message'].'<div style="color: #FF0000; font-weight: bold">'.Core::GetConfigOption('bm').'</div>';
-				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET ban_message = ? WHERE id = ? AND boardname = ?');
-					   $qry->execute(array($new_message, $_POST['id'], $_POST['board']));
-				$result = 'success';
+				// Add the ban
+				// First make sure this user isn't already banned on this board
+				$qry = $db->prepare('SELECT ip, boards FROM '.dbprefix.'bans WHERE boards IN (?, ?)');
+					   $qry->execute(array("all", $_POST['board']));
+				$ban_check = $qry->fetchAll();
+				foreach ($ban_check as $r) {
+					if (Core::sDecrypt($info['ip']) == Core::sDecrypt($r['ip'])) {
+						$stop = true;
+					}
+				}
+				// If so don't insert the ban and put the ban message
+				if (!$stop) {
+					$qry = $db->prepare('INSERT '.dbprefix.'bans (time, ip, reason, until, boards) VALUE (?, ?, ?, ?, ?)');
+						   $qry->execute(array(time(), $info['ip'], 'Test', time() + 3600, $_POST['board']));
+					$new_message = $info['ban_message'].'<div style="color: #FF0000; font-weight: bold; padding-left: 1%;">'.Core::GetConfigOption('bm').'</div>';
+					$qry = $db->prepare('UPDATE '.dbprefix.'posts SET ban_message = ? WHERE id = ? AND boardname = ?');
+						   $qry->execute(array($new_message, $_POST['id'], $_POST['board']));
+					$result = 'success';
+				} else {
+					$result = 'failed';
+				}
 				break;
 			case 'del':
 				break;
