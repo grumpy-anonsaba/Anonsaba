@@ -880,4 +880,25 @@ class Management {
 		$results = array('result' => $result);
 		die(json_encode($results));
 	}
+	public function delbanPost() {
+		global $db;
+		$result = "";
+		switch($_POST['type']) {
+			case 'ban':
+				$qry = $db->prepare('SELECT message, ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($_POST['id'], $_POST['board']));
+				$info = $qry->fetch();
+				$new_message = $info['message'].'<div style="color: #FF0000; font-weight: bold">'.Core::GetConfigOption('bm').'</div>';
+				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET message = ? WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($new_message, $_POST['id'], $_POST['board']));
+				$result = 'success';
+				break;
+			case 'del':
+				break;
+			case 'both':
+				break;
+		}
+		$results = array('result' => $result);
+		die(json_encode($results));
+	}
 }
