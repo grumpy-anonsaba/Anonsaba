@@ -496,6 +496,7 @@ body a {
 .board-posts-thread-post-postmessage {
 	padding-left: 1%;
 	padding-top: 1%;
+	font-size: .75vw;
 }
 .board-posts-thread-post-image {
 	position: relative;
