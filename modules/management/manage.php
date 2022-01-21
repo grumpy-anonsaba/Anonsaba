@@ -855,13 +855,24 @@ class Management {
 		$result = "";
 		switch($_POST['type']) {
 			case 'sticky':
-				$qry = $db->prepare('SELECT sticky FROM posts WHERE id = ? AND boardname = ?');
+				$qry = $db->prepare('SELECT sticky FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($_POST['id'], $_POST['board']));
 				$current_sticky = $qry->fetch();
 				$new_sticky = ($current_sticky['sticky'] == 0) ? 1 : 0;
-				$qry = $db->prepare('UPDATE posts SET sticky = ? WHERE id = ? AND boardname = ?');
+				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET sticky = ? WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($new_sticky, $_POST['id'], $_POST['board']));
 				$log_text = ($new_sticky == 0) ? 'Unstickied' : 'Stickied';
+				Core::Log(time(), $_SESSION['manage_username'], $log_text.' Post: '.$_POST['id'].' on /'.$_POST['board'].'/');
+				$result = 'success';
+				break;
+			case 'lock':
+				$qry = $db->prepare('SELECT `lock` FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($_POST['id'], $_POST['board']));
+				$current_lock = $qry->fetch();
+				$new_lock = ($current_lock['lock'] == 0) ? 1 : 0;
+				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET `lock` = ? WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($new_lock, $_POST['id'], $_POST['board']));
+				$log_text = ($new_lock == 0) ? 'Unlocked' : 'Locked';
 				Core::Log(time(), $_SESSION['manage_username'], $log_text.' Post: '.$_POST['id'].' on /'.$_POST['board'].'/');
 				$result = 'success';
 				break;

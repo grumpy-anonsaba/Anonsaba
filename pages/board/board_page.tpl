@@ -253,6 +253,26 @@
 					}
 					event.stopImmediatePropagation();
 				}
+				function lockPost(id, board) {
+					let req = new XMLHttpRequest();
+					let formData = new FormData();
+					req.open("POST", "{{weburl}}manage/index.php?action=lockstickyPost");
+					formData.append("id", id);
+					formData.append("board", board);
+					formData.append("type", "lock");
+					req.send(formData);
+					req.onreadystatechange = function () {
+						if (req.readyState === 4) {
+							var obj = JSON.parse(this.responseText);
+							if (obj.result == 'success') {
+								location.reload();
+							} else {
+								console.log(obj);
+							}
+						}
+					}
+					event.stopImmediatePropagation();
+				}
 				function modControls(id, board, element) {
 					let dnbelements = document.getElementsByTagName('span');
 					let req = new XMLHttpRequest();
@@ -262,7 +282,7 @@
 					req.onreadystatechange = function() {
 						if (req.readyState === 4) {
 							let obj = JSON.parse(this.responseText);
-							let lock = (obj.lock == 0) ? "<i class='fa-solid fa-lock' title='Lock thread' style='cursor:pointer;'></i>" : "<i class='fa-solid fa-unlock' title='Unlock thread' style='cursor:pointer;'></i>";
+							let lock = (obj.lock == 0) ? "<i class='fa-solid fa-lock' title='Lock thread' style='cursor:pointer;' onclick='lockPost("+id+", "+`"${board}"`+");'></i>" : "<i class='fa-solid fa-unlock' title='Unlock thread' style='cursor:pointer;' onclick='lockPost("+id+", "+`"${board}"`+");'></i>";
 							let sticky = (obj.sticky == 0) ? "<i class='fa-solid fa-thumbtack' title='Sticky thread' style='cursor:pointer;' onclick='stickyPost("+id+", "+`"${board}"`+");'></i>" : "<div class='fa-rotate-by' style='display:inline-block; --fa-rotate-angle: 45deg;'><i class='fa-solid fa-thumbtack' title='Unsticky thread' style='cursor:pointer;' onclick='stickyPost("+id+", "+`"${board}"`+");'></i></div>";
 							dnbelements[element].innerHTML = "[IP: "+obj.ip.replace('::ffff:', '') +"]&nbsp<i class='fa-solid fa-ban' title='Delete or Ban post' style='cursor:pointer;'></i>&nbsp;"+lock+"&nbsp;"+sticky;
 						}
