@@ -164,7 +164,7 @@
 									bumped,
 									cleared,
 									report,
-									banmessage
+									ban_message
 							FROM '.dbprefix.'posts WHERE boardname = ? AND deleted = 0 AND parent = 0 ORDER BY sticky DESC, bumped DESC, time DESC');
 			   $qry->execute(array($board[0]['name']));
 		$twig_data['thread_posts'] = $qry->fetchAll();

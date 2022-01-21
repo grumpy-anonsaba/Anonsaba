@@ -885,11 +885,11 @@ class Management {
 		$result = "";
 		switch($_POST['type']) {
 			case 'ban':
-				$qry = $db->prepare('SELECT message, ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+				$qry = $db->prepare('SELECT ip, ban_message FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($_POST['id'], $_POST['board']));
 				$info = $qry->fetch();
-				$new_message = $info['message'].'<div style="color: #FF0000; font-weight: bold">'.Core::GetConfigOption('bm').'</div>';
-				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET message = ? WHERE id = ? AND boardname = ?');
+				$new_message = $info['ban_message'].'<div style="color: #FF0000; font-weight: bold">'.Core::GetConfigOption('bm').'</div>';
+				$qry = $db->prepare('UPDATE '.dbprefix.'posts SET ban_message = ? WHERE id = ? AND boardname = ?');
 					   $qry->execute(array($new_message, $_POST['id'], $_POST['board']));
 				$result = 'success';
 				break;

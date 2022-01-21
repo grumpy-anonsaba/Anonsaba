@@ -173,6 +173,9 @@
 												{{ thread_post.message|raw }}
 											</div>
 										{% endif %}
+										{% if thread_post.ban_message != '' %}
+											<br>{{ thread_post.ban_message|raw }}
+										{% endif %}
 										<br>
 										<div class="board-posts-thread-post-replies">
 											{% for thread_reply in thread_replies %}
