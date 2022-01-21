@@ -233,14 +233,38 @@
 						}
 					}
 				}
+				function stickyPost(id, board) {
+					let req = new XMLHttpRequest();
+					let formData = new FormData();
+					req.open("POST", "{{weburl}}manage/index.php?action=lockstickyPost");
+					formData.append("id", id);
+					formData.append("board", board);
+					formData.append("type", "sticky");
+					req.send(formData);
+					req.onreadystatechange = function () {
+						if (req.readyState === 4) {
+							var obj = JSON.parse(this.responseText);
+							if (obj.result == 'success') {
+								location.reload();
+							} else {
+								console.log(obj);
+							}
+						}
+					}
+					event.stopImmediatePropagation();
+				}
 				function modControls(id, board, element) {
 					let dnbelements = document.getElementsByTagName('span');
 					let req = new XMLHttpRequest();
-					req.open("GET", "{{weburl}}manage/index.php?action=modgetIP&id="+id+"&board="+board);
+	
+					req.open("GET", "{{weburl}}manage/index.php?action=modControls&id="+id+"&board="+board);
 					req.send();
 					req.onreadystatechange = function() {
 						if (req.readyState === 4) {
-							dnbelements[element].innerHTML = "[IP: "+this.responseText.replace('::ffff:', '') +"]&nbsp[B]&nbsp;[D]&nbsp;[D&B]&nbsp;[L]&nbsp;[S]";
+							let obj = JSON.parse(this.responseText);
+							let lock = (obj.lock == 0) ? "<i class='fa-solid fa-lock' title='Lock thread' style='cursor:pointer;'></i>" : "<i class='fa-solid fa-unlock' title='Unlock thread' style='cursor:pointer;'></i>";
+							let sticky = (obj.sticky == 0) ? "<i class='fa-solid fa-thumbtack' title='Sticky thread' style='cursor:pointer;' onclick='stickyPost("+id+", "+`"${board}"`+");'></i>" : "<div class='fa-rotate-by' style='display:inline-block; --fa-rotate-angle: 45deg;'><i class='fa-solid fa-thumbtack' title='Unsticky thread' style='cursor:pointer;' onclick='stickyPost("+id+", "+`"${board}"`+");'></i></div>";
+							dnbelements[element].innerHTML = "[IP: "+obj.ip.replace('::ffff:', '') +"]&nbsp<i class='fa-solid fa-ban' title='Delete or Ban post' style='cursor:pointer;'></i>&nbsp;"+lock+"&nbsp;"+sticky;
 						}
 					}
 				}

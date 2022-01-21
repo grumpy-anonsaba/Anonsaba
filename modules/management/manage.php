@@ -842,13 +842,29 @@ class Management {
 			
 		}
 	}
-	public function modgetIP() {
+	public function modControls() {
 		global $db;
-		$qry = $db->prepare('SELECT ip FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
+		$qry = $db->prepare('SELECT ip, `lock`, sticky FROM '.dbprefix.'posts WHERE id = ? AND boardname = ?');
 			   $qry->execute(array($_GET['id'], $_GET['board']));
 		$result = $qry->fetch();
-		$ip = (is_array($result)) ? array_shift($result) : $result;
-		echo Core::sDecrypt($ip);
-		die();
+		$results = array('ip' => Core::sDecrypt($result['ip']), 'lock' => $result['lock'], 'sticky' => $result['sticky']);
+		die(json_encode($results));
+	}
+	public function lockstickyPost() {
+		global $db;
+		$result = "";
+		switch($_POST['type']) {
+			case 'sticky':
+				$qry = $db->prepare('SELECT sticky FROM posts WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($_POST['id'], $_POST['board']));
+				$current_sticky = $qry->fetch();
+				$new_sticky = ($current_sticky['sticky'] == 0) ? 1 : 0;
+				$qry = $db->prepare('UPDATE posts SET sticky = ? WHERE id = ? AND boardname = ?');
+					   $qry->execute(array($new_sticky, $_POST['id'], $_POST['board']));
+				$result = 'success';
+				break;
+		}
+		$results = array('result' => $result);
+		die(json_encode($results));
 	}
 }
